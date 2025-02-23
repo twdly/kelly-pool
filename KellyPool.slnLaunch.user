@@ -1,0 +1,11 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "KellyPool.Server\\KellyPool.Server.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
