@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState } from 'react';
 import './App.css';
 
 interface Game {
@@ -15,6 +15,10 @@ interface CreateGameModel {
 function App() {
     
     const [games, setGames] = useState<Game[]>([]);
+
+    useEffect(() => {
+        getGames();
+    }, []);
     
     return (
         <div>
@@ -27,6 +31,7 @@ function App() {
             )}
 
             <button onClick={() => createGame("Test", 8)}>Create game</button>
+            <button onClick={() => getGames()}>Get games</button>
         </div>
     );
     
@@ -44,20 +49,19 @@ function App() {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-        }).then(response => response.json())
+        });
         
-        // let request = new Request("management/create-game", {
-        //     method: "POST",
-        //     body: JSON.stringify(newGame),
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        // });
-        // const response = await fetch(request);
         if (response.ok) {
             const result = await response.json();
             setGames(g => [...g, result]);
+        }
+    }
+    
+    async function getGames() {
+        const response = await fetch('management/get-games');
+        if (response.ok) {
+            const data = await response.json();
+            setGames(data);
         }
     }
 }

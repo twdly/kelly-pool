@@ -12,15 +12,10 @@ public class GamesManagerController(IGamesRepoService gamesRepoService) : Contro
 
     [HttpGet]
     [Route("get-games")]
-    public ActionResult<IEnumerable<GameModel>> Get()
+    public IEnumerable<GameModel> Get()
     {
         var games = GamesRepo.GetAllGames();
-        if (games.Count == 0)
-        {
-            return NoContent();
-        }
-
-        return games;
+        return games.Count == 0 ? [] : games;
     }
 
     [HttpPost]
