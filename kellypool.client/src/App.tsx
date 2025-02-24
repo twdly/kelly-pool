@@ -15,6 +15,7 @@ interface CreateGameModel {
 function App() {
     
     const [games, setGames] = useState<Game[]>([]);
+    const [name, setName] = useState<string>('');
 
     useEffect(() => {
         getGames();
@@ -29,13 +30,13 @@ function App() {
                     return <p>{x.name}, max players: {x.maxPlayers}</p>
                 })
             )}
-
-            <button onClick={() => createGame("Test", 8)}>Create game</button>
+            <input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
+            <button onClick={() => createGame(8)}>Create game</button>
             <button onClick={() => getGames()}>Get games</button>
         </div>
     );
     
-    async function createGame(name: string,  maxPlayers: number) {
+    async function createGame(maxPlayers: number) {
         const uri = "management/create-game";
         const newGame: CreateGameModel = {
             name: name,
@@ -53,6 +54,7 @@ function App() {
         
         if (response.ok) {
             const result = await response.json();
+            setName('');
             setGames(g => [...g, result]);
         }
     }
