@@ -1,56 +1,63 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 
-interface Forecast {
-    date: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
+interface Game {
+    id: number,
+    name: string,
+    maxPlayers: number,
+}
+
+interface CreateGameModel {
+    name: string,
+    maxPlayers: number,
 }
 
 function App() {
-    const [forecasts, setForecasts] = useState<Forecast[]>();
-
-    useEffect(() => {
-        populateWeatherData();
-    }, []);
-
-    const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tableLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
-
+    
+    const [games, setGames] = useState<Game[]>([]);
+    
     return (
         <div>
-            <h1 id="tableLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {contents}
+            {games.length == 0 ? (
+                <p>No games found</p>
+            ) : (
+                games.map((x) => {
+                    return <p>{x.name}, max players: {x.maxPlayers}</p>
+                })
+            )}
+
+            <button onClick={() => createGame("Test", 8)}>Create game</button>
         </div>
     );
-
-    async function populateWeatherData() {
-        const response = await fetch('weatherforecast');
+    
+    async function createGame(name: string,  maxPlayers: number) {
+        const uri = "management/create-game";
+        const newGame: CreateGameModel = {
+            name: name,
+            maxPlayers: maxPlayers,
+        }
+        
+        const response = await fetch(uri, {
+            method: 'POST',
+            body: JSON.stringify(newGame),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }).then(response => response.json())
+        
+        // let request = new Request("management/create-game", {
+        //     method: "POST",
+        //     body: JSON.stringify(newGame),
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        // });
+        // const response = await fetch(request);
         if (response.ok) {
-            const data = await response.json();
-            setForecasts(data);
+            const result = await response.json();
+            setGames(g => [...g, result]);
         }
     }
 }

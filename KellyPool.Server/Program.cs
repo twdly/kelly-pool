@@ -1,3 +1,6 @@
+using KellyPool.Server.Services;
+using KellyPool.Server.Services.Interfaces;
+
 namespace KellyPool.Server
 {
     public class Program
@@ -9,6 +12,7 @@ namespace KellyPool.Server
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddSingleton<IGamesRepoService, GamesRepoService>();
 
             var app = builder.Build();
 

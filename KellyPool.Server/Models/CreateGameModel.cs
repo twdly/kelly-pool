@@ -1,0 +1,7 @@
+namespace KellyPool.Server.Models;
+
+public class CreateGameModel
+{
+    public string Name { get; set; }
+    public int MaxPlayers { get; set; }
+}

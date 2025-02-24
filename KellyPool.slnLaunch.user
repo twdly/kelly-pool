@@ -5,6 +5,10 @@
       {
         "Path": "KellyPool.Server\\KellyPool.Server.csproj",
         "Action": "Start"
+      },
+      {
+        "Path": "kellypool.client\\kellypool.client.esproj",
+        "Action": "Start"
       }
     ]
   }
