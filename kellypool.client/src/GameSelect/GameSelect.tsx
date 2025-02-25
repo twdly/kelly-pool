@@ -2,10 +2,12 @@ import {useEffect, useState } from 'react';
 import '../App.css';
 import Game from "../models/GameSelectModel.ts";
 import JoinGameModel from "../models/JoinGameModel.ts";
+import Player from "../models/Player.ts";
 
 interface CreateGameModel {
     name: string,
     maxPlayers: number,
+    host: Player,
 }
 
 interface GameSelectProps {
@@ -23,9 +25,15 @@ function GameSelect({handleGameSet}: GameSelectProps) {
 
     async function createGame(maxPlayers: number) {
         const uri = "management/create-game";
+        
+        const host: Player = {
+            name: "New Host"
+        }
+        
         const newGame: CreateGameModel = {
             name: name,
             maxPlayers: maxPlayers,
+            host: host,
         }
 
         const response = await fetch(uri, {
@@ -39,8 +47,7 @@ function GameSelect({handleGameSet}: GameSelectProps) {
 
         if (response.ok) {
             const result = await response.json();
-            setName('');
-            setGamesList(g => [...g, result]);
+            handleGameSet(result);
         }
     }
 

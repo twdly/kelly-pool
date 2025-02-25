@@ -22,7 +22,7 @@ public class GamesManagerController(IGamesRepoService gamesRepoService) : Contro
     [Route("create-game")]
     public ActionResult<GameStateModel> CreateGame([FromBody] CreateGameModel gameModel)
     {
-        return GamesRepo.CreateGame(gameModel.Name, gameModel.MaxPlayers);
+        return GamesRepo.CreateGame(gameModel);
     }
 
     [HttpPost]

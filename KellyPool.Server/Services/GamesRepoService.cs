@@ -22,10 +22,10 @@ public class GamesRepoService : IGamesRepoService
         return Games.Select(game => new GameSelectModel(game)).ToList();
     }
 
-    public GameStateModel CreateGame(string name, int maxPlayers)
+    public GameStateModel CreateGame(CreateGameModel gameModel)
     {
         var nextId = Games.Max(x => x.Id) + 1;
-        var newGame = new GameStateModel(nextId, name, [], maxPlayers);
+        var newGame = new GameStateModel(nextId, gameModel.Name, [gameModel.Host], gameModel.MaxPlayers);
         Games.Add(newGame);
         return newGame;
     }

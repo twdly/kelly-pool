@@ -4,4 +4,5 @@ public class CreateGameModel
 {
     public string Name { get; set; }
     public int MaxPlayers { get; set; }
+    public Player Host { get; set; }
 }

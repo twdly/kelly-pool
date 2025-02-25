@@ -6,6 +6,6 @@ public interface IGamesRepoService
 {
     public GameStateModel GetGameById(int id);
     public List<GameSelectModel> GetAllGames();
-    public GameStateModel CreateGame(string name, int maxPlayers);
+    public GameStateModel CreateGame(CreateGameModel gameModel);
     public GameStateModel JoinGame(int id, string name);
 }
