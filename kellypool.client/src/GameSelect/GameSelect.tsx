@@ -1,20 +1,19 @@
 import {useEffect, useState } from 'react';
 import '../App.css';
-
-interface Game {
-    id: number,
-    name: string,
-    maxPlayers: number,
-}
+import Game from "../models/GameSelectModel.ts";
 
 interface CreateGameModel {
     name: string,
     maxPlayers: number,
 }
 
-function GameSelect() {
+interface GameSelectProps {
+    handleGameSet: Function
+}
 
-    const [games, setGames] = useState<Game[]>([]);
+function GameSelect({handleGameSet}: GameSelectProps) {
+
+    const [gamesList, setGamesList] = useState<Game[]>([]);
     const [name, setName] = useState<string>('');
 
     useEffect(() => {
@@ -41,7 +40,7 @@ function GameSelect() {
         if (response.ok) {
             const result = await response.json();
             setName('');
-            setGames(g => [...g, result]);
+            setGamesList(g => [...g, result]);
         }
     }
 
@@ -49,17 +48,39 @@ function GameSelect() {
         const response = await fetch('management/get-games');
         if (response.ok) {
             const data = await response.json();
-            setGames(data);
+            setGamesList(data);
+        }
+    }
+    
+    async function JoinGame(id: number) {
+        const uri = "management/join-game";
+        const response = await fetch(uri, {
+            method: 'POST',
+            body: `{id: ${id}}`,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            handleGameSet(result);
         }
     }
     
     return (
         <div>
-            {games.length == 0 ? (
+            {gamesList.length == 0 ? (
                 <p>No games found</p>
             ) : (
-                games.map((x) => {
-                    return <p>{x.name}, max players: {x.maxPlayers}</p>
+                gamesList.map((x) => {
+                    return (
+                        <div key={x.id}>
+                            <p>{x.name}, max players: {x.maxPlayers}</p>
+                            <button onClick={() => JoinGame(x.id)}>Join</button>
+                        </div>
+                    )
                 })
             )}
             <input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
