@@ -1,17 +1,20 @@
 import { useState } from "react";
 import GameSelect from "./GameSelect/GameSelect.tsx";
-import Game from "./models/GameSelectModel.ts";
+import GameStateModel from "./models/GameStateModel.ts";
+import GameView from "./GameView/GameView.tsx";
 
 function App() {
     
-    const [game, setGame] = useState<Game>()
+    const [game, setGame] = useState<GameStateModel>()
     
-    const isInGame = game !== undefined;
+    const isInGameSelect = game === undefined;
     
     return (
         <>
-            {!isInGame && (
+            {isInGameSelect ? (
                 <GameSelect handleGameSet={setGame}/>
+            ) : (
+                <GameView GameState={game}/>
             )}
         </>
     )

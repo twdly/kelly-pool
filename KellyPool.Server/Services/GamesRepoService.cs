@@ -5,23 +5,35 @@ namespace KellyPool.Server.Services;
 
 public class GamesRepoService : IGamesRepoService
 {
-    public List<GameModel> Games { get; set; } = [new GameModel(5, "Test", 10)];
+    private List<GameStateModel> Games { get; } = [new GameStateModel(92, "Test Game", [new Player("Tai"), new Player("Josh")], 10)];
 
-    public GameModel? GetGameById(int id)
+    public GameStateModel GetGameById(int id)
     {
-        return Games.FirstOrDefault(x => x.Id == id);
+        var game = Games.FirstOrDefault(x => x.Id == id);
+        if (game == null)
+        {
+            throw new Exception("Invalid ID");
+        }
+        return game;
     }
 
-    public List<GameModel> GetAllGames()
+    public List<GameSelectModel> GetAllGames()
     {
-        return Games;
+        return Games.Select(game => new GameSelectModel(game)).ToList();
     }
 
-    public GameModel CreateGame(string name, int maxPlayers)
+    public GameStateModel CreateGame(string name, int maxPlayers)
     {
         var nextId = Games.Max(x => x.Id) + 1;
-        var newGame = new GameModel(nextId, name, maxPlayers);
+        var newGame = new GameStateModel(nextId, name, [], maxPlayers);
         Games.Add(newGame);
         return newGame;
+    }
+
+    public GameStateModel JoinGame(int id, string name)
+    {
+        var selectedGame = GetGameById(id);
+        selectedGame.Players.Add(new Player(name));
+        return selectedGame;
     }
 }

@@ -1,6 +1,7 @@
 import {useEffect, useState } from 'react';
 import '../App.css';
 import Game from "../models/GameSelectModel.ts";
+import JoinGameModel from "../models/JoinGameModel.ts";
 
 interface CreateGameModel {
     name: string,
@@ -8,7 +9,7 @@ interface CreateGameModel {
 }
 
 interface GameSelectProps {
-    handleGameSet: Function
+    handleGameSet: Function,
 }
 
 function GameSelect({handleGameSet}: GameSelectProps) {
@@ -19,7 +20,6 @@ function GameSelect({handleGameSet}: GameSelectProps) {
     useEffect(() => {
         getGames();
     }, []);
-
 
     async function createGame(maxPlayers: number) {
         const uri = "management/create-game";
@@ -54,9 +54,13 @@ function GameSelect({handleGameSet}: GameSelectProps) {
     
     async function JoinGame(id: number) {
         const uri = "management/join-game";
+        const body: JoinGameModel = {
+            gameId: id,
+            playerName: "New Player",
+        }
         const response = await fetch(uri, {
             method: 'POST',
-            body: `{id: ${id}}`,
+            body: JSON.stringify(body),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -77,8 +81,8 @@ function GameSelect({handleGameSet}: GameSelectProps) {
                 gamesList.map((x) => {
                     return (
                         <div key={x.id}>
-                            <p>{x.name}, max players: {x.maxPlayers}</p>
-                            <button onClick={() => JoinGame(x.id)}>Join</button>
+                            <p>{x.name}, Players: {x.currentPlayers}/{x.maxPlayers}</p>
+                            <button disabled={x.currentPlayers === x.maxPlayers} onClick={() => JoinGame(x.id)}>Join</button>
                         </div>
                     )
                 })

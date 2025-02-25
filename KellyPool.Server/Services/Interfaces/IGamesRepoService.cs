@@ -4,7 +4,8 @@ namespace KellyPool.Server.Services.Interfaces;
 
 public interface IGamesRepoService
 {
-    public GameModel? GetGameById(int id);
-    public List<GameModel> GetAllGames();
-    public GameModel CreateGame(string name, int maxPlayers);
+    public GameStateModel GetGameById(int id);
+    public List<GameSelectModel> GetAllGames();
+    public GameStateModel CreateGame(string name, int maxPlayers);
+    public GameStateModel JoinGame(int id, string name);
 }

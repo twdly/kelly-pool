@@ -12,7 +12,7 @@ public class GamesManagerController(IGamesRepoService gamesRepoService) : Contro
 
     [HttpGet]
     [Route("get-games")]
-    public IEnumerable<GameModel> Get()
+    public IEnumerable<GameSelectModel> Get()
     {
         var games = GamesRepo.GetAllGames();
         return games.Count == 0 ? [] : games;
@@ -20,8 +20,15 @@ public class GamesManagerController(IGamesRepoService gamesRepoService) : Contro
 
     [HttpPost]
     [Route("create-game")]
-    public ActionResult<GameModel> CreateGame([FromBody] CreateGameModel gameModel)
+    public ActionResult<GameStateModel> CreateGame([FromBody] CreateGameModel gameModel)
     {
         return GamesRepo.CreateGame(gameModel.Name, gameModel.MaxPlayers);
+    }
+
+    [HttpPost]
+    [Route("join-game")]
+    public ActionResult<GameStateModel> JoinGame([FromBody] JoinGameModel joinModel)
+    {
+        return GamesRepo.JoinGame(joinModel.GameId, joinModel.PlayerName);
     }
 }
