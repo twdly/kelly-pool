@@ -1,4 +1,4 @@
-import {useEffect, useState } from 'react';
+import {useEffect, useRef, useState } from 'react';
 import '../App.css';
 import Game from "../models/GameSelectModel.ts";
 import JoinGameModel from "../models/JoinGameModel.ts";
@@ -21,6 +21,21 @@ function GameSelect({handleGameSet}: GameSelectProps) {
 
     useEffect(() => {
         getGames();
+    }, []);
+
+    const pollingRef = useRef<ReturnType<typeof setInterval>>(null);
+
+    useEffect(() => {
+        const startPolling = () => {
+            pollingRef.current = setInterval(async () => {
+                await getGames();
+            }, 3000);
+        };
+        startPolling();
+
+        return () => {
+            clearInterval(pollingRef.current as NodeJS.Timeout);
+        }
     }, []);
 
     async function createGame(maxPlayers: number) {
@@ -96,7 +111,6 @@ function GameSelect({handleGameSet}: GameSelectProps) {
             )}
             <input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
             <button onClick={() => createGame(8)}>Create game</button>
-            <button onClick={() => getGames()}>Get games</button>
         </div>
     );
 }

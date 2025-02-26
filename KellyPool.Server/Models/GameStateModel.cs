@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace KellyPool.Server.Models;
 
 public class GameStateModel(int id, string name, List<Player> players, int maxPlayers = 16)

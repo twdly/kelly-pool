@@ -50,7 +50,12 @@ export default defineConfig({
             '^/management': {
                 target,
                 secure: false
+            },
+            '^/game-state': {
+                target,
+                secure: false
             }
+            
         },
         port: parseInt(env.DEV_SERVER_PORT || '52240'),
         https: {
