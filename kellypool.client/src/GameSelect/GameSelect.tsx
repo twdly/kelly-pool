@@ -42,6 +42,7 @@ function GameSelect({handleGameSet}: GameSelectProps) {
         const uri = "management/create-game";
         
         const host: Player = {
+            id: 0,
             name: "New Host"
         }
         

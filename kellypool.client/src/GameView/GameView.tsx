@@ -38,7 +38,7 @@ function GameView({GameState, SetGameState}: GameViewProps) {
             <h2>Players:</h2>
             {GameState.players.map((x) => {
                 return (
-                    <div key={GameState.players.indexOf(x).toString()}>
+                    <div key={x.id}>
                         <p>{x.name}</p>
                     </div>
                 )

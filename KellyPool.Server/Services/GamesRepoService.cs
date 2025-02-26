@@ -5,7 +5,7 @@ namespace KellyPool.Server.Services;
 
 public class GamesRepoService : IGamesRepoService
 {
-    private List<GameStateModel> Games { get; } = [new GameStateModel(92, "Test Game", [new Player("Tai"), new Player("Josh")], 10)];
+    private List<GameStateModel> Games { get; } = [new GameStateModel(92, "Test Game", [new Player(0, "Tai"), new Player(1, "Josh")], 10)];
 
     public GameStateModel GetGameById(int id)
     {
@@ -33,7 +33,7 @@ public class GamesRepoService : IGamesRepoService
     public GameStateModel JoinGame(int id, string name)
     {
         var selectedGame = GetGameById(id);
-        selectedGame.Players.Add(new Player(name));
+        selectedGame.Players.Add(new Player(selectedGame.NextPlayerId, name));
         return selectedGame;
     }
 }
