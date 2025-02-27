@@ -30,10 +30,25 @@ public class GamesRepoService : IGamesRepoService
         return newGame;
     }
 
-    public GameStateModel JoinGame(int id, string name)
+    public JoinGameResponseModel JoinGame(JoinGameModel joinGameModel)
     {
-        var selectedGame = GetGameById(id);
-        selectedGame.Players.Add(new Player(selectedGame.NextPlayerId, name));
-        return selectedGame;
+        var selectedGame = GetGameById(joinGameModel.GameId);
+        var playerId = selectedGame.NextPlayerId;
+        selectedGame.Players.Add(new Player(playerId, joinGameModel.PlayerName));
+        return new JoinGameResponseModel(selectedGame, playerId);
+    }
+
+    public bool LeaveGame(LeaveGameModel leaveModel)
+    {
+        var selectedGame = GetGameById(leaveModel.GameId);
+        var leavingPlayer = selectedGame.Players.First(p => p.Id == leaveModel.PlayerId);
+        var isSuccess = selectedGame.Players.Remove(leavingPlayer);
+
+        if (selectedGame.Players.Count == 0)
+        {
+            Games.RemoveAll(g => g.Id == selectedGame.Id);
+        }
+        
+        return isSuccess;
     }
 }

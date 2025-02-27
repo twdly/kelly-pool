@@ -7,5 +7,6 @@ public interface IGamesRepoService
     public GameStateModel GetGameById(int id);
     public List<GameSelectModel> GetAllGames();
     public GameStateModel CreateGame(CreateGameModel gameModel);
-    public GameStateModel JoinGame(int id, string name);
+    public JoinGameResponseModel JoinGame(JoinGameModel joinGameModel);
+    public bool LeaveGame(LeaveGameModel leaveModel);
 }

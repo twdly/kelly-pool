@@ -27,8 +27,15 @@ public class GamesManagerController(IGamesRepoService gamesRepoService) : Contro
 
     [HttpPost]
     [Route("join-game")]
-    public ActionResult<GameStateModel> JoinGame([FromBody] JoinGameModel joinModel)
+    public ActionResult<JoinGameResponseModel> JoinGame([FromBody] JoinGameModel joinModel)
     {
-        return GamesRepo.JoinGame(joinModel.GameId, joinModel.PlayerName);
+        return GamesRepo.JoinGame(joinModel);
+    }
+
+    [HttpPost]
+    [Route("leave-game")]
+    public ActionResult<bool> LeaveGame([FromBody] LeaveGameModel leaveModel)
+    {
+        return GamesRepo.LeaveGame(leaveModel);
     }
 }

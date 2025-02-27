@@ -3,6 +3,7 @@ import '../App.css';
 import Game from "../models/GameSelectModel.ts";
 import JoinGameModel from "../models/JoinGameModel.ts";
 import Player from "../models/Player.ts";
+import JoinGameResponseModel from "../models/JoinGameResponseModel.ts";
 
 interface CreateGameModel {
     name: string,
@@ -11,10 +12,11 @@ interface CreateGameModel {
 }
 
 interface GameSelectProps {
-    handleGameSet: Function,
+    HandleGameSet: Function,
+    HandlePlayerIdSet: Function,
 }
 
-function GameSelect({handleGameSet}: GameSelectProps) {
+function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
 
     const [gamesList, setGamesList] = useState<Game[]>([]);
     const [name, setName] = useState<string>('');
@@ -63,7 +65,8 @@ function GameSelect({handleGameSet}: GameSelectProps) {
 
         if (response.ok) {
             const result = await response.json();
-            handleGameSet(result);
+            HandleGameSet(result);
+            HandlePlayerIdSet(0); // First player to join a game always has an ID of 0
         }
     }
 
@@ -77,10 +80,12 @@ function GameSelect({handleGameSet}: GameSelectProps) {
     
     async function JoinGame(id: number) {
         const uri = "management/join-game";
+        
         const body: JoinGameModel = {
             gameId: id,
             playerName: "New Player",
         }
+        
         const response = await fetch(uri, {
             method: 'POST',
             body: JSON.stringify(body),
@@ -91,8 +96,9 @@ function GameSelect({handleGameSet}: GameSelectProps) {
         });
         
         if (response.ok) {
-            const result = await response.json();
-            handleGameSet(result);
+            const result: JoinGameResponseModel = await response.json();
+            HandleGameSet(result.gameState);
+            HandlePlayerIdSet(result.playerId);
         }
     }
     

@@ -1,12 +1,14 @@
 import {useEffect, useRef } from "react";
 import GameStateModel from "../models/GameStateModel.ts";
+import LeaveGameModel from "../models/LeaveGameModel.ts";
 
 interface GameViewProps {
     GameState: GameStateModel,
     SetGameState: Function,
+    PlayerId: number
 }
 
-function GameView({GameState, SetGameState}: GameViewProps) {
+function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
     const updateUri = `game-state/get?id=${GameState.id}`;
     
     const UpdateGameState = async () => {
@@ -31,6 +33,32 @@ function GameView({GameState, SetGameState}: GameViewProps) {
             clearInterval(pollingRef.current as NodeJS.Timeout);
         }
     }, []);
+
+    const HandleLeave = async () => {
+        const leaveUri = 'management/leave-game';
+        
+        const leaveModel: LeaveGameModel = {
+            playerId: PlayerId,
+            gameId: GameState.id,
+        }
+        
+        const response = await fetch(leaveUri, {
+            method: 'POST',
+            body: JSON.stringify(leaveModel),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        
+        if (response.ok) {
+            const result: boolean = await response.json();
+            if (result) {
+                SetGameState(undefined);
+                return;
+            }
+        }
+    }
     
     return (
         <div>
@@ -43,6 +71,7 @@ function GameView({GameState, SetGameState}: GameViewProps) {
                     </div>
                 )
             })}
+            <button onClick={HandleLeave}>Leave game</button>
         </div>
     );
 }

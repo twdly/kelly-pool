@@ -5,16 +5,17 @@ import GameView from "./GameView/GameView.tsx";
 
 function App() {
     
-    const [game, setGame] = useState<GameStateModel>()
+    const [game, setGame] = useState<GameStateModel>();
+    const [playerId, setPlayerId] = useState<number>(-1); 
     
     const isInGameSelect = game === undefined;
     
     return (
         <>
             {isInGameSelect ? (
-                <GameSelect handleGameSet={setGame}/>
+                <GameSelect HandleGameSet={setGame} HandlePlayerIdSet={setPlayerId}/>
             ) : (
-                <GameView GameState={game} SetGameState={setGame}/>
+                <GameView GameState={game} SetGameState={setGame} PlayerId={playerId}/>
             )}
         </>
     )
