@@ -5,7 +5,7 @@ namespace KellyPool.Server.Services;
 
 public class GamesRepoService : IGamesRepoService
 {
-    private List<GameStateModel> Games { get; } = [new GameStateModel(92, "Test Game", [new Player(0, "Tai"), new Player(1, "Josh")], 10)];
+    private List<GameStateModel> Games { get; } = [];
 
     public GameStateModel GetGameById(int id)
     {
@@ -24,8 +24,12 @@ public class GamesRepoService : IGamesRepoService
 
     public GameStateModel CreateGame(CreateGameModel gameModel)
     {
-        var nextId = Games.Max(x => x.Id) + 1;
-        var newGame = new GameStateModel(nextId, gameModel.Name, [gameModel.Host], gameModel.MaxPlayers);
+        var gameId = 0;
+        if (Games.Count != 0)
+        {
+            gameId = Games.Max(x => x.Id) + 1;
+        }
+        var newGame = new GameStateModel(gameId, gameModel.Name, [gameModel.Host], gameModel.MaxPlayers);
         Games.Add(newGame);
         return newGame;
     }
