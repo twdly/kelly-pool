@@ -1,7 +1,7 @@
 import "./NumberCard.css"
 
 interface NumberCardProps {
-    ballNumber: number
+    ballNumber: number,
 }
 
 function NumberCard({ballNumber}: NumberCardProps) {

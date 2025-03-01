@@ -9,6 +9,7 @@
     justify-self: center;
     border-radius: 5%;
     padding: 1rem;
+    cursor: pointer;
 }
 
 .not-selected {
