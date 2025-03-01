@@ -1,6 +1,0 @@
-@KellyPool.Server_HostAddress = http://localhost:5204
-
-GET {{KellyPool.Server_HostAddress}}/management/get-games/
-Accept: application/json
-
-###
