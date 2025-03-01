@@ -52,6 +52,11 @@ public class GamesRepoService : IGamesRepoService
         {
             Games.RemoveAll(g => g.Id == selectedGame.Id);
         }
+
+        if (selectedGame.HostId == leavingPlayer.Id)
+        {
+            selectedGame.SelectNewHost();
+        }
         
         return isSuccess;
     }

@@ -6,6 +6,14 @@ public class GameStateModel(int id, string name, List<Player> players, int maxPl
     public string Name { get; set; } = name;
     public List<Player> Players { get; set; } = players;
     public int MaxPlayers { get; set; } = maxPlayers;
+    public int HostId { get; private set; }
+    
     public int CurrentPlayers => Players.Count;
     public int NextPlayerId => Players.Max(x => x.Id) + 1;
+
+    public void SelectNewHost()
+    {
+        var newHostId = Players.Min(x => x.Id);
+        HostId = newHostId;
+    }
 }

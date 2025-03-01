@@ -75,6 +75,9 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
                     </div>
                 )
             })}
+            {GameState.hostId === PlayerId && (
+                <button onClick={() => window.alert('Game starting...')}>Start game</button>
+            )}
             <button onClick={HandleLeave}>Leave game</button>
             <NumberCardGrid numbers={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ,15 ,16]} selectedNumbers={selectedNumbers} handleNumberSelected={setSelectedNumbers}/>
         </div>
