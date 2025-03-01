@@ -1,6 +1,7 @@
 import {useEffect, useRef } from "react";
 import GameStateModel from "../models/GameStateModel.ts";
 import LeaveGameModel from "../models/LeaveGameModel.ts";
+import NumberCardGrid from "./NumberCardGrid.tsx";
 
 interface GameViewProps {
     GameState: GameStateModel,
@@ -72,6 +73,7 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
                 )
             })}
             <button onClick={HandleLeave}>Leave game</button>
+            <NumberCardGrid numbers={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ,15 ,16]} selectedNumbers={[2, 4, 6, 8]}/>
         </div>
     );
 }

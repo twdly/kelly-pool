@@ -1,0 +1,93 @@
+.yellow {
+    background: radial-gradient(white 0%, white 35%, #ffef00 35%);
+}
+
+.yellow-striped {
+    background:
+        linear-gradient(white 10%, transparent 10%, transparent 90%, white 90%),
+        radial-gradient(white 0%, white 35%, #ffef00 35%);
+}
+
+.blue {
+    background: radial-gradient(white 0%, white 35%, blue 35%);
+}
+
+.blue-striped {
+    background:
+        linear-gradient(white 10%, transparent 10%, transparent 90%, white 90%),
+        radial-gradient(white 0%, white 35%, blue 35%);
+}
+
+.red {
+    background: radial-gradient(white 0%, white 35%, red 35%);
+}
+
+.red-striped {
+    background:
+            linear-gradient(white 10%, transparent 10%, transparent 90%, white 90%),
+            radial-gradient(white 0%, white 35%, red 35%);
+}
+
+.purple {
+    background: radial-gradient(white 0%, white 35%, mediumpurple 35%);
+}
+
+.purple-striped {
+    background:
+            linear-gradient(white 10%, transparent 10%, transparent 90%, white 90%),
+            radial-gradient(white 0%, white 35%, mediumpurple 35%);
+}
+
+.orange {
+    background: radial-gradient(white 0%, white 35%, orangered 35%);
+}
+
+.orange-striped {
+    background:
+            linear-gradient(white 10%, transparent 10%, transparent 90%, white 90%),
+            radial-gradient(white 0%, white 35%, orangered 35%);
+}
+
+.green {
+    background: radial-gradient(white 0%, white 35%, green 35%);
+}
+
+.green-striped {
+    background:
+            linear-gradient(white 10%, transparent 10%, transparent 90%, white 90%),
+            radial-gradient(white 0%, white 35%, green 35%);
+}
+
+.brown {
+    background: radial-gradient(white 0%, white 35%, brown 35%);
+}
+
+.brown-striped {
+    background:
+            linear-gradient(white 10%, transparent 10%, transparent 90%, white 90%),
+            radial-gradient(white 0%, white 35%, brown 35%);
+}
+
+.black {
+    background: radial-gradient(white 0%, white 35%, black 35%);
+}
+
+.white {
+    background: white;
+}
+
+.ball-number-text {
+    color: black;
+    top: 50%;
+    left: 50%;
+}
+
+.pool-ball {
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

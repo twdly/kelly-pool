@@ -1,0 +1,20 @@
+.number-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.number-grid-item {
+    align-self: center;
+    justify-self: center;
+    border-radius: 5%;
+    padding: 1rem;
+}
+
+.not-selected {
+    border: 2px solid white;
+}
+
+.selected {
+    border: 2px solid #1798f1;
+}
