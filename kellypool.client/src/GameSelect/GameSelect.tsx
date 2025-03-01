@@ -1,5 +1,6 @@
 import {useEffect, useRef, useState } from 'react';
 import '../App.css';
+import './GameSelect.css'
 import Game from "../models/GameSelectModel.ts";
 import JoinGameModel from "../models/JoinGameModel.ts";
 import Player from "../models/Player.ts";
@@ -19,7 +20,8 @@ interface GameSelectProps {
 function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
 
     const [gamesList, setGamesList] = useState<Game[]>([]);
-    const [name, setName] = useState<string>('');
+    const [gameName, setGameName] = useState<string>('');
+    const [playerName, setPlayerName] = useState<string>('');
 
     useEffect(() => {
         getGames();
@@ -45,11 +47,11 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
         
         const host: Player = {
             id: 0,
-            name: "New Host"
+            name: playerName,
         }
         
         const newGame: CreateGameModel = {
-            name: name,
+            name: gameName,
             maxPlayers: maxPlayers,
             host: host,
         }
@@ -83,7 +85,7 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
         
         const body: JoinGameModel = {
             gameId: id,
-            playerName: "New Player",
+            playerName: playerName,
         }
         
         const response = await fetch(uri, {
@@ -111,12 +113,19 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
                     return (
                         <div key={x.id}>
                             <p>{x.name}, Players: {x.currentPlayers}/{x.maxPlayers}</p>
-                            <button disabled={x.currentPlayers === x.maxPlayers} onClick={() => JoinGame(x.id)}>Join</button>
+                            <button disabled={x.currentPlayers === x.maxPlayers || playerName.trim().length === 0}
+                                    onClick={() => JoinGame(x.id)}>Join
+                            </button>
                         </div>
                     )
                 })
             )}
-            <input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
+            <label htmlFor={'playerName'}>Name:</label>
+            <input name='playerName' type='text' value={playerName} onChange={(e => setPlayerName(e.target.value))}/>
+            <hr/>
+            <label htmlFor={'gameName'}>Game Name:</label>
+            <input name='gameName' type='text' value={gameName} onChange={(e) => setGameName(e.target.value)}/>
+            <br/>
             <button onClick={() => createGame(8)}>Create game</button>
         </div>
     );
