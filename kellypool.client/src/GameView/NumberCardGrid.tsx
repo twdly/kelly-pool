@@ -5,14 +5,19 @@ interface NumberCardGridProps {
     numbers: number[],
     selectedNumbers: number[],
     handleNumberSelected: Function,
+    isYourTurn: boolean,
 }
 
-function NumberCardGrid({numbers, selectedNumbers, handleNumberSelected}: NumberCardGridProps) {
+function NumberCardGrid({numbers, selectedNumbers, handleNumberSelected, isYourTurn}: NumberCardGridProps) {
     const getBorderClass = (num: number) => {
         return selectedNumbers.indexOf(num) === -1 ? "not-selected" : "selected";
     }
     
     const updateSelections = (num: number, isSelectedCurrently: boolean) => {
+        if (!isYourTurn) {
+            return;
+        }
+        
         if (isSelectedCurrently) {
             handleNumberSelected(selectedNumbers.filter(n => n != num));
         } else {

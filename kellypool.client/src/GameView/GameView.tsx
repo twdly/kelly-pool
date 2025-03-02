@@ -18,6 +18,8 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
     const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
     const [knownNumbers, setKnownNumbers] = useState<PlayerNumber[]>([]);
     
+    const isYourTurn: boolean = GameState.turnPlayerId === PlayerId;
+    
     const updateUri = `game-state/get?gameId=${GameState.id}&playerId=${PlayerId}`;
     
     const UpdateGameState = async () => {
@@ -132,7 +134,7 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
             <h1>{GameState.name}</h1>
             {GameState.gameStarted ? (
                 <>
-                    {GameState.turnPlayerId === PlayerId && (
+                    {isYourTurn && (
                         <h2>It's your turn!</h2>
                     )}
                     <h2>Known Numbers:</h2>
@@ -150,8 +152,8 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
                     })}
                     
                     <NumberCardGrid numbers={GameState.remainingNumbers} selectedNumbers={selectedNumbers}
-                                    handleNumberSelected={setSelectedNumbers}/>
-                    {GameState.turnPlayerId === PlayerId && (
+                                    handleNumberSelected={setSelectedNumbers} isYourTurn={isYourTurn}/>
+                    {isYourTurn && (
                         <button onClick={EndTurn}>End turn</button>
                     )}
                 </>
