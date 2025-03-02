@@ -61,12 +61,72 @@ public class GamesRepoService : IGamesRepoService
         return isSuccess;
     }
 
-    public GameStateModel InitialiseGame(int id)
+    public void InitialiseGame(int id)
     {
         var selectedGame = GetGameById(id);
         selectedGame.GameStarted = true;
-        selectedGame.RemainingNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
-        selectedGame.SunkNumbers = [];
-        return selectedGame;
+        selectedGame.RemainingNumbers = Enumerable.Range(1, 16).ToList();
+        AssignNumbers(selectedGame.Players);
+        SetKnownNumbers(selectedGame.Players);
+    }
+
+    public GameStateResponseModel GetStateForPlayer(int gameId, int playerId)
+    {
+        var selectedGame = GetGameById(gameId);
+
+        if (!selectedGame.GameStarted)
+        {
+            return new GameStateResponseModel
+            {
+                GameState = selectedGame,
+                KnownNumbers = [],
+            };
+        }
+        
+        var responseModel = new GameStateResponseModel
+        {
+            GameState = selectedGame
+        };
+        var currentPlayer = selectedGame.Players.First(x => x.Id == playerId);
+        var knownPlayers = selectedGame.Players.Where(x => currentPlayer.KnownPlayerIds.Contains(x.Id));
+        List<PlayerNumber> playerNumbers = [];
+        playerNumbers.AddRange(knownPlayers.Select(knownPlayer => new PlayerNumber(knownPlayer)));
+        responseModel.KnownNumbers = playerNumbers;
+        return responseModel;
+    }
+
+    private static void AssignNumbers(List<Player> players)
+    {
+        var random = new Random();
+        var numbers = Enumerable.Range(1, 16).ToList();
+        foreach (var player in players)
+        {
+            var numberIndex = random.Next(numbers.Count + 1);
+            player.BallNumber = numbers[numberIndex];
+            numbers.RemoveAt(numberIndex);
+        }
+    }
+
+    private static void SetKnownNumbers(List<Player> players)
+    {
+        foreach (var player in players)
+        {
+            player.KnownPlayerIds = [GetNextPlayerId(players, player.Id)];
+        }
+    }
+
+    private static int GetNextPlayerId(List<Player> players, int currentId)
+    {
+        var currentIndex = players.FindIndex(x => x.Id == currentId);
+        if (currentIndex == players.Count - 1)
+        {
+            currentIndex = 0;
+        }
+        else
+        {
+            currentIndex += 1;
+        }
+
+        return players[currentIndex].Id;
     }
 }

@@ -6,6 +6,7 @@ interface GameStateModel {
     players: Player[]
     hostId: number,
     gameStarted: boolean,
+    remainingNumbers: number[]
 }
 
 export default GameStateModel;

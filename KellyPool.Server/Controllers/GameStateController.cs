@@ -12,15 +12,17 @@ public class GameStateController(IGamesRepoService gamesRepoService)
     
     [HttpGet]
     [Route("get")]
-    public GameStateModel GetGameState([FromQuery] int id)
+    public GameStateResponseModel GetGameState([FromQuery] int gameId, [FromQuery] int playerId)
     {
-        return GamesRepoService.GetGameById(id);
+        return GamesRepoService.GetStateForPlayer(gameId, playerId);
     }
 
     [HttpPost]
     [Route("begin")]
-    public GameStateModel BeginGame([FromBody] int id)
+    public GameStateResponseModel BeginGame([FromBody] StateRequestModel requestModel)
     {
-        return GamesRepoService.InitialiseGame(id);
+        GamesRepoService.InitialiseGame(requestModel.GameId);
+        var gameStateResponse = GamesRepoService.GetStateForPlayer(requestModel.GameId, requestModel.PlayerId);
+        return gameStateResponse;
     }
 }

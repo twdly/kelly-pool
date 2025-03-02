@@ -2,6 +2,9 @@ import {useEffect, useRef, useState } from "react";
 import GameStateModel from "../models/GameStateModel.ts";
 import LeaveGameModel from "../models/LeaveGameModel.ts";
 import NumberCardGrid from "./NumberCardGrid.tsx";
+import GameStateResponseModel from "../models/GameStateResponseModel.ts";
+import StateRequestModel from "../models/StateRequestModel.ts";
+import PlayerNumber from "../models/PlayerNumber.ts";
 
 interface GameViewProps {
     GameState: GameStateModel,
@@ -12,14 +15,16 @@ interface GameViewProps {
 function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
 
     const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
+    const [knownNumbers, setKnownNumbers] = useState<PlayerNumber[]>([]);
     
-    const updateUri = `game-state/get?id=${GameState.id}`;
+    const updateUri = `game-state/get?gameId=${GameState.id}&playerId=${PlayerId}`;
     
     const UpdateGameState = async () => {
         const response = await fetch(updateUri);
         if (response.ok) {
-            const result = await response.json();
-            SetGameState(result);
+            const result: GameStateResponseModel = await response.json();
+            SetGameState(result.gameState);
+            setKnownNumbers(result.knownNumbers);
         }
     }
     
@@ -67,9 +72,14 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
     const BeginGame = async () => {
         const beginUri = 'game-state/begin';
         
+        const body: StateRequestModel = {
+            gameId: GameState.id,
+            playerId: PlayerId,
+        } 
+        
         const response = await fetch(beginUri, {
             method: 'POST',
-            body: `${GameState.id}`,
+            body: JSON.stringify(body),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -77,32 +87,42 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
         });
         
         if (response.ok) {
-            const result = await response.json();
-            SetGameState(result);
+            const result: GameStateResponseModel = await response.json();
+            SetGameState(result.gameState);
+            setKnownNumbers(result.knownNumbers);
         }
     }
     
     return (
         <div>
-            {GameState.gameStarted ? (
-                <p>Yes</p>
-            ) : (
-                <p>No</p>
-            )}
             <h1>{GameState.name}</h1>
-            <h2>Players:</h2>
-            {GameState.players.map((x) => {
-                return (
-                    <div key={x.id}>
-                        <p>{x.name}</p>
-                    </div>
-                )
-            })}
-            {GameState.hostId === PlayerId && (
-                <button onClick={BeginGame}>Start game</button>
+            {GameState.gameStarted ? (
+                <>
+                    <h2>Known Numbers:</h2>
+                    {knownNumbers.map(n => {
+                        return (
+                            <p key={n.player.id}>{n.player.name}: {n.number}</p>
+                        )
+                    })}
+                    <NumberCardGrid numbers={GameState.remainingNumbers} selectedNumbers={selectedNumbers}
+                                    handleNumberSelected={setSelectedNumbers}/>
+                </>
+            ) : (
+                <div>
+                    <h2>Players:</h2>
+                    {GameState.players.map((x) => {
+                        return (
+                            <div key={x.id}>
+                                <p>{x.name}</p>
+                            </div>
+                        )
+                    })}
+                    {GameState.hostId === PlayerId && (
+                        <button onClick={BeginGame}>Start game</button>
+                    )}
+                    <button onClick={HandleLeave}>Leave game</button>
+                </div>
             )}
-            <button onClick={HandleLeave}>Leave game</button>
-            <NumberCardGrid numbers={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ,15 ,16]} selectedNumbers={selectedNumbers} handleNumberSelected={setSelectedNumbers}/>
         </div>
     );
 }
