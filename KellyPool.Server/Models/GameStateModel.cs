@@ -18,6 +18,7 @@ public class GameStateModel(int id, string name, List<Player> players, int maxPl
 
     public void SelectNewHost()
     {
+        if (Players.Count == 0) return;
         var newHostId = Players.Min(x => x.Id);
         HostId = newHostId;
     }
