@@ -66,6 +66,7 @@ public class GamesRepoService : IGamesRepoService
         var selectedGame = GetGameById(id);
         selectedGame.GameStarted = true;
         selectedGame.RemainingNumbers = Enumerable.Range(1, 16).ToList();
+        selectedGame.RemainingPlayers = [];
         selectedGame.RemainingPlayers.AddRange(selectedGame.Players);
         AssignNumbers(selectedGame.Players);
         SetKnownNumbers(selectedGame.Players);
