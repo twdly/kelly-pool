@@ -118,7 +118,7 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
                         )
                     })}
                     {GameState.hostId === PlayerId && (
-                        <button onClick={BeginGame}>Start game</button>
+                        <button disabled={GameState.players.length == 1} onClick={BeginGame}>Start game</button>
                     )}
                     <button onClick={HandleLeave}>Leave game</button>
                 </div>
