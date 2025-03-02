@@ -123,11 +123,10 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
         if (response.ok) {
             const result: GameStateResponseModel = await response.json();
             SetGameState(result.gameState);
+            setSelectedNumbers([]);
         }
     }
-    
-    // @ts-ignore
-    // @ts-ignore
+
     return (
         <div>
             <h1>{GameState.name}</h1>
