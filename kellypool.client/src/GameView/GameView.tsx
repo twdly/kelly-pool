@@ -36,7 +36,14 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
                 await UpdateGameState();
             }, 3000);
         };
+        
+        const setLocalStorage = () => {
+            sessionStorage.setItem('game-id', `${GameState.id}`)
+            sessionStorage.setItem('player-id', `${PlayerId}`)
+        }
+        
         startPolling();
+        setLocalStorage();
         
         return () => {
             clearInterval(pollingRef.current as NodeJS.Timeout);
@@ -64,6 +71,7 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
             const result: boolean = await response.json();
             if (result) {
                 SetGameState(undefined);
+                sessionStorage.clear();
                 return;
             }
         }

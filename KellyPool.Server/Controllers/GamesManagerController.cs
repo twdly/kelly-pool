@@ -38,4 +38,11 @@ public class GamesManagerController(IGamesRepoService gamesRepoService) : Contro
     {
         return GamesRepo.LeaveGame(leaveModel);
     }
+
+    [HttpPost]
+    [Route("rejoin-game")]
+    public GameStateResponseModel RejoinGame([FromBody] StateRequestModel requestModel)
+    {
+        return GamesRepo.GetStateForPlayer(requestModel.GameId, requestModel.PlayerId);
+    }
 }
