@@ -25,4 +25,12 @@ public class GameStateController(IGamesRepoService gamesRepoService)
         var gameStateResponse = GamesRepoService.GetStateForPlayer(requestModel.GameId, requestModel.PlayerId);
         return gameStateResponse;
     }
+
+    [HttpPost]
+    [Route("end-turn")]
+    public GameStateResponseModel EndTurn([FromBody] EndTurnModel turnModel)
+    {
+        GamesRepoService.EndTurn(turnModel);
+        return GamesRepoService.GetStateForPlayer(turnModel.GameId, turnModel.PlayerId);
+    }
 }

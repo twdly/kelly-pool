@@ -5,6 +5,7 @@ import NumberCardGrid from "./NumberCardGrid.tsx";
 import GameStateResponseModel from "../models/GameStateResponseModel.ts";
 import StateRequestModel from "../models/StateRequestModel.ts";
 import PlayerNumber from "../models/PlayerNumber.ts";
+import EndTurnModel from "../models/EndTurnModel.ts";
 
 interface GameViewProps {
     GameState: GameStateModel,
@@ -101,22 +102,65 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
         }
     }
     
+    const EndTurn = async () => {
+        const endTurnUri = 'game-state/end-turn';
+        
+        const body: EndTurnModel = {
+            sunkNumbers: selectedNumbers,
+            gameId: GameState.id,
+            playerId: PlayerId,
+        }
+        
+        const response = await fetch(endTurnUri, {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        
+        if (response.ok) {
+            const result: GameStateResponseModel = await response.json();
+            SetGameState(result.gameState);
+        }
+    }
+    
+    // @ts-ignore
+    // @ts-ignore
     return (
         <div>
             <h1>{GameState.name}</h1>
             {GameState.gameStarted ? (
                 <>
+                    {GameState.turnPlayerId === PlayerId && (
+                        <h2>It's your turn!</h2>
+                    )}
                     <h2>Known Numbers:</h2>
                     {knownNumbers.map(n => {
                         return (
                             <p key={n.player.id}>{n.player.name}: {n.number}</p>
                         )
                     })}
+                    
+                    <h2>Remaining players:</h2>
+                    {GameState.remainingPlayers.map(p => {
+                        return (
+                        <p key={p.id}>{p.name}</p>
+                        )
+                    })}
+                    
                     <NumberCardGrid numbers={GameState.remainingNumbers} selectedNumbers={selectedNumbers}
                                     handleNumberSelected={setSelectedNumbers}/>
+                    {GameState.turnPlayerId === PlayerId && (
+                        <button onClick={EndTurn}>End turn</button>
+                    )}
                 </>
             ) : (
                 <div>
+                    {GameState.gameFinished && (
+                        <h3>The winner is: {GameState.remainingPlayers.at(0) != undefined ? `${GameState.remainingPlayers.at(0)?.name}` : "nobody :("}</h3>
+                    )}
                     <h2>Players:</h2>
                     {GameState.players.map((x) => {
                         return (

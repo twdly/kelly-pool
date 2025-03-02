@@ -66,8 +66,10 @@ public class GamesRepoService : IGamesRepoService
         var selectedGame = GetGameById(id);
         selectedGame.GameStarted = true;
         selectedGame.RemainingNumbers = Enumerable.Range(1, 16).ToList();
+        selectedGame.RemainingPlayers.AddRange(selectedGame.Players);
         AssignNumbers(selectedGame.Players);
         SetKnownNumbers(selectedGame.Players);
+        SelectFirstTurn(selectedGame);
     }
 
     public GameStateResponseModel GetStateForPlayer(int gameId, int playerId)
@@ -93,6 +95,45 @@ public class GamesRepoService : IGamesRepoService
         playerNumbers.AddRange(knownPlayers.Select(knownPlayer => new PlayerNumber(knownPlayer)));
         responseModel.KnownNumbers = playerNumbers;
         return responseModel;
+    }
+
+    public void EndTurn(EndTurnModel turnModel)
+    {
+        var selectedGame = GetGameById(turnModel.GameId);
+        
+        selectedGame.RemainingNumbers.RemoveAll(num => turnModel.SunkNumbers.Contains(num));
+        selectedGame.RemainingPlayers.RemoveAll(p => turnModel.SunkNumbers.Contains(p.BallNumber));
+        
+        var gameFinished = selectedGame.RemainingPlayers.Count <= 1;
+        selectedGame.GameFinished = gameFinished;
+        selectedGame.GameStarted = !gameFinished;
+
+        if (!gameFinished)
+        {
+            selectedGame.TurnPlayerId = SelectNextPlayer(selectedGame, turnModel.PlayerId);
+        }
+    }
+
+    private static int SelectNextPlayer(GameStateModel selectedGame, int playerId)
+    {
+        var players = selectedGame.Players;
+        var remainingPlayers = selectedGame.RemainingPlayers;
+
+        if (players.Count <= 1) return -1;
+
+        var currentIndex = players.FindIndex(p => p.Id == playerId);
+
+        var foundId = -1;
+        
+        while (foundId == -1)
+        {
+            currentIndex += 1;
+            if (currentIndex == players.Count) currentIndex = 0;
+            var player = players[currentIndex];
+            if (remainingPlayers.Contains(player)) foundId = player.Id;
+        }
+
+        return foundId;
     }
 
     private static void AssignNumbers(List<Player> players)
@@ -128,5 +169,12 @@ public class GamesRepoService : IGamesRepoService
         }
 
         return players[currentIndex].Id;
+    }
+    
+    private static void SelectFirstTurn(GameStateModel gameState)
+    {
+        var random = new Random();
+        var selectedIndex = random.Next(gameState.Players.Count);
+        gameState.TurnPlayerId = gameState.Players[selectedIndex].Id;
     }
 }
