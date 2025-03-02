@@ -41,8 +41,15 @@ public class GamesManagerController(IGamesRepoService gamesRepoService) : Contro
 
     [HttpPost]
     [Route("rejoin-game")]
-    public GameStateResponseModel RejoinGame([FromBody] StateRequestModel requestModel)
+    public ActionResult<GameStateResponseModel> RejoinGame([FromBody] StateRequestModel requestModel)
     {
-        return GamesRepo.GetStateForPlayer(requestModel.GameId, requestModel.PlayerId);
+        try
+        {
+            return GamesRepo.GetStateForPlayer(requestModel.GameId, requestModel.PlayerId);
+        }
+        catch (Exception)
+        {
+            return new BadRequestResult();
+        }
     }
 }
