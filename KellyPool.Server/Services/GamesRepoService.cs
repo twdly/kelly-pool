@@ -142,7 +142,7 @@ public class GamesRepoService : IGamesRepoService
         var numbers = Enumerable.Range(1, 16).ToList();
         foreach (var player in players)
         {
-            var numberIndex = random.Next(numbers.Count + 1);
+            var numberIndex = random.Next(numbers.Count);
             player.BallNumber = numbers[numberIndex];
             numbers.RemoveAt(numberIndex);
         }
