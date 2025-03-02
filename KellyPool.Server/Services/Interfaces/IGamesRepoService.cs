@@ -9,4 +9,5 @@ public interface IGamesRepoService
     public GameStateModel CreateGame(CreateGameModel gameModel);
     public JoinGameResponseModel JoinGame(JoinGameModel joinGameModel);
     public bool LeaveGame(LeaveGameModel leaveModel);
+    public GameStateModel InitialiseGame(int id);
 }

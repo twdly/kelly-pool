@@ -5,6 +5,7 @@ interface GameStateModel {
     name: string,
     players: Player[]
     hostId: number,
+    gameStarted: boolean,
 }
 
 export default GameStateModel;

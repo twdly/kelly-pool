@@ -10,9 +10,17 @@ public class GameStateController(IGamesRepoService gamesRepoService)
 {
     private IGamesRepoService GamesRepoService { get; } = gamesRepoService;
     
+    [HttpGet]
     [Route("get")]
     public GameStateModel GetGameState([FromQuery] int id)
     {
         return GamesRepoService.GetGameById(id);
+    }
+
+    [HttpPost]
+    [Route("begin")]
+    public GameStateModel BeginGame([FromBody] int id)
+    {
+        return GamesRepoService.InitialiseGame(id);
     }
 }

@@ -64,8 +64,31 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
         }
     }
     
+    const BeginGame = async () => {
+        const beginUri = 'game-state/begin';
+        
+        const response = await fetch(beginUri, {
+            method: 'POST',
+            body: `${GameState.id}`,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            SetGameState(result);
+        }
+    }
+    
     return (
         <div>
+            {GameState.gameStarted ? (
+                <p>Yes</p>
+            ) : (
+                <p>No</p>
+            )}
             <h1>{GameState.name}</h1>
             <h2>Players:</h2>
             {GameState.players.map((x) => {
@@ -76,7 +99,7 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
                 )
             })}
             {GameState.hostId === PlayerId && (
-                <button onClick={() => window.alert('Game starting...')}>Start game</button>
+                <button onClick={BeginGame}>Start game</button>
             )}
             <button onClick={HandleLeave}>Leave game</button>
             <NumberCardGrid numbers={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ,15 ,16]} selectedNumbers={selectedNumbers} handleNumberSelected={setSelectedNumbers}/>
