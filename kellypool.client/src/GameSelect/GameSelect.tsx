@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState } from 'react';
 import '../App.css';
 import './GameSelect.css'
-import Game from "../models/GameSelectModel.ts";
+import GameSelectModel from "../models/GameSelectModel.ts";
 import JoinGameModel from "../models/JoinGameModel.ts";
 import Player from "../models/Player.ts";
 import JoinGameResponseModel from "../models/JoinGameResponseModel.ts";
@@ -19,9 +19,10 @@ interface GameSelectProps {
 
 function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
 
-    const [gamesList, setGamesList] = useState<Game[]>([]);
+    const [gamesList, setGamesList] = useState<GameSelectModel[]>([]);
     const [gameName, setGameName] = useState<string>('');
     const [playerName, setPlayerName] = useState<string>('');
+    const [errorMessage, setErrorMessage] = useState<string>('');
 
     useEffect(() => {
         getGames();
@@ -101,6 +102,11 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
             const result: JoinGameResponseModel = await response.json();
             HandleGameSet(result.gameState);
             HandlePlayerIdSet(result.playerId);
+        } else {
+            setErrorMessage("Game has already started");
+            setInterval(() => {
+                setErrorMessage("");
+            }, 5000);
         }
     }
     
@@ -112,8 +118,8 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
                 gamesList.map((x) => {
                     return (
                         <div key={x.id}>
-                            <p>{x.name}, Players: {x.currentPlayers}/{x.maxPlayers}</p>
-                            <button disabled={x.currentPlayers === x.maxPlayers || playerName.trim().length === 0}
+                            <p>{x.name}, Players: {x.currentPlayers}/{x.maxPlayers}{x.gameStarted ? " (in progress)" : ""}</p>
+                            <button disabled={x.currentPlayers === x.maxPlayers || playerName.trim().length === 0 || x.gameStarted}
                                     onClick={() => JoinGame(x.id)}>Join
                             </button>
                         </div>
@@ -127,6 +133,7 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
             <input name='gameName' type='text' value={gameName} onChange={(e) => setGameName(e.target.value)}/>
             <br/>
             <button onClick={() => createGame(8)}>Create game</button>
+            <p className={'error'}>{errorMessage}</p>
         </div>
     );
 }

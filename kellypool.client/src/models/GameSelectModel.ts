@@ -4,6 +4,7 @@ interface GameSelectModel {
     name: string,
     currentPlayers: number,
     maxPlayers: number,
+    gameStarted: boolean,
 }
 
 export default GameSelectModel;

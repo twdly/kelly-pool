@@ -6,4 +6,5 @@ public class GameSelectModel(GameStateModel stateModel)
     public string Name { get; set; } = stateModel.Name;
     public int CurrentPlayers { get; set; } = stateModel.CurrentPlayers;
     public int MaxPlayers { get; set; } = stateModel.MaxPlayers;
+    public bool GameStarted { get; set; } = stateModel.GameStarted;
 }

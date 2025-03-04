@@ -37,6 +37,7 @@ public class GamesRepoService : IGamesRepoService
     public JoinGameResponseModel JoinGame(JoinGameModel joinGameModel)
     {
         var selectedGame = GetGameById(joinGameModel.GameId);
+        if (selectedGame.GameStarted) throw new Exception("Game already started");  
         var playerId = selectedGame.NextPlayerId;
         selectedGame.Players.Add(new Player(playerId, joinGameModel.PlayerName));
         return new JoinGameResponseModel(selectedGame, playerId);
