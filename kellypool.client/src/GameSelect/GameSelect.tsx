@@ -29,18 +29,18 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
         getGames();
     }, []);
 
-    const pollingRef = useRef<ReturnType<typeof setInterval>>(null);
+    const pollingRef = useRef<number>(undefined);
 
     useEffect(() => {
         const startPolling = () => {
-            pollingRef.current = setInterval(async () => {
+            pollingRef.current = window.setInterval(async () => {
                 await getGames();
             }, 3000);
         };
         startPolling();
 
         return () => {
-            clearInterval(pollingRef.current as NodeJS.Timeout);
+            window.clearInterval(pollingRef.current);
         }
     }, []);
 
