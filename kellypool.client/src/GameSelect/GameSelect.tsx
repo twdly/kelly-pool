@@ -23,7 +23,7 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
     const [gamesList, setGamesList] = useState<GameSelectModel[]>([]);
     const [playerName, setPlayerName] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string>('');
-    const [isCreatingGame, setIsCreatingGame] = useState<boolean>('');
+    const [isCreatingGame, setIsCreatingGame] = useState<boolean>(false);
 
     useEffect(() => {
         getGames();
@@ -40,7 +40,7 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
         startPolling();
 
         return () => {
-            clearInterval(pollingRef.current as Number);
+            clearInterval(pollingRef.current as NodeJS.Timeout);
         }
     }, []);
 
