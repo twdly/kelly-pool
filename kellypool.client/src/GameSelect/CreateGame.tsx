@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 
 interface CreateGameProps {
     handleCancel: () => void,
@@ -9,9 +9,12 @@ interface CreateGameProps {
 const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: CreateGameProps) => {
     const [gameName, setGameName] = useState<string>('');
     const [playerName, setPlayerName] = useState<string>('');
+    const playerCountRef = useRef<number>(2);
+    
+    const playerCounts: number[] = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
     
     const createGame = () => {
-        handleCreateGame(playerName, gameName, 10)
+        handleCreateGame(playerName, gameName, playerCountRef.current)
             .catch(() => handleErrorMessage("Game could not be created"));
     }
     
@@ -24,6 +27,13 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
             
             <label htmlFor={'gameName'}>Game Name:</label>
             <input name='gameName' type='text' value={gameName} onChange={(e) => setGameName(e.target.value)}/>
+            
+            <label htmlFor={'maxPlayers'}>Max players:</label>
+            <select defaultValue={2}>
+                {playerCounts.map(n => {
+                    return (<option onClick={() => (playerCountRef.current = n)}>{n}</option>)
+                })}
+            </select>
             
             <button onClick={createGame}>Create game</button>
         </>
