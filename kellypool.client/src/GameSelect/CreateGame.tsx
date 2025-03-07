@@ -1,5 +1,7 @@
 import {useRef, useState} from 'react';
 
+import './CreateGame.css'
+
 interface CreateGameProps {
     handleCancel: () => void,
     handleCreateGame: (playerName:string, gameName: string, maxPlayers: number) => Promise<void>,
@@ -21,19 +23,26 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
     return (
         <>
             <button onClick={handleCancel}>Cancel</button>
-            <br/>
-            <label>Your Name:</label>
-            <input name='playerName' type='text' value={playerName} onChange={(e) => setPlayerName(e.target.value)}/>
-            
-            <label htmlFor={'gameName'}>Game Name:</label>
-            <input name='gameName' type='text' value={gameName} onChange={(e) => setGameName(e.target.value)}/>
-            
-            <label htmlFor={'maxPlayers'}>Max players:</label>
-            <select defaultValue={2}>
-                {playerCounts.map(n => {
-                    return (<option onClick={() => (playerCountRef.current = n)}>{n}</option>)
-                })}
-            </select>
+
+            <div className={"input-line"}>
+                <label>Your Name:</label>
+                <input name='playerName' type='text' value={playerName}
+                       onChange={(e) => setPlayerName(e.target.value)}/>
+            </div>
+
+            <div className={"input-line"}>
+                <label htmlFor={'gameName'}>Game Name:</label>
+                <input name='gameName' type='text' value={gameName} onChange={(e) => setGameName(e.target.value)}/>
+            </div>
+
+            <div className={"input-line"}>
+                <label htmlFor={'maxPlayers'}>Max players:</label>
+                <select defaultValue={2}>
+                    {playerCounts.map(n => {
+                        return (<option onClick={() => (playerCountRef.current = n)}>{n}</option>)
+                    })}
+                </select>
+            </div>
             
             <button onClick={createGame}>Create game</button>
         </>

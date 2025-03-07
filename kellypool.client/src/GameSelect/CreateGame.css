@@ -1,0 +1,8 @@
+div.input-line::after {
+    white-space: pre;
+    content: "\a";
+}
+
+input {
+    display: inline;
+}
