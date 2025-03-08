@@ -1,12 +1,13 @@
 namespace KellyPool.Server.Models;
 
-public class GameStateModel(int id, string name, List<Player> players, int maxPlayers = 16)
+public class GameStateModel(int id, string name, List<Player> players, Mode gameMode,  int maxPlayers = 16)
 {
     public int Id { get; set; } = id;
     public string Name { get; set; } = name;
     public List<Player> Players { get; set; } = players;
     public List<Player> RemainingPlayers { get; set; } = [];
     public int MaxPlayers { get; set; } = maxPlayers;
+    public Mode GameMode { get; set; } = gameMode;
     public int HostId { get; private set; }
     public bool GameStarted { get; set; }
     public int TurnPlayerId { get; set; } // The ID of the player whose turn it currently is

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using KellyPool.Server.Models;
 using KellyPool.Server.Services.Interfaces;
 
@@ -6,6 +7,8 @@ namespace KellyPool.Server.Services;
 public class GamesRepoService : IGamesRepoService
 {
     private List<GameStateModel> Games { get; } = [];
+
+    private delegate void SetKnownIds(List<Player> players, Player currentPlayer);
 
     public GameStateModel GetGameById(int id)
     {
@@ -29,7 +32,7 @@ public class GamesRepoService : IGamesRepoService
         {
             gameId = Games.Max(x => x.Id) + 1;
         }
-        var newGame = new GameStateModel(gameId, gameModel.Name, [gameModel.Host], gameModel.MaxPlayers);
+        var newGame = new GameStateModel(gameId, gameModel.Name, [gameModel.Host], gameModel.Mode, gameModel.MaxPlayers);
         Games.Add(newGame);
         return newGame;
     }
@@ -70,7 +73,7 @@ public class GamesRepoService : IGamesRepoService
         selectedGame.RemainingPlayers = [];
         selectedGame.RemainingPlayers.AddRange(selectedGame.Players);
         AssignNumbers(selectedGame.Players);
-        SetKnownNumbers(selectedGame.Players);
+        SetKnownNumbers(selectedGame.GameMode, selectedGame.Players);
         SelectFirstTurn(selectedGame);
     }
 
@@ -150,12 +153,40 @@ public class GamesRepoService : IGamesRepoService
         }
     }
 
-    private static void SetKnownNumbers(List<Player> players)
+    private static void SetKnownNumbers(Mode mode, List<Player> players)
     {
+        SetKnownIds assignNumbers = mode switch
+        {
+            Mode.Everyone => SetKnownToEveryone,
+            Mode.Yourself => SetKnownToYourself,
+            Mode.EveryoneElse => SetKnownToEveryoneElse,
+            Mode.OneOther => SetKnownToOneOther,
+            _ => SetKnownToYourself
+        };
         foreach (var player in players)
         {
-            player.KnownPlayerIds = [GetNextPlayerId(players, player.Id)];
+            assignNumbers(players, player);
         }
+    }
+
+    private static void SetKnownToEveryone(List<Player> players, Player currentPlayer)
+    {
+        currentPlayer.KnownPlayerIds = players.Select(p => p.Id).ToList();
+    }
+
+    private static void SetKnownToYourself(List<Player> players, Player currentPlayer)
+    {
+        currentPlayer.KnownPlayerIds = [currentPlayer.Id];
+    }
+    
+    private static void SetKnownToEveryoneElse(List<Player> players, Player currentPlayer)
+    {
+        currentPlayer.KnownPlayerIds = players.Where(p => p.Id != currentPlayer.Id).Select(p => p.Id).ToList();
+    }
+    
+    private static void SetKnownToOneOther(List<Player> players, Player currentPlayer)
+    {
+        currentPlayer.KnownPlayerIds = [GetNextPlayerId(players, currentPlayer.Id)];
     }
 
     private static int GetNextPlayerId(List<Player> players, int currentId)
