@@ -4,21 +4,26 @@ import './CreateGame.css'
 
 interface CreateGameProps {
     handleCancel: () => void,
-    handleCreateGame: (playerName:string, gameName: string, maxPlayers: number) => Promise<void>,
+    handleCreateGame: (playerName:string, gameName: string, mode: number, maxPlayers: number) => Promise<void>,
     handleErrorMessage: (error: string) => void,
+}
+
+interface Mode {
+    displayName: string,
+    value: number,
 }
 
 const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: CreateGameProps) => {
     const [gameName, setGameName] = useState<string>('');
     const [playerName, setPlayerName] = useState<string>('');
-    const [mode, setMode] = useState<string>('');
+    const [mode, setMode] = useState<number>(0);
     const playerCountRef = useRef<number>(2);
     
     const playerCounts: number[] = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
-    const modes: string[] = ["One other", "Yourself", "Everyone else"];
+    const modes: Mode[] = [{displayName: "One other", value: 0}, {displayName: "Yourself", value: 1}, {displayName: "Everyone else", value: 2}, {displayName: "Everyone", value: 3}];
     
     const createGame = () => {
-        handleCreateGame(playerName, gameName, playerCountRef.current)
+        handleCreateGame(playerName, gameName, mode, playerCountRef.current)
             .catch(() => handleErrorMessage("Game could not be created"));
     }
     
@@ -49,14 +54,13 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
             <div className={"input-line"}>
                 <label htmlFor={'modes'}>Known numbers: </label>
                 <select name={'modes'}>
-                    <option onClick={() => setMode('')}>---</option>
                     {modes.map(m => {
-                        return (<option key={m} onClick={() => setMode(m)}>{m}</option>)
+                        return (<option key={m.value} onClick={() => setMode(m.value)}>{m.displayName}</option>)
                     })}
                 </select>
             </div>
             
-            <button onClick={createGame} disabled={mode===''}>Create game</button>
+            <button onClick={createGame}>Create game</button>
         </>
     );
 }

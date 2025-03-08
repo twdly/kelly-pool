@@ -11,6 +11,7 @@ interface CreateGameModel {
     name: string,
     maxPlayers: number,
     host: Player,
+    mode: number,
 }
 
 interface GameSelectProps {
@@ -44,7 +45,7 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
         }
     }, []);
 
-    async function createGame(playerName: string, gameName: string, maxPlayers: number) {
+    async function createGame(playerName: string, gameName: string, mode: number, maxPlayers: number) {
         const uri = "management/create-game";
         
         const host: Player = {
@@ -56,6 +57,7 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
             name: gameName,
             maxPlayers: maxPlayers,
             host: host,
+            mode: mode,
         }
 
         const response = await fetch(uri, {
