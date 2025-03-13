@@ -4,7 +4,7 @@ import './CreateGame.css'
 
 interface CreateGameProps {
     handleCancel: () => void,
-    handleCreateGame: (playerName:string, gameName: string, mode: number, maxPlayers: number) => Promise<void>,
+    handleCreateGame: (playerName:string, gameName: string, mode: number, includeWhiteBall: boolean, maxPlayers: number) => Promise<void>,
     handleErrorMessage: (error: string) => void,
 }
 
@@ -17,13 +17,14 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
     const [gameName, setGameName] = useState<string>('');
     const [playerName, setPlayerName] = useState<string>('');
     const [mode, setMode] = useState<number>(0);
+    const [includeWhiteBall, setIncludeWhiteBall] = useState<boolean>(false);
     const playerCountRef = useRef<number>(2);
     
     const playerCounts: number[] = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
     const modes: Mode[] = [{displayName: "One other", value: 0}, {displayName: "Yourself", value: 1}, {displayName: "Everyone else", value: 2}, {displayName: "Everyone", value: 3}];
     
     const createGame = () => {
-        handleCreateGame(playerName, gameName, mode, playerCountRef.current)
+        handleCreateGame(playerName, gameName, mode, includeWhiteBall, playerCountRef.current)
             .catch(() => handleErrorMessage("Game could not be created"));
     }
     
@@ -49,6 +50,11 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
                         return (<option key={n} onClick={() => (playerCountRef.current = n)}>{n}</option>)
                     })}
                 </select>
+            </div>
+            
+            <div className={"input-line"}>
+                <label htmlFor={'includeWhiteBall'}>Include white ball: </label>
+                <input type={'checkbox'} checked={includeWhiteBall} onClick={() => setIncludeWhiteBall(!includeWhiteBall)}/>
             </div>
             
             <div className={"input-line"}>
