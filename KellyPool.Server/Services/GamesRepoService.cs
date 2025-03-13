@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using KellyPool.Server.Models;
 using KellyPool.Server.Services.Interfaces;
 
@@ -32,7 +31,7 @@ public class GamesRepoService : IGamesRepoService
         {
             gameId = Games.Max(x => x.Id) + 1;
         }
-        var newGame = new GameStateModel(gameId, gameModel.Name, [gameModel.Host], gameModel.Mode, gameModel.MaxPlayers);
+        var newGame = new GameStateModel(gameId, gameModel.Name, [gameModel.Host], gameModel.Mode, gameModel.IncludeWhiteBall, gameModel.MaxPlayers);
         Games.Add(newGame);
         return newGame;
     }
@@ -68,11 +67,12 @@ public class GamesRepoService : IGamesRepoService
     public void InitialiseGame(int id)
     {
         var selectedGame = GetGameById(id);
+        var maxNumber = selectedGame.IncludeWhiteBall ? 16 : 15;
         selectedGame.GameStarted = true;
-        selectedGame.RemainingNumbers = Enumerable.Range(1, 16).ToList();
+        selectedGame.RemainingNumbers = Enumerable.Range(1, maxNumber).ToList();
         selectedGame.RemainingPlayers = [];
         selectedGame.RemainingPlayers.AddRange(selectedGame.Players);
-        AssignNumbers(selectedGame.Players);
+        AssignNumbers(selectedGame.Players, maxNumber);
         SetKnownNumbers(selectedGame.GameMode, selectedGame.Players);
         SelectFirstTurn(selectedGame);
     }
@@ -141,10 +141,10 @@ public class GamesRepoService : IGamesRepoService
         return foundId;
     }
 
-    private static void AssignNumbers(List<Player> players)
+    private static void AssignNumbers(List<Player> players, int maxNumber)
     {
         var random = new Random();
-        var numbers = Enumerable.Range(1, 16).ToList();
+        var numbers = Enumerable.Range(1, maxNumber).ToList();
         foreach (var player in players)
         {
             var numberIndex = random.Next(numbers.Count);
