@@ -10,6 +10,6 @@ label {
     margin-bottom: 1rem;
     display: block;
     content: "";
-    border-bottom: 1px solid grey;
+    border-bottom: 1px solid light-dark(black, grey);
     padding-top: 1rem;
 }

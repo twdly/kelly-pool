@@ -10,10 +10,11 @@
     border-radius: 5%;
     padding: 1rem;
     cursor: pointer;
+    background-color: light-dark(#edefef, #242424);
 }
 
 .not-selected {
-    border: 2px solid white;
+    border: 2px solid light-dark(#b8b6b6, white);
 }
 
 .selected {
