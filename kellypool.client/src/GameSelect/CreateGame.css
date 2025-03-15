@@ -1,17 +1,25 @@
+div + div {
+    margin-top: 0.5rem;
+}
+
 div.input-line::after {
     white-space: pre;
     content: "\a";
-}
-
-* + * {
-    margin-top: 0.5rem;
 }
 
 input {
     display: inline;
 }
 
-
 label.inline {
     display: inline;
+}
+
+.input-buttons {
+    display: flex;
+}
+
+button {
+    flex-direction: row;
+    margin: 0.25rem;
 }

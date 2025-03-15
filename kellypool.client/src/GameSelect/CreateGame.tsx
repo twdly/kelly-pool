@@ -30,7 +30,6 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
     
     return (
         <>
-            <button onClick={handleCancel}>Cancel</button>
 
             <div className={"input-line"}>
                 <label>Your Name:</label>
@@ -65,8 +64,10 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
                     })}
                 </select>
             </div>
-            
-            <button onClick={createGame}>Create game</button>
+            <div className={'input-buttons'}>
+                <button onClick={handleCancel}>Cancel</button>
+                <button onClick={createGame}>Create game</button>
+            </div>
         </>
     );
 }
