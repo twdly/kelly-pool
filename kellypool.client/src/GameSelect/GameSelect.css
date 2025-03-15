@@ -1,7 +1,15 @@
-label + input {
-    margin-left: 5%;
+label {
+    display: block;
 }
 
 .error {
     color: red;
+}
+
+.player-name-input::after {
+    margin-bottom: 1rem;
+    display: block;
+    content: "";
+    border-bottom: 1px solid grey;
+    padding-top: 1rem;
 }

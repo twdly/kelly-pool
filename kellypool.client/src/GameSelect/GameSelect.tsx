@@ -145,11 +145,14 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
                             )
                         })
                     )}
-                    <label htmlFor={'playerName'}>Name:</label>
-                    <input name='playerName' type='text' value={playerName}
-                           onChange={(e => setPlayerName(e.target.value))}/>
-                    <br/>
-                    <button onClick={() => setIsCreatingGame(true)}>New game</button>
+                    <div className={'player-name-input'}>
+                        <label htmlFor={'playerName'}>Name:</label>
+                        <input name='playerName' type='text' value={playerName}
+                               onChange={(e => setPlayerName(e.target.value))}/>
+                    </div>
+                    <div className={'create-game'}>
+                        <button onClick={() => setIsCreatingGame(true)}>New game</button>
+                    </div>
                 </div>
             )}
             <p className={'error'}>{errorMessage}</p>
