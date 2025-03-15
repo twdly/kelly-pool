@@ -44,7 +44,7 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
             </div>
 
             <div className={"input-line"}>
-                <label htmlFor={'maxPlayers'}>Max players:</label>
+                <label className={'inline'} htmlFor={'maxPlayers'}>Max players:</label>
                 <select name={'maxPlayers'} defaultValue={2}>
                     {playerCounts.map(n => {
                         return (<option key={n} onClick={() => (playerCountRef.current = n)}>{n}</option>)
@@ -53,7 +53,7 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
             </div>
             
             <div className={"input-line"}>
-                <label htmlFor={'includeWhiteBall'}>Include white ball: </label>
+                <label className={'inline'} htmlFor={'includeWhiteBall'}>Include white ball: </label>
                 <input type={'checkbox'} checked={includeWhiteBall} onClick={() => setIncludeWhiteBall(!includeWhiteBall)}/>
             </div>
             

@@ -3,6 +3,15 @@ div.input-line::after {
     content: "\a";
 }
 
+* + * {
+    margin-top: 0.5rem;
+}
+
 input {
+    display: inline;
+}
+
+
+label.inline {
     display: inline;
 }
