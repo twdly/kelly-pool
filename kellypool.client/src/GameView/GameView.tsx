@@ -7,6 +7,8 @@ import StateRequestModel from "../models/StateRequestModel.ts";
 import PlayerNumber from "../models/PlayerNumber.ts";
 import EndTurnModel from "../models/EndTurnModel.ts";
 
+import "./GameView.css";
+
 interface GameViewProps {
     GameState: GameStateModel,
     SetGameState: Function,
@@ -137,19 +139,26 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
                     {isYourTurn && (
                         <h2>It's your turn!</h2>
                     )}
-                    <h2>Known Numbers:</h2>
-                    {knownNumbers.map(n => {
-                        return (
-                            <p key={n.player.id}>{n.player.name}: {n.number}</p>
-                        )
-                    })}
                     
-                    <h2>Remaining players:</h2>
-                    {GameState.remainingPlayers.map(p => {
-                        return (
-                        <p key={p.id}>{p.name}</p>
-                        )
-                    })}
+                    <div className={'state-panels'}>
+                        <div className={'state-panel-item'}>
+                            <h3>Known Numbers:</h3>
+                            {knownNumbers.map(n => {
+                                return (
+                                    <p key={n.player.id}>{n.player.name}: {n.number}</p>
+                                )
+                            })}
+                        </div>
+
+                        <div className={'state-panel-item'}>
+                            <h3>Remaining players:</h3>
+                            {GameState.remainingPlayers.map(p => {
+                                return (
+                                    <p key={p.id}>{p.name}</p>
+                                )
+                            })}
+                        </div>
+                    </div>
                     
                     <NumberCardGrid numbers={GameState.remainingNumbers} selectedNumbers={selectedNumbers}
                                     handleNumberSelected={setSelectedNumbers} isYourTurn={isYourTurn}/>

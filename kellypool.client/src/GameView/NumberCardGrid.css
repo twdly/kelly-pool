@@ -13,6 +13,10 @@
     background-color: light-dark(#edefef, #242424);
 }
 
+.number-grid-item + .number-grid-item {
+    margin-top: 0;
+}
+
 .not-selected {
     border: 2px solid light-dark(#b8b6b6, white);
 }

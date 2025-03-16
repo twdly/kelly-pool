@@ -1,0 +1,16 @@
+.state-panels {
+    display: flex;
+    flex-direction: row;
+}
+
+.state-panel-item {
+    flex-grow: 1;
+}
+
+.state-panel-item + .state-panel-item {
+    margin-top: 0;
+}
+
+.state-panel-item > p {
+    margin: 0.5rem;
+}
