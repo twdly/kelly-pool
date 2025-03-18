@@ -150,7 +150,7 @@ public class GamesRepoService : IGamesRepoService
         {
             var numberIndex = random.Next(numbers.Count);
             player.BallNumber = numbers[numberIndex];
-            if (repeatNumbers)
+            if (!repeatNumbers)
             {
                 numbers.RemoveAt(numberIndex);
             }
