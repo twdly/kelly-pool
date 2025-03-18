@@ -31,7 +31,8 @@ public class GamesRepoService : IGamesRepoService
         {
             gameId = Games.Max(x => x.Id) + 1;
         }
-        var newGame = new GameStateModel(gameId, gameModel.Name, [gameModel.Host], gameModel.Mode, gameModel.IncludeWhiteBall, gameModel.MaxPlayers);
+        var newGame = new GameStateModel(gameId, gameModel.Name, [gameModel.Host], gameModel.Mode, 
+            gameModel.IncludeWhiteBall, gameModel.RepeatNumbers, gameModel.MaxPlayers);
         Games.Add(newGame);
         return newGame;
     }
@@ -72,7 +73,7 @@ public class GamesRepoService : IGamesRepoService
         selectedGame.RemainingNumbers = Enumerable.Range(1, maxNumber).ToList();
         selectedGame.RemainingPlayers = [];
         selectedGame.RemainingPlayers.AddRange(selectedGame.Players);
-        AssignNumbers(selectedGame.Players, maxNumber);
+        AssignNumbers(selectedGame.Players, maxNumber, selectedGame.RepeatNumbers);
         SetKnownNumbers(selectedGame.GameMode, selectedGame.Players);
         SelectFirstTurn(selectedGame);
     }
@@ -141,7 +142,7 @@ public class GamesRepoService : IGamesRepoService
         return foundId;
     }
 
-    private static void AssignNumbers(List<Player> players, int maxNumber)
+    private static void AssignNumbers(List<Player> players, int maxNumber, bool repeatNumbers)
     {
         var random = new Random();
         var numbers = Enumerable.Range(1, maxNumber).ToList();
@@ -149,7 +150,10 @@ public class GamesRepoService : IGamesRepoService
         {
             var numberIndex = random.Next(numbers.Count);
             player.BallNumber = numbers[numberIndex];
-            numbers.RemoveAt(numberIndex);
+            if (repeatNumbers)
+            {
+                numbers.RemoveAt(numberIndex);
+            }
         }
     }
 

@@ -7,4 +7,5 @@ public class CreateGameModel
     public Player Host { get; set; }
     public Mode Mode { get; set; }
     public bool IncludeWhiteBall { get; set; }
+    public bool RepeatNumbers { get; set; }
 }
