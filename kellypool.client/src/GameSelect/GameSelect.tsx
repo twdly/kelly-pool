@@ -13,6 +13,7 @@ interface CreateGameModel {
     host: Player,
     mode: number,
     includeWhiteBall: boolean,
+    repeatNumbers: boolean
 }
 
 interface GameSelectProps {
@@ -46,7 +47,7 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
         }
     }, []);
 
-    async function createGame(playerName: string, gameName: string, mode: number, includeWhiteBall: boolean, maxPlayers: number) {
+    async function createGame(playerName: string, gameName: string, mode: number, includeWhiteBall: boolean, repeatNumbers: boolean, maxPlayers: number) {
         const uri = "management/create-game";
         
         const host: Player = {
@@ -60,6 +61,7 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
             host: host,
             mode: mode,
             includeWhiteBall: includeWhiteBall,
+            repeatNumbers: repeatNumbers,
         }
 
         const response = await fetch(uri, {
