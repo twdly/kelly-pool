@@ -136,7 +136,7 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
                     ) : (
                         gamesList.map((x) => {
                             return (
-                                <div key={x.id}>
+                                <div key={x.id} className={"game-listing"}>
                                     <p>{x.name},
                                         Players: {x.currentPlayers}/{x.maxPlayers}{x.gameStarted ? " (in progress)" : ""}</p>
                                     <button
