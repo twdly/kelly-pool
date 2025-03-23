@@ -31,7 +31,6 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
     
     return (
         <>
-
             <div className={"input-line"}>
                 <label>Your Name:</label>
                 <input name='playerName' type='text' value={playerName}
@@ -55,20 +54,20 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
             <div className={"input-line"}>
                 <label className={'inline'} htmlFor={'includeWhiteBall'}>Include white ball: </label>
                 <input name='includeWhiteBall' type={'checkbox'} checked={includeWhiteBall}
-                       onClick={() => setIncludeWhiteBall(!includeWhiteBall)}/>
+                       onChange={() => setIncludeWhiteBall(!includeWhiteBall)}/>
             </div>
 
             <div className={"input-line"}>
                 <label className={'inline'} htmlFor={'repeatNumbers'}>Repeat numbers: </label>
                 <input name='repeatNumbers' type={'checkbox'} checked={repeatNumbers}
-                       onClick={() => setRepeatNumbers(!repeatNumbers)}/>
+                       onChange={() => setRepeatNumbers(!repeatNumbers)}/>
             </div>
 
             <div className={"input-line"}>
                 <label htmlFor={'modes'}>Known numbers: </label>
-                <select name={'modes'}>
+                <select name={'modes'} value={mode} onChange={mode => setMode(parseInt(mode.target.value))}>
                     {modes.map(m => {
-                        return (<option key={m.value} onClick={() => setMode(m.value)}>{m.displayName}</option>)
+                        return (<option key={m.value} value={m.value}>{m.displayName}</option>)
                     })}
                 </select>
             </div>
