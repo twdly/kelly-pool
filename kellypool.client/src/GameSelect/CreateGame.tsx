@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react';
+import {useState} from 'react';
 
 import './CreateGame.css'
 
@@ -19,13 +19,13 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
     const [mode, setMode] = useState<number>(0);
     const [includeWhiteBall, setIncludeWhiteBall] = useState<boolean>(false);
     const [repeatNumbers, setRepeatNumbers] = useState<boolean>(false);
-    const playerCountRef = useRef<number>(2);
+    const [playerCount, setPlayerCount] = useState<number>(2);
     
     const playerCounts: number[] = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
     const modes: Mode[] = [{displayName: "One other", value: 0}, {displayName: "Yourself", value: 1}, {displayName: "Everyone else", value: 2}, {displayName: "Everyone", value: 3}];
     
     const createGame = () => {
-        handleCreateGame(playerName, gameName, mode, includeWhiteBall, repeatNumbers, playerCountRef.current)
+        handleCreateGame(playerName, gameName, mode, includeWhiteBall, repeatNumbers, playerCount)
             .catch(() => handleErrorMessage("Game could not be created"));
     }
     
@@ -44,9 +44,10 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
 
             <div className={"input-line"}>
                 <label className={'inline'} htmlFor={'maxPlayers'}>Max players:</label>
-                <select name={'maxPlayers'} defaultValue={2}>
+                <select name={'maxPlayers'} defaultValue={2} value={playerCount}
+                        onChange={event => setPlayerCount(parseInt(event.target.value))}>
                     {playerCounts.map(n => {
-                        return (<option key={n} onClick={() => (playerCountRef.current = n)}>{n}</option>)
+                        return (<option key={n} value={n}>{n}</option>)
                     })}
                 </select>
             </div>
