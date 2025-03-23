@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState } from "react";
+import {Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import GameStateModel from "../models/GameStateModel.ts";
 import LeaveGameModel from "../models/LeaveGameModel.ts";
 import NumberCardGrid from "./NumberCardGrid.tsx";
@@ -11,7 +11,7 @@ import "./GameView.css";
 
 interface GameViewProps {
     GameState: GameStateModel,
-    SetGameState: Function,
+    SetGameState: Dispatch<SetStateAction<GameStateModel | undefined>>,
     PlayerId: number
 }
 
@@ -53,7 +53,7 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
         return () => {
             clearInterval(pollingRef.current as NodeJS.Timeout);
         }
-    }, []);
+    });
 
     const HandleLeave = async () => {
         const leaveUri = 'management/leave-game';

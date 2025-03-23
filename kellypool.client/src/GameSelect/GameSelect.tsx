@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState } from 'react';
+import {Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import '../App.css';
 import './GameSelect.css'
 import GameSelectModel from "../models/GameSelectModel.ts";
@@ -6,6 +6,7 @@ import JoinGameModel from "../models/JoinGameModel.ts";
 import Player from "../models/Player.ts";
 import JoinGameResponseModel from "../models/JoinGameResponseModel.ts";
 import CreateGame from "./CreateGame.tsx";
+import GameStateModel from "../models/GameStateModel.ts";
 
 interface CreateGameModel {
     name: string,
@@ -17,8 +18,8 @@ interface CreateGameModel {
 }
 
 interface GameSelectProps {
-    HandleGameSet: Function,
-    HandlePlayerIdSet: Function,
+    HandleGameSet: Dispatch<SetStateAction<GameStateModel | undefined>>,
+    HandlePlayerIdSet: Dispatch<SetStateAction<number>>,
 }
 
 function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {

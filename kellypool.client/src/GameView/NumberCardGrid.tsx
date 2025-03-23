@@ -1,10 +1,11 @@
 import NumberCard from "./NumberCard";
 import './NumberCardGrid.css'
+import { Dispatch, SetStateAction } from "react";
 
 interface NumberCardGridProps {
     numbers: number[],
     selectedNumbers: number[],
-    handleNumberSelected: Function,
+    handleNumberSelected: Dispatch<SetStateAction<number[]>>,
     isYourTurn: boolean,
 }
 
