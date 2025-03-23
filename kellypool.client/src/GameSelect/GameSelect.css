@@ -13,3 +13,18 @@ label {
     border-bottom: 1px solid light-dark(black, grey);
     padding-top: 1rem;
 }
+
+.game-listing {
+    border: 1px solid light-dark(black, grey);
+    border-radius: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.game-listing p {
+    margin-top: 0;
+}
+
+.game-listing + .game-listing {
+    margin-top: 1rem;
+}

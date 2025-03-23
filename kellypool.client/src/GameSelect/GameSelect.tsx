@@ -125,6 +125,18 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
         }, 5000);
     }
     
+    const getButtonDisabledReason = (game: GameSelectModel) => {
+        if (game.gameStarted) {
+            return "This game is already in progress"
+        }
+        if (game.maxPlayers === game.currentPlayers) {
+            return "This game is already full"
+        }
+        if (playerName.trim().length === 0) {
+            return "Please enter a name before joining a game"
+        }
+    }
+    
     return (
         <div>
             {isCreatingGame ? (
@@ -135,13 +147,15 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
                         <p>No games found</p>
                     ) : (
                         gamesList.map((x) => {
+                            const buttonDisabled = x.currentPlayers === x.maxPlayers || playerName.trim().length === 0 || x.gameStarted;
                             return (
-                                <div key={x.id}>
+                                <div key={x.id} className={"game-listing"}>
                                     <p>{x.name},
                                         Players: {x.currentPlayers}/{x.maxPlayers}{x.gameStarted ? " (in progress)" : ""}</p>
                                     <button
-                                        disabled={x.currentPlayers === x.maxPlayers || playerName.trim().length === 0 || x.gameStarted}
-                                        onClick={() => JoinGame(x.id)}>Join
+                                        disabled={buttonDisabled}
+                                        onClick={() => JoinGame(x.id)}
+                                        title={buttonDisabled ? getButtonDisabledReason(x) : ""}>Join
                                     </button>
                                 </div>
                             )
