@@ -3,19 +3,10 @@ import '../App.css';
 import './GameSelect.css'
 import GameSelectModel from "../models/GameSelectModel.ts";
 import JoinGameModel from "../models/JoinGameModel.ts";
-import Player from "../models/Player.ts";
 import JoinGameResponseModel from "../models/JoinGameResponseModel.ts";
 import CreateGame from "./CreateGame.tsx";
 import GameStateModel from "../models/GameStateModel.ts";
-
-interface CreateGameModel {
-    name: string,
-    maxPlayers: number,
-    host: Player,
-    mode: number,
-    includeWhiteBall: boolean,
-    repeatNumbers: boolean
-}
+import gameConfigModel from "../models/GameConfigModel.ts";
 
 interface GameSelectProps {
     HandleGameSet: Dispatch<SetStateAction<GameStateModel | undefined>>,
@@ -48,26 +39,12 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
         }
     }, []);
 
-    async function createGame(playerName: string, gameName: string, mode: number, includeWhiteBall: boolean, repeatNumbers: boolean, maxPlayers: number) {
+    async function createGame(gameConfig: gameConfigModel) {
         const uri = "management/create-game";
-        
-        const host: Player = {
-            id: 0,
-            name: playerName,
-        }
-        
-        const newGame: CreateGameModel = {
-            name: gameName,
-            maxPlayers: maxPlayers,
-            host: host,
-            mode: mode,
-            includeWhiteBall: includeWhiteBall,
-            repeatNumbers: repeatNumbers,
-        }
 
         const response = await fetch(uri, {
             method: 'POST',
-            body: JSON.stringify(newGame),
+            body: JSON.stringify(gameConfig),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -77,7 +54,7 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
         if (response.ok) {
             const result = await response.json();
             HandleGameSet(result);
-            HandlePlayerIdSet(0); // First player to join a game always has an ID of 0
+            HandlePlayerIdSet(gameConfig.host.id);
         }
     }
     
@@ -88,7 +65,7 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
     async function getGames() {
         const response = await fetch('management/get-games');
         if (response.ok) {
-            const data = await response.json();
+            const data: GameSelectModel[] = await response.json();
             setGamesList(data);
         }
     }

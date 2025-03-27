@@ -24,15 +24,15 @@ public class GamesRepoService : IGamesRepoService
         return Games.Select(game => new GameSelectModel(game)).ToList();
     }
 
-    public GameStateModel CreateGame(CreateGameModel gameModel)
+    public GameStateModel CreateGame(GameConfigModel gameConfig)
     {
         var gameId = 0;
         if (Games.Count != 0)
         {
             gameId = Games.Max(x => x.Id) + 1;
         }
-        var newGame = new GameStateModel(gameId, gameModel.Name, [gameModel.Host], gameModel.Mode, 
-            gameModel.IncludeWhiteBall, gameModel.RepeatNumbers, gameModel.MaxPlayers);
+        var newGame = new GameStateModel(gameId, gameConfig.GameName, [gameConfig.Host], gameConfig.Mode, 
+            gameConfig.IncludeWhiteBall, gameConfig.RepeatNumbers, gameConfig.MaxPlayers);
         Games.Add(newGame);
         return newGame;
     }

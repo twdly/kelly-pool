@@ -1,10 +1,12 @@
 import {useState} from 'react';
 
 import './CreateGame.css'
+import Player from "../models/Player.ts";
+import GameConfigModel from "../models/GameConfigModel.ts";
 
 interface CreateGameProps {
     handleCancel: () => void,
-    handleCreateGame: (playerName:string, gameName: string, mode: number, includeWhiteBall: boolean, repeatNumbers: boolean, maxPlayers: number) => Promise<void>,
+    handleCreateGame: (gameConfig: GameConfigModel) => Promise<void>,
     handleErrorMessage: (error: string) => void,
 }
 
@@ -25,7 +27,22 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
     const modes: Mode[] = [{displayName: "One other", value: 0}, {displayName: "Yourself", value: 1}, {displayName: "Everyone else", value: 2}, {displayName: "Everyone", value: 3}];
     
     const createGame = () => {
-        handleCreateGame(playerName, gameName, mode, includeWhiteBall, repeatNumbers, playerCount)
+        // First player to join a game always has an ID of 0
+        const host: Player = {
+            id: 0,
+            name: playerName,
+        }
+
+        const config: GameConfigModel = {
+            gameName: gameName,
+            maxPlayers: playerCount,
+            host: host,
+            mode: mode,
+            includeWhiteBall: includeWhiteBall,
+            repeatNumbers: repeatNumbers,
+        }
+        
+        handleCreateGame(config)
             .catch(() => handleErrorMessage("Game could not be created"));
     }
     

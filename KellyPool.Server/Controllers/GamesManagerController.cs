@@ -20,9 +20,9 @@ public class GamesManagerController(IGamesRepoService gamesRepoService) : Contro
 
     [HttpPost]
     [Route("create-game")]
-    public ActionResult<GameStateModel> CreateGame([FromBody] CreateGameModel gameModel)
+    public ActionResult<GameStateModel> CreateGame([FromBody] GameConfigModel gameConfig)
     {
-        return GamesRepo.CreateGame(gameModel);
+        return GamesRepo.CreateGame(gameConfig);
     }
 
     [HttpPost]
