@@ -128,8 +128,8 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
                             const buttonDisabled = x.currentPlayers === x.maxPlayers || playerName.trim().length === 0 || x.gameStarted;
                             return (
                                 <div key={x.id} className={"game-listing"}>
-                                    <p>{x.name},
-                                        Players: {x.currentPlayers}/{x.maxPlayers}{x.gameStarted ? " (in progress)" : ""}</p>
+                                    <p>{x.name}</p>
+                                    <p>Players: {x.currentPlayers} / {x.maxPlayers}{x.gameStarted ? " (in progress)" : ""}</p>
                                     <button
                                         disabled={buttonDisabled}
                                         onClick={() => JoinGame(x.id)}
