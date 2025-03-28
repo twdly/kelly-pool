@@ -7,6 +7,7 @@ import JoinGameResponseModel from "../models/JoinGameResponseModel.ts";
 import CreateGame from "./CreateGame.tsx";
 import GameStateModel from "../models/GameStateModel.ts";
 import gameConfigModel from "../models/GameConfigModel.ts";
+import GamesList from "./GamesList.tsx";
 
 interface GameSelectProps {
     HandleGameSet: Dispatch<SetStateAction<GameStateModel | undefined>>,
@@ -103,42 +104,13 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
         }, 5000);
     }
     
-    const getButtonDisabledReason = (game: GameSelectModel) => {
-        if (game.gameStarted) {
-            return "This game is already in progress"
-        }
-        if (game.maxPlayers === game.currentPlayers) {
-            return "This game is already full"
-        }
-        if (playerName.trim().length === 0) {
-            return "Please enter a name before joining a game"
-        }
-    }
-    
     return (
         <div>
             {isCreatingGame ? (
                 <CreateGame handleCancel={cancelCreateGame} handleCreateGame={createGame} handleErrorMessage={showErrorMessage}/>
             ) : (
                 <div>
-                    {gamesList.length == 0 ? (
-                        <p>No games found</p>
-                    ) : (
-                        gamesList.map((x) => {
-                            const buttonDisabled = x.currentPlayers === x.maxPlayers || playerName.trim().length === 0 || x.gameStarted;
-                            return (
-                                <div key={x.id} className={"game-listing"}>
-                                    <p>{x.name}</p>
-                                    <p>Players: {x.currentPlayers} / {x.maxPlayers}{x.gameStarted ? " (in progress)" : ""}</p>
-                                    <button
-                                        disabled={buttonDisabled}
-                                        onClick={() => JoinGame(x.id)}
-                                        title={buttonDisabled ? getButtonDisabledReason(x) : ""}>Join
-                                    </button>
-                                </div>
-                            )
-                        })
-                    )}
+                    <GamesList gamesList={gamesList} playerName={playerName} joinGame={JoinGame}/>
                     <div className={'player-name-input'}>
                         <label htmlFor={'playerName'}>Name:</label>
                         <input name='playerName' type='text' value={playerName}
