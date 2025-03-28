@@ -1,3 +1,4 @@
+import GameConfigModel from "./GameConfigModel.ts";
 
 interface GameSelectModel {
     id: number,
@@ -5,6 +6,7 @@ interface GameSelectModel {
     currentPlayers: number,
     maxPlayers: number,
     gameStarted: boolean,
+    config: GameConfigModel
 }
 
 export default GameSelectModel;

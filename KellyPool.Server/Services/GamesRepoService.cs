@@ -31,8 +31,7 @@ public class GamesRepoService : IGamesRepoService
         {
             gameId = Games.Max(x => x.Id) + 1;
         }
-        var newGame = new GameStateModel(gameId, gameConfig.GameName, [gameConfig.Host], gameConfig.Mode, 
-            gameConfig.IncludeWhiteBall, gameConfig.RepeatNumbers, gameConfig.MaxPlayers);
+        var newGame = new GameStateModel(gameId, gameConfig);
         Games.Add(newGame);
         return newGame;
     }
@@ -68,13 +67,13 @@ public class GamesRepoService : IGamesRepoService
     public void InitialiseGame(int id)
     {
         var selectedGame = GetGameById(id);
-        var maxNumber = selectedGame.IncludeWhiteBall ? 16 : 15;
+        var maxNumber = selectedGame.Config.IncludeWhiteBall ? 16 : 15;
         selectedGame.GameStarted = true;
         selectedGame.RemainingNumbers = Enumerable.Range(1, maxNumber).ToList();
         selectedGame.RemainingPlayers = [];
         selectedGame.RemainingPlayers.AddRange(selectedGame.Players);
-        AssignNumbers(selectedGame.Players, maxNumber, selectedGame.RepeatNumbers);
-        SetKnownNumbers(selectedGame.GameMode, selectedGame.Players);
+        AssignNumbers(selectedGame.Players, maxNumber, selectedGame.Config.RepeatNumbers);
+        SetKnownNumbers(selectedGame.Config.Mode, selectedGame.Players);
         SelectFirstTurn(selectedGame);
     }
 
