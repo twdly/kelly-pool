@@ -24,6 +24,21 @@ function GameListing({game, playerName, joinGame}: GameListingProps) {
         }
     }
     
+    const getModeName = (num: number) => {
+        switch (num) {
+            case 0:
+                return "One other";
+            case 1:
+                return "Yourself";
+            case 2:
+                return "Everyone else";
+            case 3:
+                return "Everyone";
+            default:
+                return "Unknown";
+        }
+    }
+    
     return (
         <div key={game.id} className={"game-listing"}>
             <p>{game.name}</p>
@@ -34,6 +49,13 @@ function GameListing({game, playerName, joinGame}: GameListingProps) {
                 onClick={() => joinGame(game.id)}
                 title={buttonDisabled ? getButtonDisabledReason(game) : ""}>Join
             </button>
+            {showConfig && (
+                <>
+                    <p>Known numbers: {getModeName(game.config.mode)}</p>
+                    <p>Repeat numbers: {game.config.repeatNumbers ? "Yes" : "No"}</p>
+                    <p>Include white ball: {game.config.includeWhiteBall ? "Yes" : "No"}</p>
+                </>
+            )}
         </div>
     );
 }
