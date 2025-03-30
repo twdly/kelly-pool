@@ -91,7 +91,7 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
             </div>
             <div className={'input-buttons'}>
                 <button onClick={handleCancel}>Cancel</button>
-                <button onClick={createGame}>Create game</button>
+                <button onClick={createGame} disabled={!includeWhiteBall && !repeatNumbers && playerCount === 16}>Create game</button>
             </div>
         </>
     );
