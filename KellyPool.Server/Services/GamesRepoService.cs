@@ -110,6 +110,12 @@ public class GamesRepoService : IGamesRepoService
         selectedGame.RemainingPlayers.RemoveAll(p => turnModel.SunkNumbers.Contains(p.BallNumber));
         
         var gameFinished = selectedGame.RemainingPlayers.Count <= 1;
+
+        if (selectedGame.RemainingPlayers.Count == 1)
+        {
+            selectedGame.RemainingPlayers.First().Wins += 1;
+        }
+        
         selectedGame.GameFinished = gameFinished;
         selectedGame.GameStarted = !gameFinished;
 

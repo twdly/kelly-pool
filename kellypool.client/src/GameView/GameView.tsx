@@ -130,6 +130,8 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
             setSelectedNumbers([]);
         }
     }
+    
+    const showWins: boolean = GameState.players.filter((x) => x.wins != 0).length != 0;
 
     return (
         <div>
@@ -175,7 +177,7 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
                     {GameState.players.map((x) => {
                         return (
                             <div key={x.id}>
-                                <p>{x.name}</p>
+                                <p>{x.name} {showWins ? `(${x.wins} ${x.wins == 1 ? "win" : "wins"})` : ""}</p>
                             </div>
                         )
                     })}
