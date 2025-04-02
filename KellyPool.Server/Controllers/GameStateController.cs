@@ -22,8 +22,7 @@ public class GameStateController(IGamesRepoService gamesRepoService)
     public GameStateResponseModel BeginGame([FromBody] StateRequestModel requestModel)
     {
         GamesRepoService.InitialiseGame(requestModel.GameId);
-        var gameStateResponse = GamesRepoService.GetStateForPlayer(requestModel.GameId, requestModel.PlayerId);
-        return gameStateResponse;
+        return GamesRepoService.GetStateForPlayer(requestModel.GameId, requestModel.PlayerId);
     }
 
     [HttpPost]

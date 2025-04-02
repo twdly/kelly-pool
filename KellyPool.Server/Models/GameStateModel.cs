@@ -9,6 +9,7 @@ public class GameStateModel(int id, GameConfigModel configModel)
     public bool GameStarted { get; set; }
     public int TurnPlayerId { get; set; } // The ID of the player whose turn it currently is
     public bool GameFinished { get; set; }
+    public int WinnerId { get; set; } = -1;
     public GameConfigModel Config { get; set; } = configModel;
     
     public List<int> RemainingNumbers { get; set; } = [];

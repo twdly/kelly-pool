@@ -171,7 +171,7 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
             ) : (
                 <div>
                     {GameState.gameFinished && (
-                        <h3>The winner is: {GameState.remainingPlayers.at(0) != undefined ? `${GameState.remainingPlayers.at(0)?.name}` : "nobody :("}</h3>
+                        <h3>The winner is: {GameState.winnerId != -1 ? `${GameState.players.filter(p => p.id == GameState.winnerId).at(0)?.name}` : "nobody :("}</h3>
                     )}
                     <h2>Players:</h2>
                     {GameState.players.map((x) => {

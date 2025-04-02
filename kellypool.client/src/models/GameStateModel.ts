@@ -10,6 +10,7 @@ interface GameStateModel {
     remainingNumbers: number[],
     turnPlayerId: number,
     gameFinished: number,
+    winnerId: number,
 }
 
 export default GameStateModel;
