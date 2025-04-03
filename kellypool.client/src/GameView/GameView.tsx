@@ -147,7 +147,7 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
                             <h3>Known Numbers:</h3>
                             {knownNumbers.map(n => {
                                 return (
-                                    <p key={n.player.id}>{n.player.name}: {n.number}</p>
+                                    <p key={n.player.id}>{n.player.name} {n.player.id == PlayerId ? "(You)" : ""}: {n.number}</p>
                                 )
                             })}
                         </div>
