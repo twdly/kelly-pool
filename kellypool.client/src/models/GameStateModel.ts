@@ -1,8 +1,8 @@
 import Player from "./Player.ts";
+import GameConfigModel from "./GameConfigModel.ts";
 
 interface GameStateModel {
     id: number,
-    name: string,
     players: Player[],
     remainingPlayers: Player[],
     hostId: number,
@@ -11,6 +11,7 @@ interface GameStateModel {
     turnPlayerId: number,
     gameFinished: number,
     winnerId: number,
+    config: GameConfigModel,
 }
 
 export default GameStateModel;

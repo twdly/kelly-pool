@@ -135,9 +135,9 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
 
     return (
         <div>
-            <h1>{GameState.name}</h1>
+            <h1>{GameState.config.gameName}</h1>
             {GameState.gameStarted ? (
-                <>
+                <div>
                     {isYourTurn && (
                         <h2>It's your turn!</h2>
                     )}
@@ -167,7 +167,7 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
                     {isYourTurn && (
                         <button onClick={EndTurn}>End turn</button>
                     )}
-                </>
+                </div>
             ) : (
                 <div>
                     {GameState.gameFinished && (

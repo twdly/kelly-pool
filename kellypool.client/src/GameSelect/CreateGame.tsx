@@ -31,6 +31,7 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: Create
         const host: Player = {
             id: 0,
             name: playerName,
+            wins: 0
         }
 
         const config: GameConfigModel = {
