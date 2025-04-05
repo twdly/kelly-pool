@@ -107,7 +107,7 @@ function GameSelect({HandleGameSet, HandlePlayerIdSet}: GameSelectProps) {
     return (
         <div>
             {isCreatingGame ? (
-                <CreateGame handleCancel={cancelCreateGame} handleCreateGame={createGame} handleErrorMessage={showErrorMessage}/>
+                <CreateGame handleCancel={cancelCreateGame} handleCreateGame={createGame} handleErrorMessage={showErrorMessage} playerName={playerName} setPlayerName={setPlayerName}/>
             ) : (
                 <div>
                     <GamesList gamesList={gamesList} playerName={playerName} joinGame={JoinGame}/>

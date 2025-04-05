@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {Dispatch, SetStateAction, useState} from 'react';
 
 import './CreateGame.css'
 import Player from "../models/Player.ts";
@@ -8,6 +8,8 @@ interface CreateGameProps {
     handleCancel: () => void,
     handleCreateGame: (gameConfig: GameConfigModel) => Promise<void>,
     handleErrorMessage: (error: string) => void,
+    playerName: string,
+    setPlayerName: Dispatch<SetStateAction<string>>,
 }
 
 interface Mode {
@@ -15,9 +17,8 @@ interface Mode {
     value: number,
 }
 
-const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage}: CreateGameProps) => {
+const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage, playerName, setPlayerName}: CreateGameProps) => {
     const [gameName, setGameName] = useState<string>('');
-    const [playerName, setPlayerName] = useState<string>('');
     const [mode, setMode] = useState<number>(0);
     const [includeWhiteBall, setIncludeWhiteBall] = useState<boolean>(false);
     const [repeatNumbers, setRepeatNumbers] = useState<boolean>(false);
