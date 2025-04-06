@@ -174,6 +174,7 @@ function GameView({GameState, SetGameState, PlayerId}: GameViewProps) {
                         <h3>The winner is: {GameState.winnerId != -1 ? `${GameState.players.filter(p => p.id == GameState.winnerId).at(0)?.name}` : "nobody :("}</h3>
                     )}
                     <h2>Players:</h2>
+                    <h3>{GameState.players.length} / {GameState.config.maxPlayers}</h3>
                     {GameState.players.map((x) => {
                         return (
                             <div key={x.id}>

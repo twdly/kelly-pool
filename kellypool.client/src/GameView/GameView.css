@@ -14,3 +14,11 @@
 .state-panel-item > p {
     margin: 0.5rem;
 }
+
+h2 {
+    margin-bottom: 0;
+}
+
+h3 {
+    margin-top: 0;
+}
