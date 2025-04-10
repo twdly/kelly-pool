@@ -47,8 +47,10 @@ function GameListing({game, playerName, joinGame}: GameListingProps) {
                 onClick={() => joinGame(game.id)}
                 title={buttonDisabled ? getButtonDisabledReason(game) : ""}>Join
             </button>
-            <Icon className="icon" icon={"uil:info-circle"}/>
-            <div>
+            <button popoverTarget={"rules-popover"} className={"popover-button"}>
+                <Icon className="icon" icon={"uil:info-circle"}/>
+            </button>
+            <div popover="auto" id={"rules-popover"}>
                 <p>Known numbers: {getModeName(game.config.mode)}</p>
                 <p>Repeat numbers: {game.config.repeatNumbers ? "Yes" : "No"}</p>
                 <p>Include white ball: {game.config.includeWhiteBall ? "Yes" : "No"}</p>
