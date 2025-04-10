@@ -72,7 +72,7 @@ public class GamesRepoService : IGamesRepoService
         selectedGame.RemainingNumbers = Enumerable.Range(1, maxNumber).ToList();
         selectedGame.RemainingPlayers = [];
         selectedGame.RemainingPlayers.AddRange(selectedGame.Players);
-        selectedGame.WinnerId = -1;
+        selectedGame.Winner = null;
         AssignNumbers(selectedGame.Players, maxNumber, selectedGame.Config.RepeatNumbers);
         SetKnownNumbers(selectedGame.Config.Mode, selectedGame.Players);
         SelectFirstTurn(selectedGame);
@@ -116,7 +116,7 @@ public class GamesRepoService : IGamesRepoService
         {
             var winner = selectedGame.RemainingPlayers.First();
             winner.Wins += 1;
-            selectedGame.WinnerId = winner.Id;
+            selectedGame.Winner = winner;
         }
         
         selectedGame.GameFinished = gameFinished;

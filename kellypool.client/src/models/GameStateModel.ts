@@ -10,7 +10,7 @@ interface GameStateModel {
     remainingNumbers: number[],
     turnPlayerId: number,
     gameFinished: number,
-    winnerId: number,
+    winner: Player,
     config: GameConfigModel,
 }
 
