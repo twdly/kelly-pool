@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { Icon } from "@iconify/react";
 import GameSelectModel from "../models/GameSelectModel";
+import './GameListing.css'
 
 interface GameListingProps {
     game: GameSelectModel,
@@ -8,8 +9,6 @@ interface GameListingProps {
 }
 
 function GameListing({game, playerName, joinGame}: GameListingProps) {
-    const [showConfig, setShowConfig] = useState<boolean>(false);
-
     const buttonDisabled = game.currentPlayers === game.config.maxPlayers || playerName.trim().length === 0 || game.gameStarted;
     
     const getButtonDisabledReason = (game: GameSelectModel) => {
@@ -43,19 +42,17 @@ function GameListing({game, playerName, joinGame}: GameListingProps) {
         <div key={game.id} className={"game-listing"}>
             <p>{game.name}</p>
             <p>Players: {game.currentPlayers} / {game.config.maxPlayers}{game.gameStarted ? " (in progress)" : ""}</p>
-            <button onClick={() => setShowConfig(!showConfig)}>{showConfig ? "Hide rules" : "Show rules"}</button>
             <button
                 disabled={buttonDisabled}
                 onClick={() => joinGame(game.id)}
                 title={buttonDisabled ? getButtonDisabledReason(game) : ""}>Join
             </button>
-            {showConfig && (
-                <>
-                    <p>Known numbers: {getModeName(game.config.mode)}</p>
-                    <p>Repeat numbers: {game.config.repeatNumbers ? "Yes" : "No"}</p>
-                    <p>Include white ball: {game.config.includeWhiteBall ? "Yes" : "No"}</p>
-                </>
-            )}
+            <Icon className="icon" icon={"uil:info-circle"}/>
+            <div>
+                <p>Known numbers: {getModeName(game.config.mode)}</p>
+                <p>Repeat numbers: {game.config.repeatNumbers ? "Yes" : "No"}</p>
+                <p>Include white ball: {game.config.includeWhiteBall ? "Yes" : "No"}</p>
+            </div>
         </div>
     );
 }
