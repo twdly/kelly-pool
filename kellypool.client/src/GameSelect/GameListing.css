@@ -11,3 +11,8 @@
     border: none;
     font-size:0;
 }
+
+.popover {
+    /* Doesn't work in firefox yet :( */
+    bottom: calc(anchor(top) + 20px)
+}
