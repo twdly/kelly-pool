@@ -52,4 +52,11 @@ public class GamesManagerController(IGamesRepoService gamesRepoService) : Contro
             return new BadRequestResult();
         }
     }
+
+    [HttpPost]
+    [Route("edit-config")]
+    public ActionResult<bool> EditConfig([FromBody] EditConfigModel configModel)
+    {
+        return GamesRepo.EditConfig(configModel);
+    }
 }

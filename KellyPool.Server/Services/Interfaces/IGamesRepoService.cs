@@ -11,5 +11,6 @@ public interface IGamesRepoService
     public bool LeaveGame(LeaveGameModel leaveModel);
     public void InitialiseGame(int id);
     public GameStateResponseModel GetStateForPlayer(int gameId, int playerId);
-    void EndTurn(EndTurnModel turnModel);
+    public void EndTurn(EndTurnModel turnModel);
+    public bool EditConfig(EditConfigModel config);
 }

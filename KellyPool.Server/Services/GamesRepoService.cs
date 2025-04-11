@@ -128,6 +128,27 @@ public class GamesRepoService : IGamesRepoService
         }
     }
 
+    public bool EditConfig(EditConfigModel editConfig)
+    {
+        GameStateModel selectedGame;
+        try
+        {
+            selectedGame = GetGameById(editConfig.GameId);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+
+        if (selectedGame.HostId != editConfig.PlayerId)
+        {
+            return false;
+        }
+
+        selectedGame.Config = editConfig.Config;
+        return true;
+    }
+
     private static int SelectNextPlayer(GameStateModel selectedGame, int playerId)
     {
         var players = selectedGame.Players;
