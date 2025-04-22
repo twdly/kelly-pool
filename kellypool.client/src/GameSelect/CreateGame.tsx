@@ -51,7 +51,7 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage, playerN
     const isCreateButtonDisabled = () => {
         const namesEmpty = playerName.trim().length === 0 && gameName.trim().length === 0;
         const notEnoughNumbers = !includeWhiteBall && !repeatNumbers && playerCount === 16;
-        return notEnoughNumbers || namesEmpty
+        return notEnoughNumbers || namesEmpty;
     }
     
     return (
