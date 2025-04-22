@@ -48,6 +48,12 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage, playerN
             .catch(() => handleErrorMessage("Game could not be created"));
     }
     
+    const isCreateButtonDisabled = () => {
+        const namesEmpty = playerName.trim().length === 0 && gameName.trim().length === 0;
+        const notEnoughNumbers = !includeWhiteBall && !repeatNumbers && playerCount === 16;
+        return notEnoughNumbers || namesEmpty
+    }
+    
     return (
         <>
             <div className={"input-line"}>
@@ -93,7 +99,7 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage, playerN
             </div>
             <div className={'input-buttons'}>
                 <button onClick={handleCancel}>Cancel</button>
-                <button onClick={createGame} disabled={!includeWhiteBall && !repeatNumbers && playerCount === 16}>Create game</button>
+                <button onClick={createGame} disabled={isCreateButtonDisabled()}>Create game</button>
             </div>
         </>
     );
