@@ -57,7 +57,7 @@ function App() {
             {isInGameSelect ? (
                 <GameSelect HandleGameSet={setGame} HandlePlayerIdSet={setPlayerId}/>
             ) : (
-                <GameView GameState={game} SetGameState={setGame} PlayerId={playerId}/>
+                <GameView gameState={game} setGameState={setGame} playerId={playerId}/>
             )}
         </>
     )
