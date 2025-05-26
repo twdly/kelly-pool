@@ -11,9 +11,16 @@ interface GameLobbyViewProps {
     setKnownNumbers: Function,
 }
 
+interface Mode {
+    displayName: string,
+    value: number,
+}
+
 function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers}: GameLobbyViewProps) {
     const showWins: boolean = gameState.players.filter((x) => x.wins != 0).length != 0;
     const [editingSettings, setEditingSettings] = useState<boolean>();
+
+    const modes: Mode[] = [{displayName: "One other", value: 0}, {displayName: "Yourself", value: 1}, {displayName: "Everyone else", value: 2}, {displayName: "Everyone", value: 3}];
 
     const BeginGame = async () => {
         const beginUri = 'game-state/begin';
@@ -70,6 +77,27 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers}: Ga
         <>
             {editingSettings ? (
                 <>
+                    <div>
+                        <label htmlFor={"name"}>Game name:</label>
+                        <input name={"name"}/>
+                    </div>
+                    <div>
+                        <label htmlFor={"repeat"}>Repeat numbers:</label>
+                        <input type={"checkbox"} name={"repeat"}/>
+                    </div>
+                    <div>
+                        <label htmlFor={"whiteBall"}>Include white ball:</label>
+                        <input type={"checkbox"} name={"whiteBall"}/>
+                    </div>
+                    <div>
+                        <label htmlFor={"knownNumbers"}>Known numbers:</label>
+                        <select name={"knownNumbers"}>
+                            {modes.map(m => {
+                                return (<option key={m.value} value={m.value}>{m.displayName}</option>)
+                            })}
+                        </select>
+                    </div>
+
                     <button>Save</button>
                     <button onClick={() => setEditingSettings(false)}>Cancel</button>
                 </>
