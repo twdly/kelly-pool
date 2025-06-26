@@ -3,6 +3,7 @@ import StateRequestModel from "../models/StateRequestModel.ts";
 import GameStateResponseModel from "../models/GameStateResponseModel.ts";
 import LeaveGameModel from "../models/LeaveGameModel.ts";
 import { useState } from "react";
+import EditConfigModel from "../models/EditConfigModel.ts";
 
 interface GameLobbyViewProps {
     gameState: GameStateModel,
@@ -73,6 +74,38 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers}: Ga
         }
     }
     
+    const UpdateSettings = async () => {
+        const endpoint = 'management/edit-config';
+        
+        const newConfig: EditConfigModel = {
+            playerId: playerId,
+            gameId: gameState.id,
+            config: {
+                gameName: "fdfd",
+                host: gameState.config.host,
+                mode: gameState.config.mode,
+                includeWhiteBall: gameState.config.includeWhiteBall,
+                repeatNumbers: gameState.config.repeatNumbers,
+                maxPlayers: gameState.config.maxPlayers,
+            }
+        };
+
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            body: JSON.stringify(newConfig),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        
+        if (response.ok) {
+            setEditingSettings(false);  
+        } else {
+            window.alert("Something went wrong");
+        }
+    }
+    
     return (
         <>
             {editingSettings ? (
@@ -98,7 +131,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers}: Ga
                         </select>
                     </div>
 
-                    <button>Save</button>
+                    <button onClick={() => UpdateSettings()}>Save</button>
                     <button onClick={() => setEditingSettings(false)}>Cancel</button>
                 </>
             ) : (
