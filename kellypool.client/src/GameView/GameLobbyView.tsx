@@ -20,6 +20,12 @@ interface Mode {
 function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers}: GameLobbyViewProps) {
     const showWins: boolean = gameState.players.filter((x) => x.wins != 0).length != 0;
     const [editingSettings, setEditingSettings] = useState<boolean>();
+    
+    // Edit settings state
+    const [gameName, setGameName] = useState<string>();
+    const [includeWhiteBall, setIncludeWhiteBall] = useState<boolean>();
+    const [repeatNumbers, setRepeatNumbers] = useState<boolean>();
+    
 
     const modes: Mode[] = [{displayName: "One other", value: 0}, {displayName: "Yourself", value: 1}, {displayName: "Everyone else", value: 2}, {displayName: "Everyone", value: 3}];
 
@@ -81,11 +87,11 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers}: Ga
             playerId: playerId,
             gameId: gameState.id,
             config: {
-                gameName: "fdfd",
+                gameName: gameName ?? "",
                 host: gameState.config.host,
                 mode: gameState.config.mode,
-                includeWhiteBall: gameState.config.includeWhiteBall,
-                repeatNumbers: gameState.config.repeatNumbers,
+                includeWhiteBall: includeWhiteBall ?? gameState.config.includeWhiteBall,
+                repeatNumbers: repeatNumbers ?? gameState.config.repeatNumbers,
                 maxPlayers: gameState.config.maxPlayers,
             }
         };
@@ -112,15 +118,15 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers}: Ga
                 <>
                     <div>
                         <label htmlFor={"name"}>Game name:</label>
-                        <input name={"name"}/>
+                        <input name={"name"} value={gameName} onChange={event => setGameName(event.target.value)}/>
                     </div>
                     <div>
                         <label htmlFor={"repeat"}>Repeat numbers:</label>
-                        <input type={"checkbox"} name={"repeat"}/>
+                        <input type={"checkbox"} name={"repeat"} checked={repeatNumbers} onChange={() => setRepeatNumbers(!repeatNumbers)}/>
                     </div>
                     <div>
                         <label htmlFor={"whiteBall"}>Include white ball:</label>
-                        <input type={"checkbox"} name={"whiteBall"}/>
+                        <input type={"checkbox"} name={"whiteBall"} checked={includeWhiteBall} onChange={() => setIncludeWhiteBall(!includeWhiteBall)}/>
                     </div>
                     <div>
                         <label htmlFor={"knownNumbers"}>Known numbers:</label>
