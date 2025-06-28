@@ -25,6 +25,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers}: Ga
     const [gameName, setGameName] = useState<string>();
     const [includeWhiteBall, setIncludeWhiteBall] = useState<boolean>();
     const [repeatNumbers, setRepeatNumbers] = useState<boolean>();
+    const [mode, setMode] = useState<number>(0);
     
 
     const modes: Mode[] = [{displayName: "One other", value: 0}, {displayName: "Yourself", value: 1}, {displayName: "Everyone else", value: 2}, {displayName: "Everyone", value: 3}];
@@ -89,7 +90,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers}: Ga
             config: {
                 gameName: gameName ?? "",
                 host: gameState.config.host,
-                mode: gameState.config.mode,
+                mode: mode,
                 includeWhiteBall: includeWhiteBall ?? gameState.config.includeWhiteBall,
                 repeatNumbers: repeatNumbers ?? gameState.config.repeatNumbers,
                 maxPlayers: gameState.config.maxPlayers,
@@ -130,7 +131,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers}: Ga
                     </div>
                     <div>
                         <label htmlFor={"knownNumbers"}>Known numbers:</label>
-                        <select name={"knownNumbers"}>
+                        <select name={"knownNumbers"} value={mode} onChange={mode => setMode(parseInt(mode.target.value))}>
                             {modes.map(m => {
                                 return (<option key={m.value} value={m.value}>{m.displayName}</option>)
                             })}
