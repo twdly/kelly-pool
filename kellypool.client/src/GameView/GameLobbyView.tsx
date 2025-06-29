@@ -22,9 +22,9 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers}: Ga
     const [editingSettings, setEditingSettings] = useState<boolean>();
     
     // Edit settings state
-    const [gameName, setGameName] = useState<string>();
-    const [includeWhiteBall, setIncludeWhiteBall] = useState<boolean>();
-    const [repeatNumbers, setRepeatNumbers] = useState<boolean>();
+    const [gameName, setGameName] = useState<string>("");
+    const [includeWhiteBall, setIncludeWhiteBall] = useState<boolean>(false);
+    const [repeatNumbers, setRepeatNumbers] = useState<boolean>(false);
     const [mode, setMode] = useState<number>(0);
     
 
@@ -88,11 +88,11 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers}: Ga
             playerId: playerId,
             gameId: gameState.id,
             config: {
-                gameName: gameName ?? "",
+                gameName: gameName,
                 host: gameState.config.host,
                 mode: mode,
-                includeWhiteBall: includeWhiteBall ?? gameState.config.includeWhiteBall,
-                repeatNumbers: repeatNumbers ?? gameState.config.repeatNumbers,
+                includeWhiteBall: includeWhiteBall,
+                repeatNumbers: repeatNumbers,
                 maxPlayers: gameState.config.maxPlayers,
             }
         };
