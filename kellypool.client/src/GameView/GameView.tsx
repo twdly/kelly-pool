@@ -55,7 +55,7 @@ function GameView({gameState, setGameState, playerId}: GameViewProps) {
             {gameState.gameStarted ? (
                 <RunningGameView gameState={gameState} playerId={playerId} knownNumbers={knownNumbers} setGameState={setGameState}/>
             ) : (
-                <GameLobbyView gameState={gameState} playerId={playerId} setGameState={setGameState} setKnownNumbers={setKnownNumbers}/>
+                <GameLobbyView gameState={gameState} playerId={playerId} setGameState={setGameState} setKnownNumbers={setKnownNumbers} handleSettingsUpdated={UpdateGameState}/>
             )}
         </div>
     );

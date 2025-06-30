@@ -10,6 +10,7 @@ interface GameLobbyViewProps {
     playerId: number,
     setGameState: Function,
     setKnownNumbers: Function,
+    handleSettingsUpdated: Function,
 }
 
 interface Mode {
@@ -17,7 +18,7 @@ interface Mode {
     value: number,
 }
 
-function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers}: GameLobbyViewProps) {
+function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, handleSettingsUpdated}: GameLobbyViewProps) {
     const showWins: boolean = gameState.players.filter((x) => x.wins != 0).length != 0;
     const [editingSettings, setEditingSettings] = useState<boolean>();
     
@@ -107,7 +108,8 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers}: Ga
         });
         
         if (response.ok) {
-            setEditingSettings(false);  
+            setEditingSettings(false); 
+            handleSettingsUpdated();
         } else {
             window.alert("Something went wrong");
         }
