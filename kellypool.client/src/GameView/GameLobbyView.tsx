@@ -27,7 +27,8 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
     const [includeWhiteBall, setIncludeWhiteBall] = useState<boolean>(false);
     const [repeatNumbers, setRepeatNumbers] = useState<boolean>(false);
     const [mode, setMode] = useState<number>(0);
-    
+    const [playerCount, setPlayerCount] = useState<number>(0);
+    const [possiblePlayerCounts, _] = useState<number[]>([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
 
     const modes: Mode[] = [{displayName: "One other", value: 0}, {displayName: "Yourself", value: 1}, {displayName: "Everyone else", value: 2}, {displayName: "Everyone", value: 3}];
 
@@ -94,7 +95,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                 mode: mode,
                 includeWhiteBall: includeWhiteBall,
                 repeatNumbers: repeatNumbers,
-                maxPlayers: gameState.config.maxPlayers,
+                maxPlayers: playerCount,
             }
         };
 
@@ -136,6 +137,14 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                         <select name={"knownNumbers"} value={mode} onChange={mode => setMode(parseInt(mode.target.value))}>
                             {modes.map(m => {
                                 return (<option key={m.value} value={m.value}>{m.displayName}</option>)
+                            })}
+                        </select>
+                    </div>
+                    <div>
+                        <label htmlFor={"playerCount"}>Players:</label>
+                        <select name={"playerCount"} value={playerCount} onChange={players => setPlayerCount(parseInt(players.target.value))}>
+                            {possiblePlayerCounts.map(m => {
+                                return (<option key={m} value={m}>{m}</option>)
                             })}
                         </select>
                     </div>
