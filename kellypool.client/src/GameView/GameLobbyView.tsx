@@ -116,6 +116,16 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
         }
     }
     
+    const initialiseEditSettings = async () => {
+        setGameName(gameState.config.gameName);
+        setIncludeWhiteBall(gameState.config.includeWhiteBall);
+        setRepeatNumbers(gameState.config.repeatNumbers);
+        setMode(gameState.config.mode);
+        setPlayerCount(gameState.config.maxPlayers);
+        
+        setEditingSettings(true);
+    }
+    
     return (
         <>
             {editingSettings ? (
@@ -169,7 +179,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                     {gameState.hostId === playerId && (
                         <>
                             <button disabled={gameState.players.length == 1} onClick={BeginGame}>Start game</button>
-                            <button onClick={() => setEditingSettings(true)}>Edit settings</button>
+                            <button onClick={initialiseEditSettings}>Edit settings</button>
                         </>
                     )}
                     <button onClick={HandleLeave}>Leave game</button>
