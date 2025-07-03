@@ -28,7 +28,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
     const [repeatNumbers, setRepeatNumbers] = useState<boolean>(false);
     const [mode, setMode] = useState<number>(0);
     const [playerCount, setPlayerCount] = useState<number>(0);
-    const [possiblePlayerCounts, _] = useState<number[]>([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+    const [possiblePlayerCounts, setPossiblePlayerCounts] = useState<number[]>([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
 
     const modes: Mode[] = [{displayName: "One other", value: 0}, {displayName: "Yourself", value: 1}, {displayName: "Everyone else", value: 2}, {displayName: "Everyone", value: 3}];
 
@@ -116,12 +116,23 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
         }
     }
     
+    const calculatePotentialPlayerCounts = () => {
+        let calculatedPlayerCounts: number[] = [];
+        let currentPlayerCount = gameState.players.length;
+        for (let i = currentPlayerCount; i <= 16; i++) {
+            calculatedPlayerCounts.push(i);
+        }
+        return calculatedPlayerCounts;
+    }
+    
     const initialiseEditSettings = async () => {
         setGameName(gameState.config.gameName);
         setIncludeWhiteBall(gameState.config.includeWhiteBall);
         setRepeatNumbers(gameState.config.repeatNumbers);
         setMode(gameState.config.mode);
         setPlayerCount(gameState.config.maxPlayers);
+        
+        setPossiblePlayerCounts(calculatePotentialPlayerCounts());
         
         setEditingSettings(true);
     }
