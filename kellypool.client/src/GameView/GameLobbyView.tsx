@@ -118,7 +118,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
     
     const calculatePotentialPlayerCounts = () => {
         let calculatedPlayerCounts: number[] = [];
-        let currentPlayerCount = gameState.players.length;
+        let currentPlayerCount = gameState.players.length == 1 ? 2 : gameState.players.length;
         let maxPlayers = gameState.config.includeWhiteBall || gameState.config.repeatNumbers ? 16 : 15;
         
         for (let i = currentPlayerCount; i <= maxPlayers; i++) {
