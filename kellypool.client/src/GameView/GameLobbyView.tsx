@@ -127,6 +127,44 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
         return calculatedPlayerCounts;
     }
     
+    const handleWhiteBallChecked = () => {
+        const whiteBallChecked = !includeWhiteBall;
+        const includeSixteen = whiteBallChecked || repeatNumbers;
+        const sixteenAvailable = possiblePlayerCounts.filter(x => x === 16).length === 1;
+        
+        if (!includeSixteen && sixteenAvailable) {
+            setPossiblePlayerCounts(possiblePlayerCounts.slice(0, -1));
+
+            if (playerCount === 16) {
+                setPlayerCount(15);
+            }
+            
+        } else if (includeSixteen && !sixteenAvailable) {
+            setPossiblePlayerCounts([...possiblePlayerCounts, 16]);
+        }
+        
+        setIncludeWhiteBall(whiteBallChecked);
+    }
+    
+    const handleRepeatNumbersChecked = () => {
+        const repeatNumbersChecked = !repeatNumbers;
+        const includeSixteen = includeWhiteBall || repeatNumbersChecked;
+        const sixteenAvailable = possiblePlayerCounts.filter(x => x === 16).length === 1;
+
+        if (!includeSixteen && sixteenAvailable) {
+            setPossiblePlayerCounts(possiblePlayerCounts.slice(0, -1));
+
+            if (playerCount === 16) {
+                setPlayerCount(15);
+            }
+            
+        } else if (includeSixteen && !sixteenAvailable) {
+            setPossiblePlayerCounts([...possiblePlayerCounts, 16]);
+        }
+
+        setRepeatNumbers(repeatNumbersChecked);
+    }
+    
     const initialiseEditSettings = async () => {
         setGameName(gameState.config.gameName);
         setIncludeWhiteBall(gameState.config.includeWhiteBall);
@@ -149,11 +187,11 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                     </div>
                     <div>
                         <label htmlFor={"repeat"}>Repeat numbers:</label>
-                        <input type={"checkbox"} name={"repeat"} checked={repeatNumbers} onChange={() => setRepeatNumbers(!repeatNumbers)}/>
+                        <input type={"checkbox"} name={"repeat"} checked={repeatNumbers} onChange={handleRepeatNumbersChecked}/>
                     </div>
                     <div>
                         <label htmlFor={"whiteBall"}>Include white ball:</label>
-                        <input type={"checkbox"} name={"whiteBall"} checked={includeWhiteBall} onChange={() => setIncludeWhiteBall(!includeWhiteBall)}/>
+                        <input type={"checkbox"} name={"whiteBall"} checked={includeWhiteBall} onChange={handleWhiteBallChecked}/>
                     </div>
                     <div>
                         <label htmlFor={"knownNumbers"}>Known numbers:</label>
