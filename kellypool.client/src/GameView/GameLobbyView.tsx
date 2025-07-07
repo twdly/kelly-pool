@@ -32,7 +32,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
 
     const modes: Mode[] = [{displayName: "One other", value: 0}, {displayName: "Yourself", value: 1}, {displayName: "Everyone else", value: 2}, {displayName: "Everyone", value: 3}];
 
-    const BeginGame = async () => {
+    const beginGame = async () => {
         const beginUri = 'game-state/begin';
 
         const body: StateRequestModel = {
@@ -56,7 +56,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
         }
     }
 
-    const HandleLeave = async () => {
+    const handleLeave = async () => {
         const leaveUri = 'management/leave-game';
 
         const leaveModel: LeaveGameModel = {
@@ -83,7 +83,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
         }
     }
     
-    const UpdateSettings = async () => {
+    const updateSettings = async () => {
         const endpoint = 'management/edit-config';
         
         const newConfig: EditConfigModel = {
@@ -210,7 +210,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                         </select>
                     </div>
 
-                    <button onClick={() => UpdateSettings()}>Save</button>
+                    <button onClick={() => updateSettings()}>Save</button>
                     <button onClick={() => setEditingSettings(false)}>Cancel</button>
                 </>
             ) : (
@@ -229,11 +229,11 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                     })}
                     {gameState.hostId === playerId && (
                         <>
-                            <button disabled={gameState.players.length == 1} onClick={BeginGame}>Start game</button>
+                            <button disabled={gameState.players.length == 1} onClick={beginGame}>Start game</button>
                             <button onClick={initialiseEditSettings}>Edit settings</button>
                         </>
                     )}
-                    <button onClick={HandleLeave}>Leave game</button>
+                    <button onClick={handleLeave}>Leave game</button>
                 </div>
             )}
         </>
