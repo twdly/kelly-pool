@@ -140,7 +140,7 @@ public class GamesRepoService : IGamesRepoService
             return false;
         }
 
-        if (selectedGame.HostId != editConfig.PlayerId)
+        if (selectedGame.HostId != editConfig.PlayerId || editConfig.Config.MaxPlayers < selectedGame.CurrentPlayers)
         {
             return false;
         }
