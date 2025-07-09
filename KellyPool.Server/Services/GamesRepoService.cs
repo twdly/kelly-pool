@@ -131,6 +131,7 @@ public class GamesRepoService : IGamesRepoService
     public bool EditConfig(EditConfigModel editConfig)
     {
         GameStateModel selectedGame;
+        
         try
         {
             selectedGame = GetGameById(editConfig.GameId);
@@ -146,6 +147,30 @@ public class GamesRepoService : IGamesRepoService
         }
 
         selectedGame.Config = editConfig.Config;
+        return true;
+    }
+
+    public bool KickPlayer(KickPlayerModel kickPlayerModel)
+    {
+        GameStateModel selectedGame;
+
+        try
+        {
+            selectedGame = GetGameById(kickPlayerModel.GameId);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+
+        var kickedPlayer = selectedGame.Players.Find(x => x.Id == kickPlayerModel.KickedPlayerId);
+        
+        if (selectedGame.HostId != kickPlayerModel.HostId || kickedPlayer == null)
+        {
+            return false;
+        }
+
+        selectedGame.Players.Remove(kickedPlayer);
         return true;
     }
 

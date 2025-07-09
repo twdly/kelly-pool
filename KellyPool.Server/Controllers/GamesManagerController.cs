@@ -59,4 +59,11 @@ public class GamesManagerController(IGamesRepoService gamesRepoService) : Contro
     {
         return GamesRepo.EditConfig(configModel);
     }
+
+    [HttpPost]
+    [Route("kick-player")]
+    public ActionResult<bool> KickPlayer([FromBody] KickPlayerModel kickPlayerModel)
+    {
+        return GamesRepo.KickPlayer(kickPlayerModel);
+    }
 }
