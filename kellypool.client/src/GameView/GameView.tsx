@@ -22,9 +22,17 @@ function GameView({gameState, setGameState, playerId}: GameViewProps) {
         const response = await fetch(updateUri);
         if (response.ok) {
             const result: GameStateResponseModel = await response.json();
-            setGameState(result.gameState);
-            setKnownNumbers(result.knownNumbers);
+            if (gameHasPlayerId(playerId, result)) {
+                setGameState(result.gameState);
+                setKnownNumbers(result.knownNumbers);
+            } else {
+                setGameState(undefined);
+            }
         }
+    }
+    
+    const gameHasPlayerId = (playerId: number, game: GameStateResponseModel): boolean => {
+        return game.gameState.players.find(x => x.id === playerId) !== undefined;
     }
     
     const pollingRef = useRef<ReturnType<typeof setInterval>>(null);

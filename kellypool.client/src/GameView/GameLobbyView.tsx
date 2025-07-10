@@ -4,6 +4,7 @@ import GameStateResponseModel from "../models/GameStateResponseModel.ts";
 import LeaveGameModel from "../models/LeaveGameModel.ts";
 import { useState } from "react";
 import EditConfigModel from "../models/EditConfigModel.ts";
+import KickPlayerModel from "../models/KickPlayerModel.ts";
 
 interface GameLobbyViewProps {
     gameState: GameStateModel,
@@ -177,6 +178,29 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
         setEditingSettings(true);
     }
     
+    const handleKick = async (kickedPlayerId: number) => {
+        const endpoint = 'management/kick-player';
+        
+        const kickPlayerModel: KickPlayerModel = {
+            hostId: playerId,
+            gameId: gameState.id,
+            kickedPlayerId: kickedPlayerId
+        };
+
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            body: JSON.stringify(kickPlayerModel),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        
+        if (!response.ok) {
+            window.alert("Unable to kick player");
+        }
+    }
+    
     return (
         <>
             {editingSettings ? (
@@ -224,6 +248,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                         return (
                             <div key={x.id}>
                                 <p>{x.name} {showWins ? `(${x.wins} ${x.wins == 1 ? "win" : "wins"})` : ""}</p>
+                                <button onClick={() => handleKick(x.id)}>Kick</button>
                             </div>
                         )
                     })}
