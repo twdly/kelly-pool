@@ -248,7 +248,9 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                         return (
                             <div key={x.id}>
                                 <p>{x.name} {showWins ? `(${x.wins} ${x.wins == 1 ? "win" : "wins"})` : ""}</p>
-                                <button onClick={() => handleKick(x.id)}>Kick</button>
+                                {gameState.hostId == playerId && (
+                                    <button onClick={() => handleKick(x.id)}>Kick</button>
+                                )}
                             </div>
                         )
                     })}
