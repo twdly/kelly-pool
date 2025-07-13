@@ -1,0 +1,9 @@
+.player-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.kick-button {
+    margin-left: 0.5rem;
+}

@@ -6,6 +6,8 @@ import { useState } from "react";
 import EditConfigModel from "../models/EditConfigModel.ts";
 import KickPlayerModel from "../models/KickPlayerModel.ts";
 
+import "./GameLobbyView.css"
+
 interface GameLobbyViewProps {
     gameState: GameStateModel,
     playerId: number,
@@ -246,10 +248,10 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                     <h3>{gameState.players.length} / {gameState.config.maxPlayers}</h3>
                     {gameState.players.map((x) => {
                         return (
-                            <div key={x.id}>
+                            <div key={x.id} className={"player-row"}>
                                 <p>{x.name} {showWins ? `(${x.wins} ${x.wins == 1 ? "win" : "wins"})` : ""}</p>
                                 {gameState.hostId == playerId && playerId !== x.id && (
-                                    <button onClick={() => handleKick(x.id)}>Kick</button>
+                                    <button onClick={() => handleKick(x.id)} className={"kick-button"}>Kick</button>
                                 )}
                             </div>
                         )
