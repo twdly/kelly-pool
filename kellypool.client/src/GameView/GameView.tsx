@@ -35,6 +35,15 @@ function GameView({gameState, setGameState, playerId}: GameViewProps) {
         return game.gameState.players.find(x => x.id === playerId) !== undefined;
     }
     
+    const handlePlayerKicked = (playerId: number) => {
+        const newPlayerList = gameState.players.filter(x => x.id !== playerId);
+        const newState = {
+            ...gameState,
+            players: newPlayerList
+        };
+        setGameState(newState);
+    }
+    
     const pollingRef = useRef<ReturnType<typeof setInterval>>(null);
 
     useEffect(() => {
@@ -63,7 +72,13 @@ function GameView({gameState, setGameState, playerId}: GameViewProps) {
             {gameState.gameStarted ? (
                 <RunningGameView gameState={gameState} playerId={playerId} knownNumbers={knownNumbers} setGameState={setGameState}/>
             ) : (
-                <GameLobbyView gameState={gameState} playerId={playerId} setGameState={setGameState} setKnownNumbers={setKnownNumbers} handleSettingsUpdated={UpdateGameState}/>
+                <GameLobbyView 
+                    gameState={gameState} 
+                    playerId={playerId} 
+                    setGameState={setGameState} 
+                    setKnownNumbers={setKnownNumbers} 
+                    handleSettingsUpdated={UpdateGameState} 
+                    handlePlayerKicked={handlePlayerKicked}/>
             )}
         </div>
     );

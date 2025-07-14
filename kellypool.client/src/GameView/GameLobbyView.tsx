@@ -14,6 +14,7 @@ interface GameLobbyViewProps {
     setGameState: Function,
     setKnownNumbers: Function,
     handleSettingsUpdated: Function,
+    handlePlayerKicked: Function,
 }
 
 interface Mode {
@@ -21,7 +22,7 @@ interface Mode {
     value: number,
 }
 
-function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, handleSettingsUpdated}: GameLobbyViewProps) {
+function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, handleSettingsUpdated, handlePlayerKicked}: GameLobbyViewProps) {
     const showWins: boolean = gameState.players.filter((x) => x.wins != 0).length != 0;
     const [editingSettings, setEditingSettings] = useState<boolean>();
     
@@ -197,8 +198,10 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                 'Content-Type': 'application/json'
             },
         });
-        
-        if (!response.ok) {
+
+        if (response.ok) {
+            handlePlayerKicked(kickedPlayerId);
+        } else {
             window.alert("Unable to kick player");
         }
     }
