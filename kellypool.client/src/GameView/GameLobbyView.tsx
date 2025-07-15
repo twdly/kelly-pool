@@ -7,6 +7,7 @@ import EditConfigModel from "../models/EditConfigModel.ts";
 import KickPlayerModel from "../models/KickPlayerModel.ts";
 
 import "./GameLobbyView.css"
+import "../GameSelect/CreateGame.css"
 
 interface GameLobbyViewProps {
     gameState: GameStateModel,
@@ -209,29 +210,29 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
     return (
         <>
             {editingSettings ? (
-                <>
-                    <div>
-                        <label htmlFor={"name"}>Game name:</label>
+                <div className={"settings-menu"}>
+                    <div className={"input-line"}>
+                        <label className={"inline"} htmlFor={"name"}>Game name:</label>
                         <input name={"name"} value={gameName} onChange={event => setGameName(event.target.value)}/>
                     </div>
-                    <div>
-                        <label htmlFor={"repeat"}>Repeat numbers:</label>
+                    <div className={"input-line"}>
+                        <label className={"inline"} htmlFor={"repeat"}>Repeat numbers:</label>
                         <input type={"checkbox"} name={"repeat"} checked={repeatNumbers} onChange={handleRepeatNumbersChecked}/>
                     </div>
-                    <div>
-                        <label htmlFor={"whiteBall"}>Include white ball:</label>
+                    <div className={"input-line"}>
+                        <label className={"inline"} htmlFor={"whiteBall"}>Include white ball:</label>
                         <input type={"checkbox"} name={"whiteBall"} checked={includeWhiteBall} onChange={handleWhiteBallChecked}/>
                     </div>
-                    <div>
-                        <label htmlFor={"knownNumbers"}>Known numbers:</label>
+                    <div className={"input-line"}>
+                        <label className={"inline"} htmlFor={"knownNumbers"}>Known numbers:</label>
                         <select name={"knownNumbers"} value={mode} onChange={mode => setMode(parseInt(mode.target.value))}>
                             {modes.map(m => {
                                 return (<option key={m.value} value={m.value}>{m.displayName}</option>)
                             })}
                         </select>
                     </div>
-                    <div>
-                        <label htmlFor={"playerCount"}>Players:</label>
+                    <div className={"input-line"}>
+                        <label className={"inline"} htmlFor={"playerCount"}>Players:</label>
                         <select name={"playerCount"} value={playerCount} onChange={players => setPlayerCount(parseInt(players.target.value))}>
                             {possiblePlayerCounts.map(m => {
                                 return (<option key={m} value={m}>{m}</option>)
@@ -241,7 +242,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
 
                     <button onClick={() => updateSettings()}>Save</button>
                     <button onClick={() => setEditingSettings(false)}>Cancel</button>
-                </>
+                </div>
             ) : (
                 <div>
                     {gameState.gameFinished && (
