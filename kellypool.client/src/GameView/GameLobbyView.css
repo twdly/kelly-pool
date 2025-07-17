@@ -4,6 +4,6 @@
     justify-content: center;
 }
 
-.kick-button {
+.kick-button, input, select{
     margin-left: 0.5rem;
 }
