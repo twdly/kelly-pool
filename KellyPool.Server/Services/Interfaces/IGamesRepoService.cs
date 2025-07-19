@@ -13,5 +13,6 @@ public interface IGamesRepoService
     public GameStateResponseModel GetStateForPlayer(int gameId, int playerId);
     public void EndTurn(EndTurnModel turnModel);
     public bool EditConfig(EditConfigModel config);
-    public bool KickPlayer(KickPlayerModel kickPlayerModel);
+    public bool KickPlayer(TargetPlayerModel targetPlayerModel);
+    public bool GiveHost(TargetPlayerModel targetPlayerModel);
 }

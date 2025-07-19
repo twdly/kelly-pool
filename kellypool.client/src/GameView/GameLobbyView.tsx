@@ -4,7 +4,7 @@ import GameStateResponseModel from "../models/GameStateResponseModel.ts";
 import LeaveGameModel from "../models/LeaveGameModel.ts";
 import { useState } from "react";
 import EditConfigModel from "../models/EditConfigModel.ts";
-import KickPlayerModel from "../models/KickPlayerModel.ts";
+import TargetPlayerModel from "../models/TargetPlayerModel.ts";
 
 import "./GameLobbyView.css"
 import "../GameSelect/CreateGame.css"
@@ -185,10 +185,10 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
     const handleKick = async (kickedPlayerId: number) => {
         const endpoint = 'management/kick-player';
         
-        const kickPlayerModel: KickPlayerModel = {
+        const kickPlayerModel: TargetPlayerModel = {
             hostId: playerId,
             gameId: gameState.id,
-            kickedPlayerId: kickedPlayerId
+            targetPlayerId: kickedPlayerId
         };
 
         const response = await fetch(endpoint, {

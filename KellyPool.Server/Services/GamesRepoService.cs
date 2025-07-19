@@ -150,27 +150,51 @@ public class GamesRepoService : IGamesRepoService
         return true;
     }
 
-    public bool KickPlayer(KickPlayerModel kickPlayerModel)
+    public bool KickPlayer(TargetPlayerModel targetPlayerModel)
     {
         GameStateModel selectedGame;
 
         try
         {
-            selectedGame = GetGameById(kickPlayerModel.GameId);
+            selectedGame = GetGameById(targetPlayerModel.GameId);
         }
         catch (Exception)
         {
             return false;
         }
 
-        var kickedPlayer = selectedGame.Players.Find(x => x.Id == kickPlayerModel.KickedPlayerId);
+        var kickedPlayer = selectedGame.Players.Find(x => x.Id == targetPlayerModel.TargetPlayerId);
         
-        if (selectedGame.HostId != kickPlayerModel.HostId || kickedPlayer == null)
+        if (selectedGame.HostId != targetPlayerModel.HostId || kickedPlayer == null)
         {
             return false;
         }
 
         selectedGame.Players.Remove(kickedPlayer);
+        return true;
+    }
+
+    public bool GiveHost(TargetPlayerModel targetPlayerModel)
+    {
+        GameStateModel selectedGame;
+
+        try
+        {
+            selectedGame = GetGameById(targetPlayerModel.GameId);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+
+        var newHost = selectedGame.Players.Find(x => x.Id == targetPlayerModel.TargetPlayerId);
+
+        if (selectedGame.HostId != targetPlayerModel.HostId || newHost == null)
+        {
+            return false;
+        }
+
+        selectedGame.HostId = newHost.Id;
         return true;
     }
 

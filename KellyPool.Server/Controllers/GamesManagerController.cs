@@ -62,8 +62,15 @@ public class GamesManagerController(IGamesRepoService gamesRepoService) : Contro
 
     [HttpPost]
     [Route("kick-player")]
-    public ActionResult<bool> KickPlayer([FromBody] KickPlayerModel kickPlayerModel)
+    public ActionResult<bool> KickPlayer([FromBody] TargetPlayerModel targetPlayerModel)
     {
-        return GamesRepo.KickPlayer(kickPlayerModel);
+        return GamesRepo.KickPlayer(targetPlayerModel);
+    }
+
+    [HttpPost]
+    [Route("give-host")]
+    public ActionResult<bool> GiveHost([FromBody] TargetPlayerModel targetPlayerModel)
+    {
+        return GamesRepo.GiveHost(targetPlayerModel);
     }
 }
