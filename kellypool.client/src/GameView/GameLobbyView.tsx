@@ -207,6 +207,29 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
         }
     }
     
+    const giveHost = async (newHostId: number) => {
+        const endpoint = 'management/give-host';
+        
+        const targetPlayerModel: TargetPlayerModel = {
+            hostId: playerId,
+            gameId: gameState.id,
+            targetPlayerId: newHostId
+        };
+
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            body: JSON.stringify(targetPlayerModel),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        
+        if (!response.ok) {
+            window.alert("Unable to transfer host");
+        }
+    }
+    
     return (
         <>
             {editingSettings ? (
@@ -255,7 +278,11 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                             <div key={x.id} className={"player-row"}>
                                 <p>{x.name} {showWins ? `(${x.wins} ${x.wins == 1 ? "win" : "wins"})` : ""}</p>
                                 {gameState.hostId == playerId && playerId !== x.id && (
-                                    <button onClick={() => handleKick(x.id)} className={"kick-button"}>Kick</button>
+                                    <>
+                                        <button onClick={() => handleKick(x.id)} className={"kick-button"}>Kick</button>
+                                        <button onClick={() => giveHost(x.id)}>Give host</button>
+                                    </>
+                                    
                                 )}
                             </div>
                         )
