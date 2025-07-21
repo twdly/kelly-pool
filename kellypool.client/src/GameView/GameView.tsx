@@ -44,6 +44,14 @@ function GameView({gameState, setGameState, playerId}: GameViewProps) {
         setGameState(newState);
     }
     
+    const handleHostTransferred = (playerId: number) => {
+        const newState = {
+            ...gameState,
+            hostId: playerId,
+        }
+        setGameState(newState);
+    }
+    
     const pollingRef = useRef<ReturnType<typeof setInterval>>(null);
 
     useEffect(() => {
@@ -78,7 +86,8 @@ function GameView({gameState, setGameState, playerId}: GameViewProps) {
                     setGameState={setGameState} 
                     setKnownNumbers={setKnownNumbers} 
                     handleSettingsUpdated={UpdateGameState} 
-                    handlePlayerKicked={handlePlayerKicked}/>
+                    handlePlayerKicked={handlePlayerKicked}
+                    handleHostTransferred={handleHostTransferred}/>
             )}
         </div>
     );

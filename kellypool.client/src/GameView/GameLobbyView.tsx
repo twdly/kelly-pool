@@ -16,6 +16,7 @@ interface GameLobbyViewProps {
     setKnownNumbers: Function,
     handleSettingsUpdated: Function,
     handlePlayerKicked: Function,
+    handleHostTransferred: Function,
 }
 
 interface Mode {
@@ -23,7 +24,7 @@ interface Mode {
     value: number,
 }
 
-function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, handleSettingsUpdated, handlePlayerKicked}: GameLobbyViewProps) {
+function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, handleSettingsUpdated, handlePlayerKicked, handleHostTransferred}: GameLobbyViewProps) {
     const showWins: boolean = gameState.players.filter((x) => x.wins != 0).length != 0;
     const [editingSettings, setEditingSettings] = useState<boolean>();
     
@@ -225,7 +226,9 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
             },
         });
         
-        if (!response.ok) {
+        if (response.ok)  {
+            handleHostTransferred(newHostId);
+        } else {
             window.alert("Unable to transfer host");
         }
     }
