@@ -9,7 +9,7 @@ public class GamesRepoService : IGamesRepoService
 
     private delegate void SetKnownIds(List<Player> players, Player currentPlayer);
 
-    public GameStateModel GetGameById(int id)
+    private GameStateModel GetGameById(int id)
     {
         var game = Games.FirstOrDefault(x => x.Id == id);
         if (game == null)
@@ -125,6 +125,33 @@ public class GamesRepoService : IGamesRepoService
         if (!gameFinished)
         {
             selectedGame.TurnPlayerId = SelectNextPlayer(selectedGame, turnModel.PlayerId);
+        }
+    }
+    
+    public void SinkBalls(EndTurnModel sunkBallsModel)
+    {
+        var selectedGame = GetGameById(sunkBallsModel.GameId);
+        var currentPlayer = selectedGame.Players.First(x => x.Id == sunkBallsModel.PlayerId);
+        var ownBallSunk = sunkBallsModel.SunkNumbers.Contains(currentPlayer.BallNumber);
+        
+        selectedGame.RemainingNumbers.RemoveAll(num => sunkBallsModel.SunkNumbers.Contains(num));
+        selectedGame.RemainingPlayers.RemoveAll(p => sunkBallsModel.SunkNumbers.Contains(p.BallNumber));
+        
+        var gameFinished = selectedGame.RemainingPlayers.Count <= 1;
+
+        if (selectedGame.RemainingPlayers.Count == 1)
+        {
+            var winner = selectedGame.RemainingPlayers.First();
+            winner.Wins += 1;
+            selectedGame.Winner = winner;
+        }
+        
+        selectedGame.GameFinished = gameFinished;
+        selectedGame.GameStarted = !gameFinished;
+
+        if (!gameFinished && ownBallSunk)
+        {
+            selectedGame.TurnPlayerId = SelectNextPlayer(selectedGame, sunkBallsModel.PlayerId);
         }
     }
 

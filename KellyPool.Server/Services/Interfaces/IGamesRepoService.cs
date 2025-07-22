@@ -4,15 +4,15 @@ namespace KellyPool.Server.Services.Interfaces;
 
 public interface IGamesRepoService
 {
-    public GameStateModel GetGameById(int id);
-    public List<GameSelectModel> GetAllGames();
-    public GameStateModel CreateGame(GameConfigModel gameConfig);
-    public JoinGameResponseModel JoinGame(JoinGameModel joinGameModel);
-    public bool LeaveGame(LeaveGameModel leaveModel);
-    public void InitialiseGame(int id);
-    public GameStateResponseModel GetStateForPlayer(int gameId, int playerId);
-    public void EndTurn(EndTurnModel turnModel);
-    public bool EditConfig(EditConfigModel config);
-    public bool KickPlayer(TargetPlayerModel targetPlayerModel);
-    public bool GiveHost(TargetPlayerModel targetPlayerModel);
+    List<GameSelectModel> GetAllGames();
+    GameStateModel CreateGame(GameConfigModel gameConfig);
+    JoinGameResponseModel JoinGame(JoinGameModel joinGameModel);
+    bool LeaveGame(LeaveGameModel leaveModel);
+    void InitialiseGame(int id);
+    GameStateResponseModel GetStateForPlayer(int gameId, int playerId);
+    void EndTurn(EndTurnModel turnModel);
+    bool EditConfig(EditConfigModel config);
+    bool KickPlayer(TargetPlayerModel targetPlayerModel);
+    bool GiveHost(TargetPlayerModel targetPlayerModel);
+    void SinkBalls(EndTurnModel sunkBallsModel);
 }
