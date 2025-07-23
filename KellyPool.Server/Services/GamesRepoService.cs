@@ -107,20 +107,9 @@ public class GamesRepoService : IGamesRepoService
     {
         var selectedGame = GetGameById(turnModel.GameId);
         
-        selectedGame.RemainingNumbers.RemoveAll(num => turnModel.SunkNumbers.Contains(num));
-        selectedGame.RemainingPlayers.RemoveAll(p => turnModel.SunkNumbers.Contains(p.BallNumber));
-        
-        var gameFinished = selectedGame.RemainingPlayers.Count <= 1;
+        RemoveBallsAndPlayers(turnModel, selectedGame);
 
-        if (selectedGame.RemainingPlayers.Count == 1)
-        {
-            var winner = selectedGame.RemainingPlayers.First();
-            winner.Wins += 1;
-            selectedGame.Winner = winner;
-        }
-        
-        selectedGame.GameFinished = gameFinished;
-        selectedGame.GameStarted = !gameFinished;
+        var gameFinished = CheckGameFinished(selectedGame);
 
         if (!gameFinished)
         {
@@ -134,11 +123,20 @@ public class GamesRepoService : IGamesRepoService
         var currentPlayer = selectedGame.Players.First(x => x.Id == sunkBallsModel.PlayerId);
         var ownBallSunk = sunkBallsModel.SunkNumbers.Contains(currentPlayer.BallNumber);
         
-        selectedGame.RemainingNumbers.RemoveAll(num => sunkBallsModel.SunkNumbers.Contains(num));
-        selectedGame.RemainingPlayers.RemoveAll(p => sunkBallsModel.SunkNumbers.Contains(p.BallNumber));
-        
-        var gameFinished = selectedGame.RemainingPlayers.Count <= 1;
+        RemoveBallsAndPlayers(sunkBallsModel, selectedGame);
 
+        var gameFinished = CheckGameFinished(selectedGame);
+
+        if (!gameFinished && ownBallSunk)
+        {
+            selectedGame.TurnPlayerId = SelectNextPlayer(selectedGame, sunkBallsModel.PlayerId);
+        }
+    }
+
+    private static bool CheckGameFinished(GameStateModel selectedGame)
+    {
+        var gameFinished = selectedGame.RemainingPlayers.Count <= 1;
+        
         if (selectedGame.RemainingPlayers.Count == 1)
         {
             var winner = selectedGame.RemainingPlayers.First();
@@ -149,10 +147,13 @@ public class GamesRepoService : IGamesRepoService
         selectedGame.GameFinished = gameFinished;
         selectedGame.GameStarted = !gameFinished;
 
-        if (!gameFinished && ownBallSunk)
-        {
-            selectedGame.TurnPlayerId = SelectNextPlayer(selectedGame, sunkBallsModel.PlayerId);
-        }
+        return gameFinished;
+    }
+
+    private static void RemoveBallsAndPlayers(EndTurnModel sunkBallsModel, GameStateModel selectedGame)
+    {
+        selectedGame.RemainingNumbers.RemoveAll(num => sunkBallsModel.SunkNumbers.Contains(num));
+        selectedGame.RemainingPlayers.RemoveAll(p => sunkBallsModel.SunkNumbers.Contains(p.BallNumber));
     }
 
     public bool EditConfig(EditConfigModel editConfig)
