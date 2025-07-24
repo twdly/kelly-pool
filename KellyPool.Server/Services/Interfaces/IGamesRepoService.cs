@@ -10,9 +10,9 @@ public interface IGamesRepoService
     bool LeaveGame(LeaveGameModel leaveModel);
     void InitialiseGame(int id);
     GameStateResponseModel GetStateForPlayer(int gameId, int playerId);
-    void EndTurn(EndTurnModel turnModel);
+    void EndTurn(SunkNumbersModel turnModel);
     bool EditConfig(EditConfigModel config);
     bool KickPlayer(TargetPlayerModel targetPlayerModel);
     bool GiveHost(TargetPlayerModel targetPlayerModel);
-    void SinkBalls(EndTurnModel sunkBallsModel);
+    void SinkBalls(SunkNumbersModel sunkBallsModel);
 }

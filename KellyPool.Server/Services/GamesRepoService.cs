@@ -103,7 +103,7 @@ public class GamesRepoService : IGamesRepoService
         return responseModel;
     }
 
-    public void EndTurn(EndTurnModel turnModel)
+    public void EndTurn(SunkNumbersModel turnModel)
     {
         var selectedGame = GetGameById(turnModel.GameId);
         
@@ -117,7 +117,7 @@ public class GamesRepoService : IGamesRepoService
         }
     }
     
-    public void SinkBalls(EndTurnModel sunkBallsModel)
+    public void SinkBalls(SunkNumbersModel sunkBallsModel)
     {
         var selectedGame = GetGameById(sunkBallsModel.GameId);
         var currentPlayer = selectedGame.Players.First(x => x.Id == sunkBallsModel.PlayerId);
@@ -150,7 +150,7 @@ public class GamesRepoService : IGamesRepoService
         return gameFinished;
     }
 
-    private static void RemoveBallsAndPlayers(EndTurnModel sunkBallsModel, GameStateModel selectedGame)
+    private static void RemoveBallsAndPlayers(SunkNumbersModel sunkBallsModel, GameStateModel selectedGame)
     {
         selectedGame.RemainingNumbers.RemoveAll(num => sunkBallsModel.SunkNumbers.Contains(num));
         selectedGame.RemainingPlayers.RemoveAll(p => sunkBallsModel.SunkNumbers.Contains(p.BallNumber));

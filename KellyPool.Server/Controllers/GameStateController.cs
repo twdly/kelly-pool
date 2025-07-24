@@ -27,7 +27,7 @@ public class GameStateController(IGamesRepoService gamesRepoService)
 
     [HttpPost]
     [Route("sink-balls")]
-    public GameStateResponseModel SinkBalls([FromBody] EndTurnModel sunkBallsModel)
+    public GameStateResponseModel SinkBalls([FromBody] SunkNumbersModel sunkBallsModel)
     {
         GamesRepoService.SinkBalls(sunkBallsModel);
         return GamesRepoService.GetStateForPlayer(sunkBallsModel.GameId, sunkBallsModel.PlayerId);
@@ -35,7 +35,7 @@ public class GameStateController(IGamesRepoService gamesRepoService)
 
     [HttpPost]
     [Route("end-turn")]
-    public GameStateResponseModel EndTurn([FromBody] EndTurnModel turnModel)
+    public GameStateResponseModel EndTurn([FromBody] SunkNumbersModel turnModel)
     {
         GamesRepoService.EndTurn(turnModel);
         return GamesRepoService.GetStateForPlayer(turnModel.GameId, turnModel.PlayerId);

@@ -1,7 +1,7 @@
 import NumberCardGrid from "./NumberCardGrid.tsx";
 import GameStateModel from "../models/GameStateModel.ts";
 import PlayerNumber from "../models/PlayerNumber.ts";
-import EndTurnModel from "../models/EndTurnModel.ts";
+import SunkNumbersModel from "../models/SunkNumbersModel.ts";
 import GameStateResponseModel from "../models/GameStateResponseModel.ts";
 import { useState } from "react";
 
@@ -16,16 +16,41 @@ function RunningGameView ({gameState, playerId, knownNumbers, setGameState}: Run
     const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
     
     const isYourTurn: boolean = gameState.turnPlayerId === playerId;
-    const EndTurn = async () => {
+    const endTurn = async () => {
         const endTurnUri = 'game-state/end-turn';
 
-        const body: EndTurnModel = {
+        const body: SunkNumbersModel = {
             sunkNumbers: selectedNumbers,
             gameId: gameState.id,
             playerId: playerId,
         }
 
         const response = await fetch(endTurnUri, {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (response.ok) {
+            const result: GameStateResponseModel = await response.json();
+            setGameState(result.gameState);
+            setSelectedNumbers([]);
+        }
+    }
+    
+    const sinkBalls = async () => {
+        const sinkBallsUri = 'game-state/sink-balls';
+
+        const body: SunkNumbersModel = {
+            sunkNumbers: selectedNumbers,
+            gameId: gameState.id,
+            playerId: playerId,
+        }
+
+        const response = await fetch(sinkBallsUri, {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {
@@ -70,7 +95,10 @@ function RunningGameView ({gameState, playerId, knownNumbers, setGameState}: Run
             <NumberCardGrid numbers={gameState.remainingNumbers} selectedNumbers={selectedNumbers}
                             handleNumberSelected={setSelectedNumbers} isYourTurn={isYourTurn}/>
             {isYourTurn && (
-                <button onClick={EndTurn}>End turn</button>
+                <>
+                    <button onClick={sinkBalls} disabled={selectedNumbers.length === 0}>Sink balls</button>
+                    <button onClick={endTurn}>End turn</button>
+                </>
             )}
         </div>
     );
