@@ -68,11 +68,14 @@ public class GamesRepoService : IGamesRepoService
     {
         var selectedGame = GetGameById(id);
         var maxNumber = selectedGame.Config.IncludeWhiteBall ? 16 : 15;
+        
         selectedGame.GameStarted = true;
         selectedGame.RemainingNumbers = Enumerable.Range(1, maxNumber).ToList();
         selectedGame.RemainingPlayers = [];
         selectedGame.RemainingPlayers.AddRange(selectedGame.Players);
         selectedGame.Winner = null;
+        selectedGame.RoundCount = 1;
+        
         AssignNumbers(selectedGame.Players, maxNumber, selectedGame.Config.RepeatNumbers);
         SetKnownNumbers(selectedGame.Config.Mode, selectedGame.Players);
         SelectFirstTurn(selectedGame);
@@ -152,8 +155,16 @@ public class GamesRepoService : IGamesRepoService
 
     private static void RemoveBallsAndPlayers(SunkNumbersModel sunkBallsModel, GameStateModel selectedGame)
     {
-        selectedGame.RemainingNumbers.RemoveAll(num => sunkBallsModel.SunkNumbers.Contains(num));
-        selectedGame.RemainingPlayers.RemoveAll(p => sunkBallsModel.SunkNumbers.Contains(p.BallNumber));
+        var sunkNumbers = sunkBallsModel.SunkNumbers;
+        
+        selectedGame.RemainingNumbers.RemoveAll(num => sunkNumbers.Contains(num));
+        selectedGame.RemainingPlayers.RemoveAll(p => sunkNumbers.Contains(p.BallNumber));
+
+        if (selectedGame.RemainingPlayers.Count > 1 && sunkNumbers.Contains(selectedGame.StartingPlayerId))
+        {
+            // Choose a new player to consider as the start of a round
+            selectedGame.StartingPlayerId = FindPlayerAfterId(selectedGame, selectedGame.StartingPlayerId);
+        }
     }
 
     public bool EditConfig(EditConfigModel editConfig)
@@ -227,6 +238,18 @@ public class GamesRepoService : IGamesRepoService
     }
 
     private static int SelectNextPlayer(GameStateModel selectedGame, int playerId)
+    {
+        var foundId = FindPlayerAfterId(selectedGame, playerId);
+
+        if (foundId == selectedGame.StartingPlayerId)
+        {
+            selectedGame.RoundCount += 1;
+        }
+
+        return foundId;
+    }
+
+    private static int FindPlayerAfterId(GameStateModel selectedGame, int playerId)
     {
         var players = selectedGame.Players;
         var remainingPlayers = selectedGame.RemainingPlayers;
@@ -318,6 +341,9 @@ public class GamesRepoService : IGamesRepoService
     {
         var random = new Random();
         var selectedIndex = random.Next(gameState.Players.Count);
-        gameState.TurnPlayerId = gameState.Players[selectedIndex].Id;
+        var playerId = gameState.Players[selectedIndex].Id;
+        
+        gameState.TurnPlayerId = playerId;
+        gameState.StartingPlayerId = playerId;
     }
 }
