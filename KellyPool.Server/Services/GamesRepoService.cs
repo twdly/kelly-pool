@@ -155,15 +155,42 @@ public class GamesRepoService : IGamesRepoService
 
     private static void RemoveBallsAndPlayers(SunkNumbersModel sunkBallsModel, GameStateModel selectedGame)
     {
+        var gracePeriod = selectedGame.Config.GracePeriod;
+        var roundCount = selectedGame.RoundCount;
+        
         var sunkNumbers = sunkBallsModel.SunkNumbers;
         
         selectedGame.RemainingNumbers.RemoveAll(num => sunkNumbers.Contains(num));
-        selectedGame.RemainingPlayers.RemoveAll(p => sunkNumbers.Contains(p.BallNumber));
 
-        if (selectedGame.RemainingPlayers.Count > 1 && sunkNumbers.Contains(selectedGame.StartingPlayerId))
+        if (roundCount > gracePeriod)
         {
-            // Choose a new player to consider as the start of a round
-            selectedGame.StartingPlayerId = FindPlayerAfterId(selectedGame, selectedGame.StartingPlayerId);
+            selectedGame.RemainingPlayers.RemoveAll(p => sunkNumbers.Contains(p.BallNumber));
+            
+            if (selectedGame.RemainingPlayers.Count > 1 && sunkNumbers.Contains(selectedGame.StartingPlayerId))
+            {
+                // Choose a new player to consider as the start of a round
+                selectedGame.StartingPlayerId = FindPlayerAfterId(selectedGame, selectedGame.StartingPlayerId);
+            }
+        }
+        else
+        {
+            var eliminatedPlayers= selectedGame.Players.FindAll(p => sunkNumbers.Contains(p.BallNumber));
+            var remainingNumbers = selectedGame.RemainingNumbers;
+            
+            // Remove all numbers that are currently in use
+            foreach (var player in selectedGame.Players)
+            {
+                remainingNumbers.Remove(player.BallNumber);
+            }
+
+            var random = new Random();
+            
+            // Reassign ball numbers
+            foreach (var player in eliminatedPlayers.TakeWhile(_ => remainingNumbers.Count != 0))
+            {
+                player.BallNumber = remainingNumbers[random.Next(0, remainingNumbers.Count - 1)];
+                remainingNumbers.Remove(player.BallNumber);
+            }
         }
     }
 
