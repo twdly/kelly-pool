@@ -7,6 +7,7 @@ interface GameConfigModel {
     includeWhiteBall: boolean;
     repeatNumbers: boolean;
     maxPlayers: number;
+    gracePeriod: number;
 }
 
 export default GameConfigModel;

@@ -23,6 +23,7 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage, playerN
     const [includeWhiteBall, setIncludeWhiteBall] = useState<boolean>(false);
     const [repeatNumbers, setRepeatNumbers] = useState<boolean>(false);
     const [playerCount, setPlayerCount] = useState<number>(2);
+    const [gracePeriod, setGracePeriod] = useState<number>(0);
     
     const playerCounts: number[] = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
     const modes: Mode[] = [{displayName: "One other", value: 0}, {displayName: "Yourself", value: 1}, {displayName: "Everyone else", value: 2}, {displayName: "Everyone", value: 3}];
@@ -42,6 +43,7 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage, playerN
             mode: mode,
             includeWhiteBall: includeWhiteBall,
             repeatNumbers: repeatNumbers,
+            gracePeriod: gracePeriod,
         }
         
         handleCreateGame(config)
@@ -74,6 +76,15 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage, playerN
                     {playerCounts.map(n => {
                         return (<option key={n} value={n}>{n}</option>)
                     })}
+                </select>
+            </div>
+            
+            <div className={"input-line"}>
+                <label className={'inline'} htmlFor={'gracePeriod'}>Grace period:</label>
+                <select name={'gracePeriod'} defaultValue={0} value={gracePeriod} onChange={event => setGracePeriod(parseInt(event.target.value))}>
+                    <option>0</option>
+                    <option>1</option>
+                    <option>2</option>
                 </select>
             </div>
 
