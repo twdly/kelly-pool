@@ -35,6 +35,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
     const [mode, setMode] = useState<number>(0);
     const [playerCount, setPlayerCount] = useState<number>(0);
     const [possiblePlayerCounts, setPossiblePlayerCounts] = useState<number[]>([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+    const [gracePeriod, setGracePeriod] = useState<number>(0);
 
     const modes: Mode[] = [{displayName: "One other", value: 0}, {displayName: "Yourself", value: 1}, {displayName: "Everyone else", value: 2}, {displayName: "Everyone", value: 3}];
 
@@ -102,6 +103,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                 includeWhiteBall: includeWhiteBall,
                 repeatNumbers: repeatNumbers,
                 maxPlayers: playerCount,
+                gracePeriod: gracePeriod,
             }
         };
 
@@ -177,6 +179,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
         setRepeatNumbers(gameState.config.repeatNumbers);
         setMode(gameState.config.mode);
         setPlayerCount(gameState.config.maxPlayers);
+        setGracePeriod(gameState.config.gracePeriod);
         
         setPossiblePlayerCounts(calculatePotentialPlayerCounts());
         
@@ -243,23 +246,36 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                     </div>
                     <div className={"input-line"}>
                         <label className={"inline"} htmlFor={"repeat"}>Repeat numbers:</label>
-                        <input type={"checkbox"} name={"repeat"} checked={repeatNumbers} onChange={handleRepeatNumbersChecked}/>
+                        <input type={"checkbox"} name={"repeat"} checked={repeatNumbers}
+                               onChange={handleRepeatNumbersChecked}/>
                     </div>
                     <div className={"input-line"}>
                         <label className={"inline"} htmlFor={"whiteBall"}>Include white ball:</label>
-                        <input type={"checkbox"} name={"whiteBall"} checked={includeWhiteBall} onChange={handleWhiteBallChecked}/>
+                        <input type={"checkbox"} name={"whiteBall"} checked={includeWhiteBall}
+                               onChange={handleWhiteBallChecked}/>
                     </div>
                     <div className={"input-line"}>
                         <label className={"inline"} htmlFor={"knownNumbers"}>Known numbers:</label>
-                        <select name={"knownNumbers"} value={mode} onChange={mode => setMode(parseInt(mode.target.value))}>
+                        <select name={"knownNumbers"} value={mode}
+                                onChange={mode => setMode(parseInt(mode.target.value))}>
                             {modes.map(m => {
                                 return (<option key={m.value} value={m.value}>{m.displayName}</option>)
                             })}
                         </select>
                     </div>
                     <div className={"input-line"}>
+                        <label className={"inline"} htmlFor={"gracePeriod"}>Grace period:</label>
+                        <select name={"gracePeriod"} value={gracePeriod}
+                                onChange={mode => setGracePeriod(parseInt(mode.target.value))}>
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                        </select>
+                    </div>
+                    <div className={"input-line"}>
                         <label className={"inline"} htmlFor={"playerCount"}>Players:</label>
-                        <select name={"playerCount"} value={playerCount} onChange={players => setPlayerCount(parseInt(players.target.value))}>
+                        <select name={"playerCount"} value={playerCount}
+                                onChange={players => setPlayerCount(parseInt(players.target.value))}>
                             {possiblePlayerCounts.map(m => {
                                 return (<option key={m} value={m}>{m}</option>)
                             })}
