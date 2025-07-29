@@ -5,6 +5,8 @@ import SunkNumbersModel from "../models/SunkNumbersModel.ts";
 import GameStateResponseModel from "../models/GameStateResponseModel.ts";
 import { useState } from "react";
 
+import "./RunningGameView.css";
+
 interface RunningGameViewProps {
     gameState: GameStateModel,
     playerId: number,
@@ -66,12 +68,12 @@ function RunningGameView ({gameState, playerId, knownNumbers, setGameState}: Run
         }
     }
     
+    const getPlayerClass = (playerId: number): string => {
+        return gameState.turnPlayerId === playerId ? "current-player" : "";
+    }
+    
     return (
         <div>
-            {isYourTurn && (
-                <h2>It's your turn!</h2>
-            )}
-
             <div className={'state-panels'}>
                 <div className={'state-panel-item'}>
                     <h3>Known Numbers:</h3>
@@ -86,7 +88,7 @@ function RunningGameView ({gameState, playerId, knownNumbers, setGameState}: Run
                     <h3>Remaining players:</h3>
                     {gameState.remainingPlayers.map(p => {
                         return (
-                            <p key={p.id}>{p.name}</p>
+                            <p className={getPlayerClass(p.id)} key={p.id}>{p.name} {gameState.turnPlayerId === p.id ? " (playing now)" : ""}</p>
                         )
                     })}
                 </div>
