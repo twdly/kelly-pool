@@ -38,6 +38,14 @@ function GameListing({game, playerName, joinGame}: GameListingProps) {
         }
     }
     
+    const getGracePeriodString = (gracePeriod: number): string => {
+        if (gracePeriod === 0) {
+            return "None";
+        }
+        
+        return `${gracePeriod} ${gracePeriod === 1 ? "turn" : "turns"}`;
+    }
+    
     return (
         <div key={game.id} className={"game-listing"}>
             <p>{game.name}</p>
@@ -51,9 +59,11 @@ function GameListing({game, playerName, joinGame}: GameListingProps) {
                 <Icon className="icon" icon={"uil:info-circle"}/>
             </button>
             <div popover="auto" id={`rules-popover-${game.id}`} className={"popover"}>
+                <p>{game.config.gameName}</p>
                 <p>Known numbers: {getModeName(game.config.mode)}</p>
                 <p>Repeat numbers: {game.config.repeatNumbers ? "Yes" : "No"}</p>
                 <p>Include white ball: {game.config.includeWhiteBall ? "Yes" : "No"}</p>
+                <p>Grace period: {getGracePeriodString(game.config.gracePeriod)}</p>
             </div>
         </div>
     );
