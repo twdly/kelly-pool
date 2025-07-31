@@ -76,7 +76,6 @@ function GameView({gameState, setGameState, playerId}: GameViewProps) {
 
     return (
         <div>
-            <h1>{gameState.config.gameName}</h1>
             {gameState.gameStarted ? (
                 <RunningGameView gameState={gameState} playerId={playerId} knownNumbers={knownNumbers} setGameState={setGameState}/>
             ) : (

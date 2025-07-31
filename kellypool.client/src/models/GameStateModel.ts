@@ -12,6 +12,7 @@ interface GameStateModel {
     gameFinished: number,
     winner: Player,
     config: GameConfigModel,
+    roundCount: number,
 }
 
 export default GameStateModel;

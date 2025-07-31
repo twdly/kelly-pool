@@ -287,6 +287,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                 </div>
             ) : (
                 <div>
+                    <h1>{gameState.config.gameName}</h1>
                     {gameState.gameFinished && (
                         <h3>The winner is: {gameState.winner != null ? `${gameState.winner.name}` : "nobody :("}</h3>
                     )}
