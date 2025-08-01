@@ -74,6 +74,10 @@ function RunningGameView ({gameState, playerId, knownNumbers, setGameState}: Run
     
     return (
         <div>
+            <h3>Round {gameState.roundCount}</h3>
+            {gameState.config.gracePeriod !== 0 && gameState.roundCount < gameState.config.gracePeriod + 1 && (
+                <h3>Grace period remaining: {gameState.config.gracePeriod + 1 - gameState.roundCount} round(s)</h3>
+            )}
             <div className={'state-panels'}>
                 <div className={'state-panel-item'}>
                     <h3>Known Numbers:</h3>
