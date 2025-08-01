@@ -7,3 +7,7 @@
 .kick-button, input, select{
     margin-left: 0.5rem;
 }
+
+.info-popover {
+    min-width: 7vw;
+}

@@ -212,6 +212,8 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
     }
     
     const giveHost = async (newHostId: number) => {
+        document.getElementById(`info-popover-${newHostId}`)?.hidePopover();
+        
         const endpoint = 'management/give-host';
         
         const targetPlayerModel: TargetPlayerModel = {
@@ -296,13 +298,19 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                         return (
                             <div key={x.id} className={"player-row"}>
                                 <p>{x.name} {showWins ? `(${x.wins} ${x.wins == 1 ? "win" : "wins"})` : ""}</p>
-                                {gameState.hostId == playerId && playerId !== x.id && (
-                                    <>
-                                        <button onClick={() => handleKick(x.id)} className={"kick-button"}>Kick</button>
-                                        <button onClick={() => giveHost(x.id)}>Give host</button>
-                                    </>
-                                    
-                                )}
+                                
+                                <button popoverTarget={`info-popover-${x.id}`}>Info</button>
+
+                                <div popover="auto" id={`info-popover-${x.id}`} className={"info-popover"}>
+                                    <p>{x.name}:</p>
+                                    <p>{x.wins} win(s)</p>
+                                    {gameState.hostId == playerId && playerId !== x.id && (
+                                        <>
+                                            <button onClick={() => handleKick(x.id)} className={"kick-button"}>Kick</button>
+                                            <button onClick={() => giveHost(x.id)}>Give host</button>
+                                        </>
+                                    )}
+                                </div>
                             </div>
                         )
                     })}
