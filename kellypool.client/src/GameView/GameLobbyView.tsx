@@ -25,7 +25,6 @@ interface Mode {
 }
 
 function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, handleSettingsUpdated, handlePlayerKicked, handleHostTransferred}: GameLobbyViewProps) {
-    const showWins: boolean = gameState.players.filter((x) => x.wins != 0).length != 0;
     const [editingSettings, setEditingSettings] = useState<boolean>();
     
     // Edit settings state
@@ -298,13 +297,13 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                     {gameState.players.map((x) => {
                         return (
                             <div key={x.id} className={"player-row"}>
-                                <p>{x.name} {showWins ? `(${x.wins} ${x.wins == 1 ? "win" : "wins"})` : ""}</p>
+                                <p>{x.name}</p>
                                 
                                 <button popoverTarget={`info-popover-${x.id}`}>Info</button>
 
                                 <div popover="auto" id={`info-popover-${x.id}`} className={"info-popover"}>
                                     <p>{x.name}:</p>
-                                    <p>{x.wins} win(s)</p>
+                                    <p>${x.wins} ${x.wins == 1 ? "win" : "wins"}</p>
                                     {gameState.hostId == playerId && playerId !== x.id && (
                                         <>
                                             <button onClick={() => handleKick(x.id)} className={"kick-button"}>Kick</button>
@@ -325,8 +324,6 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                 </div>
             )}
         </>
-
-
     );
 }
 
