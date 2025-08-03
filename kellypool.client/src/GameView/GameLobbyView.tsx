@@ -303,7 +303,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
 
                                 <div popover="auto" id={`info-popover-${x.id}`} className={"info-popover"}>
                                     <p>{x.name}:</p>
-                                    <p>${x.wins} ${x.wins == 1 ? "win" : "wins"}</p>
+                                    <p>{x.wins} {x.wins == 1 ? "win" : "wins"}</p>
                                     {gameState.hostId == playerId && playerId !== x.id && (
                                         <>
                                             <button onClick={() => handleKick(x.id)} className={"kick-button"}>Kick</button>
