@@ -110,6 +110,8 @@ public class GamesRepoService : IGamesRepoService
     {
         var selectedGame = GetGameById(turnModel.GameId);
         
+        IncrementBallsSunk(selectedGame, turnModel.PlayerId, turnModel.SunkNumbers);
+
         RemoveBallsAndPlayers(turnModel, selectedGame);
 
         var gameFinished = CheckGameFinished(selectedGame);
@@ -126,6 +128,8 @@ public class GamesRepoService : IGamesRepoService
         var currentPlayer = selectedGame.Players.First(x => x.Id == sunkBallsModel.PlayerId);
         var ownBallSunk = sunkBallsModel.SunkNumbers.Contains(currentPlayer.BallNumber);
         
+        IncrementBallsSunk(selectedGame, sunkBallsModel.PlayerId, sunkBallsModel.SunkNumbers);
+        
         RemoveBallsAndPlayers(sunkBallsModel, selectedGame);
 
         var gameFinished = CheckGameFinished(selectedGame);
@@ -134,6 +138,12 @@ public class GamesRepoService : IGamesRepoService
         {
             selectedGame.TurnPlayerId = SelectNextPlayer(selectedGame, sunkBallsModel.PlayerId);
         }
+    }
+
+    private static void IncrementBallsSunk(GameStateModel game, int playerId, int[] ballNumbers)
+    {
+        var player = game.Players.Find(x => x.Id == playerId);
+        player!.BallsSunk += ballNumbers.Length;
     }
 
     private static bool CheckGameFinished(GameStateModel selectedGame)
@@ -266,6 +276,9 @@ public class GamesRepoService : IGamesRepoService
 
     private static int SelectNextPlayer(GameStateModel selectedGame, int playerId)
     {
+        var player = selectedGame.Players.Find(x => x.Id == playerId);
+        player!.Turns += 1;
+        
         var foundId = FindPlayerAfterId(selectedGame, playerId);
 
         if (foundId == selectedGame.StartingPlayerId)

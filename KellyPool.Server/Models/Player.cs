@@ -6,7 +6,9 @@ public class Player(int id, string name)
 {
     public int Id { get; set; } = id;
     public string Name { get; set; } = name;
-    public int Wins { get; set; } = 0;
+    public int Wins { get; set; }
+    public int BallsSunk { get; set; }
+    public int Turns { get; set; }
     
     [JsonIgnore] 
     public int BallNumber { get; set; }
