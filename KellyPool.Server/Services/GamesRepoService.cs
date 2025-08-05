@@ -276,8 +276,7 @@ public class GamesRepoService : IGamesRepoService
 
     private static int SelectNextPlayer(GameStateModel selectedGame, int playerId)
     {
-        var player = selectedGame.Players.Find(x => x.Id == playerId);
-        player!.Turns += 1;
+        
         
         var foundId = FindPlayerAfterId(selectedGame, playerId);
 
@@ -285,6 +284,8 @@ public class GamesRepoService : IGamesRepoService
         {
             selectedGame.RoundCount += 1;
         }
+        
+        selectedGame.Players.Find(x => x.Id == playerId)!.Turns += 1;
 
         return foundId;
     }
@@ -385,5 +386,7 @@ public class GamesRepoService : IGamesRepoService
         
         gameState.TurnPlayerId = playerId;
         gameState.StartingPlayerId = playerId;
+
+        gameState.Players.Find(x => x.Id == playerId)!.Turns += 1;
     }
 }
