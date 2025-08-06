@@ -11,3 +11,8 @@
 .info-popover {
     min-width: 7vw;
 }
+
+.info-popover p {
+    margin-bottom: 0;
+    margin-top: 0;
+}
