@@ -108,18 +108,7 @@ public class GamesRepoService : IGamesRepoService
 
     public void EndTurn(SunkNumbersModel turnModel)
     {
-        var selectedGame = GetGameById(turnModel.GameId);
-        
-        IncrementBallsSunk(selectedGame, turnModel.PlayerId, turnModel.SunkNumbers);
-
-        RemoveBallsAndPlayers(turnModel, selectedGame);
-
-        var gameFinished = CheckGameFinished(selectedGame);
-
-        if (!gameFinished)
-        {
-            selectedGame.TurnPlayerId = SelectNextPlayer(selectedGame, turnModel.PlayerId);
-        }
+        SinkBalls(turnModel);
     }
     
     public void SinkBalls(SunkNumbersModel sunkBallsModel)
@@ -134,7 +123,7 @@ public class GamesRepoService : IGamesRepoService
 
         var gameFinished = CheckGameFinished(selectedGame);
 
-        if (!gameFinished && ownBallSunk)
+        if (!gameFinished && ownBallSunk || sunkBallsModel.SunkNumbers.Length == 0)
         {
             selectedGame.TurnPlayerId = SelectNextPlayer(selectedGame, sunkBallsModel.PlayerId);
         }
