@@ -103,7 +103,7 @@ function RunningGameView ({gameState, playerId, knownNumbers, setGameState}: Run
             {isYourTurn && (
                 <>
                     <button onClick={sinkBalls} disabled={selectedNumbers.length === 0}>Sink balls</button>
-                    <button onClick={endTurn}>End turn</button>
+                    <button onClick={endTurn} disabled={selectedNumbers.length !== 0}>End turn</button>
                 </>
             )}
         </div>
