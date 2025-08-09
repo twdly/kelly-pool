@@ -7,10 +7,10 @@ public interface IGamesRepoService
     List<GameSelectModel> GetAllGames();
     GameStateModel CreateGame(GameConfigModel gameConfig);
     JoinGameResponseModel JoinGame(JoinGameModel joinGameModel);
-    bool LeaveGame(LeaveGameModel leaveModel);
+    bool LeaveGame(GenericInteractionModel leaveModel);
     void InitialiseGame(int id);
     GameStateResponseModel GetStateForPlayer(int gameId, int playerId);
-    void EndTurn(SunkNumbersModel turnModel);
+    void EndTurn(GenericInteractionModel turnModel);
     bool EditConfig(EditConfigModel config);
     bool KickPlayer(TargetPlayerModel targetPlayerModel);
     bool GiveHost(TargetPlayerModel targetPlayerModel);

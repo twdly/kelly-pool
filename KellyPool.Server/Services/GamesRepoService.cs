@@ -45,7 +45,7 @@ public class GamesRepoService : IGamesRepoService
         return new JoinGameResponseModel(selectedGame, playerId);
     }
 
-    public bool LeaveGame(LeaveGameModel leaveModel)
+    public bool LeaveGame(GenericInteractionModel leaveModel)
     {
         var selectedGame = GetGameById(leaveModel.GameId);
         var leavingPlayer = selectedGame.Players.First(p => p.Id == leaveModel.PlayerId);
@@ -106,9 +106,11 @@ public class GamesRepoService : IGamesRepoService
         return responseModel;
     }
 
-    public void EndTurn(SunkNumbersModel turnModel)
+    public void EndTurn(GenericInteractionModel interactionModel)
     {
-        SinkBalls(turnModel);
+        var selectedGame = GetGameById(interactionModel.GameId);
+
+        selectedGame.TurnPlayerId = SelectNextPlayer(selectedGame, interactionModel.PlayerId);
     }
     
     public void SinkBalls(SunkNumbersModel sunkBallsModel)
@@ -265,8 +267,6 @@ public class GamesRepoService : IGamesRepoService
 
     private static int SelectNextPlayer(GameStateModel selectedGame, int playerId)
     {
-        
-        
         var foundId = FindPlayerAfterId(selectedGame, playerId);
 
         if (foundId == selectedGame.StartingPlayerId)

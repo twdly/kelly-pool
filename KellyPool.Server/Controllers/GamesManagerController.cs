@@ -34,7 +34,7 @@ public class GamesManagerController(IGamesRepoService gamesRepoService) : Contro
 
     [HttpPost]
     [Route("leave-game")]
-    public ActionResult<bool> LeaveGame([FromBody] LeaveGameModel leaveModel)
+    public ActionResult<bool> LeaveGame([FromBody] GenericInteractionModel leaveModel)
     {
         return GamesRepo.LeaveGame(leaveModel);
     }

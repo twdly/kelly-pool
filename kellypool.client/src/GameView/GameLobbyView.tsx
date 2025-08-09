@@ -1,7 +1,7 @@
 import GameStateModel from "../models/GameStateModel.ts";
 import StateRequestModel from "../models/StateRequestModel.ts";
 import GameStateResponseModel from "../models/GameStateResponseModel.ts";
-import LeaveGameModel from "../models/LeaveGameModel.ts";
+import GenericInteractionModel from "../models/GenericInteractionModel.ts";
 import { useState } from "react";
 import EditConfigModel from "../models/EditConfigModel.ts";
 import TargetPlayerModel from "../models/TargetPlayerModel.ts";
@@ -65,7 +65,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
     const handleLeave = async () => {
         const leaveUri = 'management/leave-game';
 
-        const leaveModel: LeaveGameModel = {
+        const leaveModel: GenericInteractionModel = {
             playerId: playerId,
             gameId: gameState.id,
         }

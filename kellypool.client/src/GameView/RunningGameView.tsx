@@ -6,6 +6,7 @@ import GameStateResponseModel from "../models/GameStateResponseModel.ts";
 import { useState } from "react";
 
 import "./RunningGameView.css";
+import GenericInteractionModel from "../models/GenericInteractionModel.ts";
 
 interface RunningGameViewProps {
     gameState: GameStateModel,
@@ -21,8 +22,7 @@ function RunningGameView ({gameState, playerId, knownNumbers, setGameState}: Run
     const endTurn = async () => {
         const endTurnUri = 'game-state/end-turn';
 
-        const body: SunkNumbersModel = {
-            sunkNumbers: selectedNumbers,
+        const body: GenericInteractionModel = {
             gameId: gameState.id,
             playerId: playerId,
         }
@@ -39,7 +39,6 @@ function RunningGameView ({gameState, playerId, knownNumbers, setGameState}: Run
         if (response.ok) {
             const result: GameStateResponseModel = await response.json();
             setGameState(result.gameState);
-            setSelectedNumbers([]);
         }
     }
     

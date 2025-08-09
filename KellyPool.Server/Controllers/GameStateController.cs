@@ -35,9 +35,9 @@ public class GameStateController(IGamesRepoService gamesRepoService)
 
     [HttpPost]
     [Route("end-turn")]
-    public GameStateResponseModel EndTurn([FromBody] SunkNumbersModel turnModel)
+    public GameStateResponseModel EndTurn([FromBody] GenericInteractionModel interactionModel)
     {
-        GamesRepoService.EndTurn(turnModel);
-        return GamesRepoService.GetStateForPlayer(turnModel.GameId, turnModel.PlayerId);
+        GamesRepoService.EndTurn(interactionModel);
+        return GamesRepoService.GetStateForPlayer(interactionModel.GameId, interactionModel.PlayerId);
     }
 }
