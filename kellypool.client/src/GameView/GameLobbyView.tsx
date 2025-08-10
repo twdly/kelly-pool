@@ -299,7 +299,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                             <div key={x.id} className={"player-row"}>
                                 <p>{x.name}</p>
                                 
-                                <button popoverTarget={`info-popover-${x.id}`}>Info</button>
+                                <button className={'info-button'} popoverTarget={`info-popover-${x.id}`}>Info</button>
 
                                 <div popover="auto" id={`info-popover-${x.id}`} className={"info-popover"}>
                                     <p>{x.name}:</p>
