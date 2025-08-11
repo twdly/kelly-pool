@@ -4,5 +4,5 @@ public class EditConfigModel
 {
     public int PlayerId { get; set; }
     public int GameId { get; set; }
-    public GameConfigModel Config { get; set; }
+    public required GameConfigModel Config { get; set; }
 }

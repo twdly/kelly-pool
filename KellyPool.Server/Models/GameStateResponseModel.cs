@@ -6,6 +6,6 @@ namespace KellyPool.Server.Models;
 /// </summary>
 public class GameStateResponseModel
 {
-    public GameStateModel GameState { get; set; }
+    public required GameStateModel GameState { get; set; }
     public List<PlayerNumber> KnownNumbers { get; set; } = [];
 }
