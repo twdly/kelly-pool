@@ -8,6 +8,7 @@ import TargetPlayerModel from "../models/TargetPlayerModel.ts";
 
 import "./GameLobbyView.css"
 import "../GameSelect/CreateGame.css"
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface GameLobbyViewProps {
     gameState: GameStateModel,
@@ -211,7 +212,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
     }
     
     const giveHost = async (newHostId: number) => {
-        document.getElementById(`info-popover-${newHostId}`)?.hidePopover();
+        closePopover(newHostId);
         
         const endpoint = 'management/give-host';
         
@@ -235,6 +236,10 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
         } else {
             window.alert("Unable to transfer host");
         }
+    }
+    
+    const closePopover = (playerId: number) => {
+        document.getElementById(`info-popover-${playerId}`)?.hidePopover();
     }
     
     return (
@@ -302,6 +307,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                                 <button className={'info-button'} popoverTarget={`info-popover-${x.id}`}>Info</button>
 
                                 <div popover="auto" id={`info-popover-${x.id}`} className={"info-popover"}>
+                                    <Icon className={'close-icon'} icon={"uil:multiply"} onClick={() => closePopover(x.id)}/>
                                     <p>{x.name}:</p>
                                     <p>{x.wins} {x.wins == 1 ? "win" : "wins"}</p>
                                     <p>{x.turns} turns played</p>

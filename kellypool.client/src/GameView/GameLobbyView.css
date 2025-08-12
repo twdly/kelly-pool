@@ -16,3 +16,10 @@
     margin-bottom: 0;
     margin-top: 0;
 }
+
+.close-icon {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    cursor: pointer;
+}
