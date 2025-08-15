@@ -7,7 +7,7 @@ label {
 }
 
 .player-name-input::after {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     display: block;
     content: "";
     border-bottom: 1px solid light-dark(black, grey);
