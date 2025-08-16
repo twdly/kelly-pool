@@ -23,3 +23,7 @@ button {
     flex-direction: row;
     margin: 0.25rem;
 }
+
+.heading {
+    margin-bottom: 0.5rem;
+}

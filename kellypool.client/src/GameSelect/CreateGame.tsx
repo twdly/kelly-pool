@@ -33,7 +33,9 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage, playerN
         const host: Player = {
             id: 0,
             name: playerName,
-            wins: 0
+            wins: 0,
+            ballsSunk: 0,
+            turns: 0
         }
 
         const config: GameConfigModel = {
@@ -58,6 +60,7 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage, playerN
     
     return (
         <>
+            <h2 className={'heading'}>New game</h2>
             <div className={"input-line"}>
                 <label>Your Name:</label>
                 <input name='playerName' type='text' value={playerName}
