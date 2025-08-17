@@ -246,6 +246,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
         <>
             {editingSettings ? (
                 <div className={"settings-menu"}>
+                    <h2 className={'heading'}>Edit settings</h2>
                     <div className={"input-line"}>
                         <label className={"inline"} htmlFor={"name"}>Game name:</label>
                         <input name={"name"} value={gameName} onChange={event => setGameName(event.target.value)}/>
