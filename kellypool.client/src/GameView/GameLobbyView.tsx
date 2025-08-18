@@ -309,7 +309,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
 
                                 <div popover="auto" id={`info-popover-${x.id}`} className={"info-popover"}>
                                     <Icon className={'close-icon'} icon={"uil:multiply"} onClick={() => closePopover(x.id)}/>
-                                    <p>{x.name}:</p>
+                                    <p>{x.name} {x.id === gameState.hostId ? "(host)" : ""}:</p>
                                     <p>{x.wins} {x.wins == 1 ? "win" : "wins"}</p>
                                     <p>{x.turns} turns played</p>
                                     <p>{x.ballsSunk} balls sunk</p>
