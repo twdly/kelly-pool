@@ -8,7 +8,7 @@ import TargetPlayerModel from "../models/TargetPlayerModel.ts";
 
 import "./GameLobbyView.css"
 import "../GameSelect/CreateGame.css"
-import { Icon } from "@iconify/react/dist/iconify.js";
+import InfoPopover from "./InfoPopover.tsx";
 
 interface GameLobbyViewProps {
     gameState: GameStateModel,
@@ -212,8 +212,6 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
     }
     
     const giveHost = async (newHostId: number) => {
-        closePopover(newHostId);
-        
         const endpoint = 'management/give-host';
         
         const targetPlayerModel: TargetPlayerModel = {
@@ -236,10 +234,6 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
         } else {
             window.alert("Unable to transfer host");
         }
-    }
-    
-    const closePopover = (playerId: number) => {
-        document.getElementById(`info-popover-${playerId}`)?.hidePopover();
     }
     
     return (
@@ -307,20 +301,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                                 
                                 <button className={'info-button'} popoverTarget={`info-popover-${x.id}`}>Info</button>
 
-                                <div popover="auto" id={`info-popover-${x.id}`} className={"info-popover"}>
-                                    <Icon className={'close-icon'} icon={"uil:multiply"} onClick={() => closePopover(x.id)}/>
-                                    <p>{x.name} {x.id === gameState.hostId ? "(host)" : ""}:</p>
-                                    <p>{x.wins} {x.wins == 1 ? "win" : "wins"}</p>
-                                    <p>{x.turns} turns played</p>
-                                    <p>{x.ballsSunk} balls sunk</p>
-                                    <p>{x.turns !== 0 ? x.ballsSunk / x.turns : 0} average balls sunk per turn</p>
-                                    {gameState.hostId == playerId && playerId !== x.id && (
-                                        <>
-                                            <button onClick={() => handleKick(x.id)} className={"kick-button"}>Kick</button>
-                                            <button onClick={() => giveHost(x.id)}>Give host</button>
-                                        </>
-                                    )}
-                                </div>
+                                <InfoPopover player={x} hostId={gameState.hostId} currentPlayerId={playerId} handleKick={handleKick} giveHost={giveHost}/>
                             </div>
                         )
                     })}
