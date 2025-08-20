@@ -91,3 +91,10 @@
     justify-content: center;
     align-items: center;
 }
+
+.mark-icon {
+    position: absolute;
+    right: -0.75rem;
+    bottom: -0.5rem;
+    transform: scale(2);
+}

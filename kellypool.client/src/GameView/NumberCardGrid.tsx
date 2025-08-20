@@ -31,7 +31,7 @@ function NumberCardGrid({numbers, selectedNumbers, handleNumberSelected, isYourT
             {numbers.map(n => {
                 return (
                     <div className={`number-grid-item ${getBorderClass(n)}`} key={n} onClick={() => updateSelections(n, selectedNumbers.indexOf(n) !== -1)}>
-                        <NumberCard ballNumber={n} />
+                        <NumberCard ballNumber={n} isMarked={true}/>
                     </div>
                 )
             })}

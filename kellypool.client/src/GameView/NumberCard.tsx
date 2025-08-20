@@ -1,10 +1,12 @@
+import { Icon } from "@iconify/react/dist/iconify.js";
 import "./NumberCard.css"
 
 interface NumberCardProps {
     ballNumber: number,
+    isMarked: boolean,
 }
 
-function NumberCard({ballNumber}: NumberCardProps) {
+function NumberCard({ballNumber, isMarked}: NumberCardProps) {
     const cssClass = (ballNumber: number) => {
         switch (ballNumber) {
             case 1:
@@ -45,6 +47,9 @@ function NumberCard({ballNumber}: NumberCardProps) {
     return (
         <div className={`${cssClass(ballNumber)} pool-ball`}>
             <p className={"ball-number-text"}>{ballNumber === 16 ? "" : ballNumber}</p>
+            {isMarked && (
+                <Icon icon={'uil:exclamation'} className={'mark-icon'}/>
+            )}
         </div>
     );
 }
