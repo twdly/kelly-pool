@@ -97,8 +97,11 @@ function RunningGameView ({gameState, playerId, knownNumbers, setGameState}: Run
                 </div>
             </div>
 
-            <NumberCardGrid numbers={gameState.remainingNumbers} selectedNumbers={selectedNumbers}
-                            handleNumberSelected={setSelectedNumbers} isYourTurn={isYourTurn}/>
+            <NumberCardGrid numbers={gameState.remainingNumbers} 
+                            selectedNumbers={selectedNumbers}
+                            handleNumberSelected={setSelectedNumbers} 
+                            isYourTurn={isYourTurn}
+                            knownNumbers={knownNumbers}/>
             {isYourTurn && (
                 <>
                     <button onClick={sinkBalls} disabled={selectedNumbers.length === 0}>Sink balls</button>
