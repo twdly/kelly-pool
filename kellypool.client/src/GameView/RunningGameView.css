@@ -1,3 +1,11 @@
 .current-player {
     font-weight: bold;
 }
+
+.inline-icon-label {
+    display: inline-flex;
+}
+
+.inline-icon-label p {
+    margin-top: 0;
+}

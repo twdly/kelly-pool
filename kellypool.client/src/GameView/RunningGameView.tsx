@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import "./RunningGameView.css";
 import GenericInteractionModel from "../models/GenericInteractionModel.ts";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface RunningGameViewProps {
     gameState: GameStateModel,
@@ -82,7 +83,12 @@ function RunningGameView ({gameState, playerId, knownNumbers, setGameState}: Run
                     <h3>Known Numbers:</h3>
                     {knownNumbers.map(n => {
                         return (
-                            <p key={n.player.id}>{n.player.name} {n.player.id == playerId ? "(You)" : ""}: {n.number}</p>
+                            <div className={'inline-icon-label'}>
+                                <p key={n.player.id}>{n.player.name}{n.player.id == playerId ? "(You)" : ""}: {n.number}</p>
+                                {gameState.remainingNumbers.indexOf(n.number) === -1 && (
+                                    <Icon icon={'uil:check'}/>
+                                )}
+                            </div>
                         )
                     })}
                 </div>
