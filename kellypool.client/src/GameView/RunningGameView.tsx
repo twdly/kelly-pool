@@ -86,7 +86,7 @@ function RunningGameView ({gameState, playerId, knownNumbers, setGameState}: Run
                             <div className={'inline-icon-label'}>
                                 <p key={n.player.id}>{n.player.name}{n.player.id == playerId ? "(You)" : ""}: {n.number}</p>
                                 {gameState.remainingNumbers.indexOf(n.number) === -1 && (
-                                    <Icon icon={'uil:check'}/>
+                                    <Icon icon={'uil:check'} className={'check-icon'}/>
                                 )}
                             </div>
                         )
