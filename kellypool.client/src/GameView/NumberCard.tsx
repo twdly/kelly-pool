@@ -4,9 +4,10 @@ import "./NumberCard.css"
 interface NumberCardProps {
     ballNumber: number,
     isMarked: boolean,
+    isCurrentPlayers: boolean
 }
 
-function NumberCard({ballNumber, isMarked}: NumberCardProps) {
+function NumberCard({ballNumber, isMarked, isCurrentPlayers}: NumberCardProps) {
     const cssClass = (ballNumber: number) => {
         switch (ballNumber) {
             case 1:
@@ -43,12 +44,16 @@ function NumberCard({ballNumber, isMarked}: NumberCardProps) {
                 return "white";
         }    
     }
+
+    const getMarkClass = (): string => {
+        return `mark-icon ${isCurrentPlayers ? "green-check" : "red-check"}`;
+    }
     
     return (
         <div className={`${cssClass(ballNumber)} pool-ball`}>
             <p className={"ball-number-text"}>{ballNumber === 16 ? "" : ballNumber}</p>
             {isMarked && (
-                <Icon icon={'uil:exclamation'} className={'mark-icon'}/>
+                <Icon icon={'uil:exclamation'} className={getMarkClass()}/>
             )}
         </div>
     );

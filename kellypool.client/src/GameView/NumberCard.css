@@ -98,3 +98,11 @@
     bottom: -0.5rem;
     transform: scale(2);
 }
+
+.green-check {
+    color: green;
+}
+
+.red-check {
+    color: red;
+}
