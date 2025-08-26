@@ -311,7 +311,16 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                             <button onClick={initialiseEditSettings}>Edit settings</button>
                         </>
                     )}
+                    <button popoverTarget={'leaderboard-popover'}>Leaderboard</button>
                     <button onClick={handleLeave}>Leave game</button>
+                    <div popover={'auto'} id={'leaderboard-popover'}>
+                        <p>Leaderboard:</p>
+                        {gameState.players.map(p => {
+                            return (
+                                <p>{p.name} - {p.wins} win(s)</p>
+                            )
+                        })}
+                    </div>
                 </div>
             )}
         </>
