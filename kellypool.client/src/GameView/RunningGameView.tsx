@@ -43,6 +43,14 @@ function RunningGameView ({gameState, playerId, knownNumbers, setGameState}: Run
         }
     }
     
+    const handleTurnButtonClicked = async () => {
+        if (selectedNumbers.length === 0) {
+            await endTurn();
+        } else {
+            await sinkBalls();
+        }
+    }
+    
     const sinkBalls = async () => {
         const sinkBallsUri = 'game-state/sink-balls';
 
@@ -86,7 +94,7 @@ function RunningGameView ({gameState, playerId, knownNumbers, setGameState}: Run
                             <div className={'inline-icon-label'}>
                                 <p key={n.player.id}>{n.player.name}{n.player.id == playerId ? "(You)" : ""}: {n.number}</p>
                                 {gameState.remainingNumbers.indexOf(n.number) === -1 && (
-                                    <Icon icon={'uil:check'}/>
+                                    <Icon icon={'uil:check'} className={'check-icon'}/>
                                 )}
                             </div>
                         )
@@ -107,12 +115,10 @@ function RunningGameView ({gameState, playerId, knownNumbers, setGameState}: Run
                             selectedNumbers={selectedNumbers}
                             handleNumberSelected={setSelectedNumbers} 
                             isYourTurn={isYourTurn}
-                            knownNumbers={knownNumbers}/>
+                            knownNumbers={knownNumbers}
+                            playerId={playerId}/>
             {isYourTurn && (
-                <>
-                    <button onClick={sinkBalls} disabled={selectedNumbers.length === 0}>Sink balls</button>
-                    <button onClick={endTurn} disabled={selectedNumbers.length !== 0}>End turn</button>
-                </>
+                <button onClick={handleTurnButtonClicked}>{selectedNumbers.length === 0 ? "End turn" : "Sink balls"}</button>
             )}
         </div>
     );

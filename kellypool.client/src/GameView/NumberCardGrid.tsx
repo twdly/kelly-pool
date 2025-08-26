@@ -9,9 +9,10 @@ interface NumberCardGridProps {
     handleNumberSelected: Dispatch<SetStateAction<number[]>>,
     isYourTurn: boolean,
     knownNumbers: PlayerNumber[],
+    playerId: number,
 }
 
-function NumberCardGrid({numbers, selectedNumbers, handleNumberSelected, isYourTurn, knownNumbers}: NumberCardGridProps) {
+function NumberCardGrid({numbers, selectedNumbers, handleNumberSelected, isYourTurn, knownNumbers, playerId}: NumberCardGridProps) {
     const getBorderClass = (num: number) => {
         return selectedNumbers.indexOf(num) === -1 ? "not-selected" : "selected";
     }
@@ -32,12 +33,20 @@ function NumberCardGrid({numbers, selectedNumbers, handleNumberSelected, isYourT
         return knownNumbers.findIndex(x => x.number === num) !== -1;
     }
     
+    const isCurrentPlayersNumber = (num: number) => {
+        let index = knownNumbers.findIndex(x => x.number === num);
+        if (index !== -1) {
+            return knownNumbers[index].player.id === playerId;
+        }
+        return false;
+    }
+    
     return (
         <div className={"number-grid"}>
             {numbers.map(n => {
                 return (
                     <div className={`number-grid-item ${getBorderClass(n)}`} key={n} onClick={() => updateSelections(n)}>
-                        <NumberCard ballNumber={n} isMarked={isMarked(n)}/>
+                        <NumberCard ballNumber={n} isMarked={isMarked(n)} isCurrentPlayers={isCurrentPlayersNumber(n)}/>
                     </div>
                 )
             })}
