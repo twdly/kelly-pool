@@ -315,7 +315,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                     <button onClick={handleLeave}>Leave game</button>
                     <div popover={'auto'} id={'leaderboard-popover'}>
                         <p>Leaderboard:</p>
-                        {gameState.players.map(p => {
+                        {gameState.players.sort((a, b) => {return b.wins - a.wins}).map(p => {
                             return (
                                 <p>{p.name} - {p.wins} win(s)</p>
                             )
