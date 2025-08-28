@@ -36,6 +36,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
     const [playerCount, setPlayerCount] = useState<number>(0);
     const [possiblePlayerCounts, setPossiblePlayerCounts] = useState<number[]>([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
     const [gracePeriod, setGracePeriod] = useState<number>(0);
+    const [leaderboardSelection, setLeaderboardSelection] = useState<number>(0);
 
     const modes: Mode[] = [{displayName: "One other", value: 0}, {displayName: "Yourself", value: 1}, {displayName: "Everyone else", value: 2}, {displayName: "Everyone", value: 3}];
 
@@ -320,6 +321,11 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                                 <p>{p.name} - {p.wins} win(s)</p>
                             )
                         })}
+                        <select onChange={x => setLeaderboardSelection(parseInt(x.target.value))} defaultValue={leaderboardSelection}>
+                            <option value={0}>Wins</option>
+                            <option value={1}>Balls sunk</option>
+                            <option value={2}>Average balls per turn</option>
+                        </select>
                     </div>
                 </div>
             )}
