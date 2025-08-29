@@ -9,6 +9,7 @@ import TargetPlayerModel from "../models/TargetPlayerModel.ts";
 import "./GameLobbyView.css"
 import "../GameSelect/CreateGame.css"
 import InfoPopover from "./InfoPopover.tsx";
+import player from "../models/Player.ts";
 
 interface GameLobbyViewProps {
     gameState: GameStateModel,
@@ -237,6 +238,32 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
         }
     }
     
+    const sortLeaderboard = (a: player, b: player): number => {
+        switch (leaderboardSelection) {
+            case 0:
+                return b.wins - a.wins;
+            case 1:
+                return b.ballsSunk - a.ballsSunk;
+            case 2:
+                return (b.ballsSunk / b.turns) - (a.ballsSunk / a.turns);
+            default:
+                return b.wins - a.wins;
+        }
+    }
+    
+    const createLeaderboardRow = (player: player): string => {
+        switch (leaderboardSelection) {
+            case 0:
+                return `${player.name} - ${player.wins} win(s)`;
+            case 1:
+                return `${player.name} - ${player.ballsSunk} ball(s) sunk`;
+            case 2:
+                return `${player.name} - ${player.ballsSunk / player.turns} average balls sunk per turn`;
+            default:
+                return `${player.name} - ${player.wins} win(s)`;
+        }
+    }
+    
     return (
         <>
             {editingSettings ? (
@@ -316,9 +343,9 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                     <button onClick={handleLeave}>Leave game</button>
                     <div popover={'auto'} id={'leaderboard-popover'}>
                         <p>Leaderboard:</p>
-                        {gameState.players.sort((a, b) => {return b.wins - a.wins}).map(p => {
+                        {gameState.players.sort(sortLeaderboard).map(p => {
                             return (
-                                <p>{p.name} - {p.wins} win(s)</p>
+                                <p>{createLeaderboardRow(p)}</p>
                             )
                         })}
                         <select onChange={x => setLeaderboardSelection(parseInt(x.target.value))} defaultValue={leaderboardSelection}>
