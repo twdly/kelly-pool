@@ -258,7 +258,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
             case 1:
                 return `${player.name} - ${player.ballsSunk} ball(s) sunk`;
             case 2:
-                return `${player.name} - ${player.ballsSunk / player.turns} average balls sunk per turn`;
+                return `${player.name} - ${player.turns === 0 ? 0 : player.ballsSunk / player.turns} average balls sunk per turn`;
             default:
                 return `${player.name} - ${player.wins} win(s)`;
         }
