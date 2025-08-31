@@ -264,6 +264,19 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
         }
     }
     
+    const renderPlayerRow = (player: player) => {
+        return (
+            <div key={player.id} className={"player-row"}>
+                <p>{player.name}</p>
+
+                <button className={'info-button'} popoverTarget={`info-popover-${player.id}`}>Info</button>
+
+                <InfoPopover player={player} hostId={gameState.hostId} currentPlayerId={playerId} handleKick={handleKick}
+                             giveHost={giveHost}/>
+            </div>
+        )
+    }
+
     return (
         <>
             {editingSettings ? (
@@ -322,15 +335,12 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                     )}
                     <h2>Players:</h2>
                     <h3>{gameState.players.length} / {gameState.config.maxPlayers}</h3>
+                    <div className={'current-player-row'}>
+                        {renderPlayerRow(gameState.players.find(x => x.id === playerId)!)}
+                    </div>
                     {gameState.players.map((x) => {
                         return (
-                            <div key={x.id} className={"player-row"}>
-                                <p>{x.name}</p>
-                                
-                                <button className={'info-button'} popoverTarget={`info-popover-${x.id}`}>Info</button>
-
-                                <InfoPopover player={x} hostId={gameState.hostId} currentPlayerId={playerId} handleKick={handleKick} giveHost={giveHost}/>
-                            </div>
+                            playerId !== x.id && renderPlayerRow(x)
                         )
                     })}
                     {gameState.hostId === playerId && (

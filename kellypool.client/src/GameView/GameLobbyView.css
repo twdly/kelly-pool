@@ -23,3 +23,7 @@
     right: 0.25rem;
     cursor: pointer;
 }
+
+.current-player-row {
+    padding-bottom: 0.5rem;
+}
