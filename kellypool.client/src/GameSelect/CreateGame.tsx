@@ -104,7 +104,7 @@ const CreateGame = ({handleCancel, handleCreateGame, handleErrorMessage, playerN
             </div>
 
             <div className={"input-line"}>
-                <label htmlFor={'modes'}>Known numbers: </label>
+                <label className={'inline'} htmlFor={'modes'}>Known numbers: </label>
                 <select name={'modes'} value={mode} onChange={mode => setMode(parseInt(mode.target.value))}>
                     {modes.map(m => {
                         return (<option key={m.value} value={m.value}>{m.displayName}</option>)
