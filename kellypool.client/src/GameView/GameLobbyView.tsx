@@ -10,6 +10,7 @@ import "./GameLobbyView.css"
 import "../GameSelect/CreateGame.css"
 import InfoPopover from "./InfoPopover.tsx";
 import player from "../models/Player.ts";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface GameLobbyViewProps {
     gameState: GameStateModel,
@@ -352,6 +353,9 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                     <button popoverTarget={'leaderboard-popover'}>Leaderboard</button>
                     <button onClick={handleLeave}>Leave game</button>
                     <div popover={'auto'} id={'leaderboard-popover'}>
+                        <Icon icon={'uil-multiply'} className={'close-icon'} onClick={() => {
+                            document.getElementById('leaderboard-popover')?.hidePopover();
+                        }}/>
                         <p>Leaderboard:</p>
                         {gameState.players.sort(sortLeaderboard).map(p => {
                             return (
