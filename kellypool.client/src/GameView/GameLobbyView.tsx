@@ -352,7 +352,7 @@ function GameLobbyView ({gameState, playerId, setGameState, setKnownNumbers, han
                     )}
                     <button popoverTarget={'leaderboard-popover'}>Leaderboard</button>
                     <button onClick={handleLeave}>Leave game</button>
-                    <div popover={'auto'} id={'leaderboard-popover'}>
+                    <div popover={'auto'} id={'leaderboard-popover'} className={'leaderboard-popover'}>
                         <Icon icon={'uil-multiply'} className={'close-icon'} onClick={() => {
                             document.getElementById('leaderboard-popover')?.hidePopover();
                         }}/>

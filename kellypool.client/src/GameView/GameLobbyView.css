@@ -27,3 +27,7 @@
 .current-player-row {
     padding-bottom: 0.5rem;
 }
+
+.leaderboard-popover {
+    min-width: 15vw;
+}
