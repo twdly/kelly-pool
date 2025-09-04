@@ -64,7 +64,7 @@ function GameListing({game, playerName, joinGame}: GameListingProps) {
             </button>
             <div popover="auto" id={`rules-popover-${game.id}`} className={"popover"}>
                 <Icon className={'close-icon'} icon={"uil:multiply"} onClick={() => closePopover(game.id)}/>
-                <p>{game.config.gameName}</p>
+                <h4>{game.config.gameName}</h4>
                 <p>Known numbers: {getModeName(game.config.mode)}</p>
                 <p>Repeat numbers: {game.config.repeatNumbers ? "Yes" : "No"}</p>
                 <p>Include white ball: {game.config.includeWhiteBall ? "Yes" : "No"}</p>
